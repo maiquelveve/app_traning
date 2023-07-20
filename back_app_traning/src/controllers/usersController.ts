@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import User from "../models/User";
+import { User } from "../models";
 
 import { RETURNED_API_ERRORS, RETURNED_API_ERRORS_500, RETURNED_API_SUCCESS } from "../returnsRequests";
 import { verifyEmailExist } from "../validations";
@@ -10,8 +10,9 @@ export default {
     try {
       const { name, email, password } = req.body;
 
-      if(!await verifyEmailExist({ email, typeOperation: "create" })) {
-        return res.status(400).json(RETURNED_API_ERRORS({ errors: ["Email já cadastrado no sistema!"] }));
+      const verifyEmail = await verifyEmailExist({ email, typeOperation: "create" });
+      if(verifyEmail.error) {
+        return res.status(400).json(RETURNED_API_ERRORS({ errors: [verifyEmail.message] }));
       }
 
       await User.create({ name, password, email });
