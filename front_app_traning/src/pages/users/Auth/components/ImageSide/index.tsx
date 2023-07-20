@@ -23,7 +23,7 @@ export const ImageSide: React.FC = () => {
           sx={{ color: palette.primary.main }}
           target="_blank"
         >
-          APP GYM
+          APP TRANING
         </Box>
       </Typography>
       <Typography
@@ -31,7 +31,7 @@ export const ImageSide: React.FC = () => {
         sx={{ mb: 3 }}
         variant="subtitle1"
       >
-        Tecnologia para as academias do futuro.
+        Tecnologia para treinamentos do futuro.
       </Typography>
       <Box>
         <Logo type="removebgmain" width={"auto"}  height={"auto"} />
