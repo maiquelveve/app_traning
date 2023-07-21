@@ -3,20 +3,15 @@ import { Request, Response } from "express";
 import { User } from "../models";
 
 import { RETURNED_API_ERRORS, RETURNED_API_ERRORS_500, RETURNED_API_SUCCESS } from "../returnsRequests";
-import { decryptPassword, encryptPassword, serializeData } from "../helpers";
+import { decryptPassword, encryptPassword } from "../helpers";
 import { verifyEmailExist } from "../validations";
 
 export default {
   async create(req: Request<object, object, IUserCreate>, res: Response): Promise<Response> {
     try {
-
-      console.log("CONTROLL");
+      const { name, email, password } = req.body;
       console.log(req.body);
-
-      const name = serializeData(req.body.name);
-      const email = serializeData(req.body.email);
-      const password = req.body.password;
-
+      
       const verifyEmail = await verifyEmailExist({ email, typeOperation: "edit" });
       if(verifyEmail.error) {
         return res.status(400).json(RETURNED_API_ERRORS({ errors: [verifyEmail.message] }));

@@ -1,10 +1,15 @@
 import { NextFunction, Request, Response } from "express";
+import { serializeData } from "../../helpers";
 
-export const serializeDataBody = (req: Request, res: Response, next: NextFunction) => {
-  console.log("SERIALIZE MIDLEWARE");
-  console.log(req.body);
-  req.body.name = "Maiquel Santos Leites";
-  req.body.email = "maiquel@gmail.com";
-  req.body.password = "654321";
+export const serializeDataBody = (req: Request, _: Response, next: NextFunction) => {
+  let newBody: object = {};
+
+  if(req.body) {
+    Object.keys(req.body).map((key, index) => {
+      newBody = { ...newBody, [key]: serializeData(Object.values(req.body)[index]) };
+    });
+  }
+  
+  req.body = { ...newBody };
   next();
 };
