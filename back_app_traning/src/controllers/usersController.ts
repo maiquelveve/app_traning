@@ -10,16 +10,8 @@ export default {
   async create(req: Request<object, object, IUserCreate>, res: Response): Promise<Response> {
     try {
 
-      // console.log(Object.keys(req.body));
-      // console.log(Object.values(req.body));
-
-      const x = () => {
-        Object.keys(req.body).map((key, index) => {
-          console.log(key);
-          console.log(Object.values(req.body)[index]);
-        });
-      };
-      x();
+      console.log("CONTROLL");
+      console.log(req.body);
 
       const name = serializeData(req.body.name);
       const email = serializeData(req.body.email);
