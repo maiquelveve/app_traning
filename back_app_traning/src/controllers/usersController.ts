@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { User } from "../models";
 
 import { RETURNED_API_ERRORS, RETURNED_API_ERRORS_500, RETURNED_API_SUCCESS } from "../returnsRequests";
-import { decryptPassword, encryptPassword } from "../helpers";
+import { decryptPassword, encryptPassword, generateToken } from "../helpers";
 import { verifyEmailExist } from "../validations";
 
 export default {
@@ -39,13 +39,12 @@ export default {
         return res.status(400).json(RETURNED_API_ERRORS({ errors: ["Email ou senha invalidos."] }));
       }
 
-      const token = "ahhauhauahu";
       return res.status(200).json(
         RETURNED_API_SUCCESS({ 
           data: [
             { name: userAuth.name, 
               email: userAuth.email, 
-              token 
+              token: generateToken({ id: userAuth.id })
             }
           ], 
           messageSuccess: "" 
