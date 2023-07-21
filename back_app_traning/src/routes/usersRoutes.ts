@@ -1,15 +1,15 @@
 import { Router } from "express";
 
+import { serializeDataBody } from "../middleware";
 import { usersController } from "../controllers";
 import { bodyCreateUsersValidation, bodyLoginUsersValidation } from "../validations";
-import { serializeDataBody } from "../middleware";
 
 const usersRoutes = Router();
 
 usersRoutes.post(
   "/users", 
+  serializeDataBody(["password", "email"]),
   bodyCreateUsersValidation, 
-  serializeDataBody,
   usersController.create
 );
 

@@ -1,12 +1,17 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response, RequestHandler } from "express";
 import { serializeData } from "../../helpers";
 
-export const serializeDataBody = (req: Request, _: Response, next: NextFunction) => {
+export const serializeDataBody = (nonSerializableProperties?: string[]): RequestHandler => async (req: Request, _: Response, next: NextFunction) => {
   let newBody: object = {};
-
+  
   if(req.body) {
     Object.keys(req.body).map((key, index) => {
-      newBody = { ...newBody, [key]: serializeData(Object.values(req.body)[index]) };
+
+      if(nonSerializableProperties?.length && nonSerializableProperties.filter(element => element === key).length) {
+        newBody = { ...newBody, [key]: Object.values(req.body)[index] };
+      } else {
+        newBody = { ...newBody, [key]: serializeData(Object.values(req.body)[index]) };
+      }
     });
   }
   
