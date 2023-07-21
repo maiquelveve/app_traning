@@ -1,4 +1,5 @@
 interface IVerifyEmailExistProps {
+  id?: number;
   email: string;
   typeOperation: "edit" | "create";
 }
