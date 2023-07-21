@@ -10,7 +10,6 @@ export default {
   async create(req: Request<object, object, IUserCreate>, res: Response): Promise<Response> {
     try {
       const { name, email, password } = req.body;
-      console.log(req.body);
       
       const verifyEmail = await verifyEmailExist({ email, typeOperation: "edit" });
       if(verifyEmail.error) {
