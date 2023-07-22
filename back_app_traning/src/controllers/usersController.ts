@@ -42,12 +42,11 @@ export default {
 
       return res.status(200).json(
         RETURNED_API_SUCCESS({ 
-          data: [
-            { name: userAuth.name, 
-              email: userAuth.email, 
-              token: generateToken({ id: userAuth.id })
-            }
-          ], 
+          data: [{ 
+            name: userAuth.name, 
+            email: userAuth.email, 
+            token: generateToken({ id: userAuth.id })
+          }], 
           messageSuccess: "" 
         })
       );
