@@ -1,4 +1,4 @@
-import usersController from "./usersController";
+import { usersController } from "./usersController";
 
 export {
   usersController,
