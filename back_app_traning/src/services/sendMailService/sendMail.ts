@@ -11,7 +11,7 @@ const transporter = createTransport({
   },
 });
 
-const sendMail = async ({ emails, subject, text, html }: ISendMailServicesProps) => {
+const sendMail = async ({ emails, subject, text, html, messageReturn }: ISendMailServicesProps): Promise<ISendMailReturn> => {
   try {
     const info = await transporter.sendMail({
       from: `APP TRAINING <${sendMailConfig.auth.user}>`,
@@ -21,10 +21,18 @@ const sendMail = async ({ emails, subject, text, html }: ISendMailServicesProps)
       html,
     });
 
-    return info.messageId;
+    return { 
+      error: false,
+      success: true,
+      message: messageReturn ? messageReturn : `Email enviado com sucesso! id_msg: ${info}`
+    };
 
   } catch (error: any) {
-    throw Error(error);
+    return { 
+      error: true,
+      success: false,
+      message: error
+    };
   }
 };
 

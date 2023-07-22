@@ -3,6 +3,7 @@ interface ISendMailServicesProps {
   subject: string;
   text: string;
   html?: string;
+  messageReturn?: string;
 }
 
 interface ISendMailConfig {
@@ -13,4 +14,10 @@ interface ISendMailConfig {
     user: string;
     pass: string;
   }
+}
+
+interface ISendMailReturn {
+  error: boolean;
+  success: boolean;
+  message: string;
 }
