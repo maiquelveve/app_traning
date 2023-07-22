@@ -3,7 +3,12 @@ import { Request, Response, NextFunction, RequestHandler } from "express";
 import { RETURNED_API_ERRORS } from "../returnsRequests";
 import { verifyToken } from "../helpers";
 
-export const authSystem = ({ permissions }: ISystemPermission): RequestHandler => async (req: Request, res: Response, next: NextFunction) => {
+export const authSystem = ({ permissions }: ISystemPermission): RequestHandler => async (
+  req: Request, 
+  res: Response, 
+  next: NextFunction
+) => {
+
   try {
     const { authorization } = req.headers;
 
@@ -14,7 +19,7 @@ export const authSystem = ({ permissions }: ISystemPermission): RequestHandler =
     const decoded = verifyToken(authorization);
     const { auth_user_id } = decoded as IJwtPayloadAuthUser;
 
-    if(permissions) {
+    if(permissions?.length) {
       // vai buscar no banco se o usuario tem permissao para acessar a rota - pensar melhor depois...
     }
 

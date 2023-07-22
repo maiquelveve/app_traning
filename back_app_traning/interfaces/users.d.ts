@@ -15,3 +15,7 @@ interface IUserSerialize {
   email?: string;
   password?: string;
 }
+
+interface IUserResetPasswordProps {
+  email: string;
+}
