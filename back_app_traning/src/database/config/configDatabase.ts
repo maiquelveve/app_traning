@@ -1,4 +1,11 @@
-const {DB_DIALECT, DB_USERNAME, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME_DATABASE } = process.env;
+const {
+  DB_DIALECT, 
+  DB_USERNAME, 
+  DB_PASSWORD, 
+  DB_HOST, 
+  DB_PORT, 
+  DB_NAME_DATABASE, 
+} = process.env;
 
 const uri_database = `${DB_DIALECT}://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME_DATABASE}`;
 
