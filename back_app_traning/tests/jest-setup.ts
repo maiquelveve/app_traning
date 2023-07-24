@@ -1,5 +1,9 @@
 import * as dotenv from "dotenv";
-dotenv.config({ path: "./.env.test" });
+import supertest from "supertest"; 
 
+import { server } from "../src/server/server";
 
+dotenv.config({ path: ".env" });
 jest.setTimeout(20000);
+
+export const testServer = supertest(server);

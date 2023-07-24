@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import { ObjectSchema, ValidationError } from "yup";
+import { RETURNED_API_ERRORS } from "../returnsRequests";
 
 export const validation = (key: TRequestProperty, schema: ObjectSchema<any>): RequestHandler => async (req, res, next) => {
   try {
@@ -14,6 +15,6 @@ export const validation = (key: TRequestProperty, schema: ObjectSchema<any>): Re
       errors[error.path] = error.message;
     });
 
-    return res.status(400).json({ errors: yupError.errors });
+    return res.status(400).json(RETURNED_API_ERRORS({ errors: yupError.errors }));
   }
 };
