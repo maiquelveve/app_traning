@@ -13,6 +13,10 @@ const transporter = createTransport({
 
 const sendMail = async ({ emails, subject, text, html, messageReturn }: ISendMailServicesProps): Promise<ISendMailReturn> => {
   try {
+    if(subject.length <= 0 || text.length <= 0) {
+      throw new Error("Algum campo obrogatório está em branco.");
+    }
+
     const info = await transporter.sendMail({
       from: `APP TRAINING <${sendMailConfig.auth.user}>`,
       to: emails,
