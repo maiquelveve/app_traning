@@ -18,7 +18,7 @@
     "dbmigrate:prod": "npx cross-env NODE_ENV=production sequelize db:migrate",
     
     "pretest": "npx cross-env NODE_ENV=test sequelize db:migrate",
-    "test": "jest",
+    "test": "jest --runInBand",
     "posttest": "npx cross-env NODE_ENV=test sequelize db:migrate:undo:all"
   },
   "dependencies": {
