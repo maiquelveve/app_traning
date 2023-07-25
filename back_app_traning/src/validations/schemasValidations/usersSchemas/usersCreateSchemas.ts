@@ -13,6 +13,6 @@ export const usersCreateSchemas: yup.ObjectSchema<IUserCreate> = yup.object().sh
   password: yup
     .string()
     .required("Senha é obrigatória.")
-    .min(3, "Senha deve ter no mínimo 3 caracteres.")
+    .min(5, "Senha deve ter no mínimo 5 caracteres.")
     .max(50, "Senha deve ter no máximo 50 caracteres.")
 });

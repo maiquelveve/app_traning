@@ -5,7 +5,7 @@ describe("HELPERS - Send Mail Helpers", () => {
   let result: ISendMailReturn;
   const myMessageReturn = "Email teste enviado";
   const emailConfigTest = {
-    emails: "test@test.com",
+    emails: "testsendmail@test.com",
     subject: "Test Unit Send Mail",
     text: "Teste send Mail",
     messageReturn: myMessageReturn,
