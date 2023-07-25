@@ -1,7 +1,7 @@
 import { sendMail } from "../../../src/services";
 
 describe("@unit", () => {
-  describe("HELPERS - Send Mail Helpers", () => {
+  describe("SERVICES - Send Mail Helpers", () => {
 
     let result: ISendMailReturn;
     const myMessageReturn = "Email teste enviado";

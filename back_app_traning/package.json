@@ -13,28 +13,27 @@
     "dbcreate:dev": "npx cross-env NODE_ENV=development sequelize db:create",
     "dbcreate:test": "npx cross-env NODE_ENV=test sequelize db:create",
     "dbcreate:prod": "npx cross-env NODE_ENV=production sequelize db:create",
-
     "dbmigrate:dev": "npx cross-env NODE_ENV=development sequelize db:migrate",
     "dbmigrate:prod": "npx cross-env NODE_ENV=production sequelize db:migrate",
     
-    "pretest": "npx cross-env NODE_ENV=test sequelize db:migrate",
     "test": "yarn jest --runInBand",
+    "pretest": "npx cross-env NODE_ENV=test sequelize db:migrate",
     "posttest": "npx cross-env NODE_ENV=test sequelize db:migrate:undo:all",
 
-    "pretest:unit": "npx cross-env NODE_ENV=test sequelize db:migrate",
     "test:unit": "yarn jest --testNamePattern='@unit' --runInBand",
+    "pretest:unit": "npx cross-env NODE_ENV=test sequelize db:migrate",
     "posttest:unit": "npx cross-env NODE_ENV=test sequelize db:migrate:undo:all",
 
-    "pretest:integration": "npx cross-env NODE_ENV=test sequelize db:migrate",
     "test:integration": "yarn jest --testNamePattern='@integration' --runInBand",
+    "pretest:integration": "npx cross-env NODE_ENV=test sequelize db:migrate",
     "posttest:integration": "npx cross-env NODE_ENV=test sequelize db:migrate:undo:all",
 
-    "pretest:groups": "npx cross-env NODE_ENV=test sequelize db:migrate",
     "test:groups": "yarn jest --testNamePattern='@unit' --runInBand & yarn jest --testNamePattern='@integration' --runInBand",
+    "pretest:groups": "npx cross-env NODE_ENV=test sequelize db:migrate",
     "posttest:groups": "npx cross-env NODE_ENV=test sequelize db:migrate:undo:all",
 
-    "pretest:dev": "npx cross-env NODE_ENV=test sequelize db:migrate",
     "test:dev": "yarn jest --testNamePattern='@dev' --runInBand",
+    "pretest:dev": "npx cross-env NODE_ENV=test sequelize db:migrate",
     "posttest:dev": "npx cross-env NODE_ENV=test sequelize db:migrate:undo:all"
   },
   "dependencies": {
