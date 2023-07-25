@@ -5,6 +5,8 @@ import * as Yup from "yup";
 import { catchDefalutAlert, defaultAlert } from "../../../../../../../components/Alerts";
 import { TextLoadingButton } from "../../../../../../../components/TextLoadingButton";
 
+import { apiService } from "../../../../../../../services";
+
 export const Form: React.FC = () => {
 
   const formik = useFormik({
@@ -21,8 +23,24 @@ export const Form: React.FC = () => {
     }),
     onSubmit: async (values) => {
       try {
-        defaultAlert({ messages: [`Nova senha enviada para: ${values.email.toUpperCase()}`], type: "success", position: "top-start" });
-        values.email = "";
+        const { email } = values;
+        const responde = await apiService.post<IReturnedRequest>("/users/resetPassword", { email });
+
+        if(responde.data.isSuccess) {
+          defaultAlert({ 
+            messages: [`Nova senha enviada para: ${values.email.toUpperCase()}`], 
+            type: "success", 
+            position: "top-start" 
+          });
+          values.email = "";
+
+        } else {
+          defaultAlert({ 
+            messages: responde.data.errors, 
+            type: "error", 
+            position: "top-start" 
+          });
+        }
       } catch (err) {
         catchDefalutAlert();
       }
