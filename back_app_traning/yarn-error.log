@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js test
+  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js add @jest/testsequencer -D
 
 PATH: 
   C:\Program Files\Microsoft\jdk-11.0.18.10-hotspot\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\iCLS\;C:\Program Files\Intel\Intel(R) Management Engine Components\iCLS\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Users\maiquelsl\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\MySQL\MySQL Server 5.7\bin;C:\Program Files\Git\cmd;C:\ProgramData\chocolatey\bin;C:\Program Files\MongoDB\Server\6.0\bin;C:\Users\maiquelsl\AppData\Local\Microsoft\WindowsApps;C:\Users\maiquelsl\AppData\Roaming\npm;C:\Users\maiquelsl\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\maiquelsl\AppData\Local\Android\Sdk\platform-tools;C:\Users\maiquelsl\AppData\Local\Android\Sdk
@@ -14,17 +14,17 @@ Platform:
   win32 x64
 
 Trace: 
-  TypeError [ERR_INVALID_ARG_VALUE]: The argument 'file' cannot be empty. Received ''
-      at new NodeError (node:internal/errors:399:5)
-      at normalizeSpawnArguments (node:child_process:549:11)
-      at Object.spawn (node:child_process:750:13)
-      at C:\Users\maiquelsl\AppData\Roaming\nvm\v18.14.0\node_modules\yarn\lib\cli.js:25732:24
-      at new Promise (<anonymous>)
-      at new F (C:\Users\maiquelsl\AppData\Roaming\nvm\v18.14.0\node_modules\yarn\lib\cli.js:5305:28)
-      at C:\Users\maiquelsl\AppData\Roaming\nvm\v18.14.0\node_modules\yarn\lib\cli.js:25729:12
-      at run (C:\Users\maiquelsl\AppData\Roaming\nvm\v18.14.0\node_modules\yarn\lib\cli.js:43184:7)
-      at BlockingQueue.maybePushConcurrencyQueue (C:\Users\maiquelsl\AppData\Roaming\nvm\v18.14.0\node_modules\yarn\lib\cli.js:43199:7)
-      at BlockingQueue.shift (C:\Users\maiquelsl\AppData\Roaming\nvm\v18.14.0\node_modules\yarn\lib\cli.js:43194:10)
+  Error: https://registry.yarnpkg.com/@jest%2ftestsequencer: Not found
+      at params.callback [as _callback] (C:\Users\maiquelsl\AppData\Roaming\nvm\v18.14.0\node_modules\yarn\lib\cli.js:66145:18)
+      at self.callback (C:\Users\maiquelsl\AppData\Roaming\nvm\v18.14.0\node_modules\yarn\lib\cli.js:140890:22)
+      at Request.emit (node:events:513:28)
+      at Request.<anonymous> (C:\Users\maiquelsl\AppData\Roaming\nvm\v18.14.0\node_modules\yarn\lib\cli.js:141862:10)
+      at Request.emit (node:events:513:28)
+      at IncomingMessage.<anonymous> (C:\Users\maiquelsl\AppData\Roaming\nvm\v18.14.0\node_modules\yarn\lib\cli.js:141784:12)
+      at Object.onceWrapper (node:events:627:28)
+      at IncomingMessage.emit (node:events:525:35)
+      at endReadableNT (node:internal/streams/readable:1359:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
 
 npm manifest: 
   {
@@ -38,12 +38,22 @@ npm manifest:
       "dev": "tsx watch src/server/index.ts",
       "build": "tsup src",
       "start": "node dist/server/index.js",
-      "pretest": "",
-      "test": "jest"
+  
+      "dbcreate:dev": "npx cross-env NODE_ENV=development sequelize db:create",
+      "dbcreate:test": "npx cross-env NODE_ENV=test sequelize db:create",
+      "dbcreate:prod": "npx cross-env NODE_ENV=production sequelize db:create",
+  
+      "dbmigrate:dev": "npx cross-env NODE_ENV=development sequelize db:migrate",
+      "dbmigrate:prod": "npx cross-env NODE_ENV=production sequelize db:migrate",
+      
+      "pretest": "npx cross-env NODE_ENV=test sequelize db:migrate",
+      "test": "jest --runInBand",
+      "posttest": "npx cross-env NODE_ENV=test sequelize db:migrate:undo:all"
     },
     "dependencies": {
       "bcrypt": "^5.1.0",
       "cors": "^2.8.5",
+      "cross-env": "^7.0.3",
       "dotenv": "^16.3.1",
       "express": "^4.18.2",
       "jsonwebtoken": "^9.0.1",
@@ -1905,7 +1915,14 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/create-require/-/create-require-1.1.1.tgz#c1d7e8f1e5f6cfc9ff65f9cd352d37348756c333"
     integrity sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==
   
-  cross-spawn@^7.0.2, cross-spawn@^7.0.3:
+  cross-env@^7.0.3:
+    version "7.0.3"
+    resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-7.0.3.tgz#865264b29677dc015ba8418918965dd232fc54cf"
+    integrity sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==
+    dependencies:
+      cross-spawn "^7.0.1"
+  
+  cross-spawn@^7.0.1, cross-spawn@^7.0.2, cross-spawn@^7.0.3:
     version "7.0.3"
     resolved "https://registry.npmjs.org/cross-spawn/-/cross-spawn-7.0.3.tgz"
     integrity sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==

@@ -194,7 +194,6 @@ const config: Config = {
 
   // Whether to use watchman for file crawling
   // watchman: true,
-  // testSequencer: "./testSequencer.js",
 };
 
 export default config;
