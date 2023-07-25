@@ -3,7 +3,7 @@ import "./alert.css";
 import Swal from "sweetalert2";
 import { IAlertsDefault, IConfigAlertType } from "../../interfaces/alerts";
 
-export const defaultAlert = ({ title, type, position = "center", timer = 5000 }: IAlertsDefault) => {
+export const defaultAlert = ({ messages, type, position = "center", timer = 5000 }: IAlertsDefault) => {
 
   let configType: IConfigAlertType;
 
@@ -40,6 +40,15 @@ export const defaultAlert = ({ title, type, position = "center", timer = 5000 }:
       title: "title",
     }
   });
+
+  let title = "";
+  messages.map(msg => {
+    title = `${title} ${msg.trim()} </br>`;
+  });
+
+  if(!messages.length) {
+    title = "Opss! Tente mais tarde!";
+  }
 
   Toast.fire({
     title,

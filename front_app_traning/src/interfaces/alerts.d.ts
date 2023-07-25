@@ -8,7 +8,7 @@ interface IConfigAlertType {
 }
 
 interface IAlertsDefault {
-  title: string;
+  messages: string[];
   timer?: number;
   type: SweetAlertIcon;
   position?: SweetAlertPosition;

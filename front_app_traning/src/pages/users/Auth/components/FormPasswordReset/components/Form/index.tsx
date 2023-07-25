@@ -21,7 +21,7 @@ export const Form: React.FC = () => {
     }),
     onSubmit: async (values) => {
       try {
-        defaultAlert({ title: `Nova senha enviada para: ${values.email.toUpperCase()}`, type: "success", position: "top-start" });
+        defaultAlert({ messages: [`Nova senha enviada para: ${values.email.toUpperCase()}`], type: "success", position: "top-start" });
         values.email = "";
       } catch (err) {
         catchDefalutAlert();

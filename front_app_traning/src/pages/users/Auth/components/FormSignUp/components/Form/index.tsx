@@ -5,6 +5,8 @@ import * as Yup from "yup";
 import { catchDefalutAlert, defaultAlert } from "../../../../../../../components/Alerts";
 import { TextLoadingButton } from "../../../../../../../components/TextLoadingButton";
 
+import { apiService } from "../../../../../../../services";
+
 export const Form: React.FC = () => {
 
   const formik = useFormik({
@@ -33,10 +35,18 @@ export const Form: React.FC = () => {
     }),
     onSubmit: async (values) => {
       try {
-        values.name = "";
-        values.email = "";
-        values.password = "";
-        defaultAlert({ title: "Usuário cadastrado com sucesso!", type: "success", position: "top-start" });
+        const { name, email, password } = values;
+        const response = await apiService.post<IReturnedRequest>("/users", { name, email, password });
+
+        if(response.data.isSuccess) {
+          values.name = "";
+          values.email = "";
+          values.password = "";
+          defaultAlert({ messages: response.data.success, type: "success", position: "top-start" });
+        } else {
+          defaultAlert({ messages: response.data.errors, type: "error", position: "top-start" });
+        }
+
       } catch (err) {
         catchDefalutAlert();
       }

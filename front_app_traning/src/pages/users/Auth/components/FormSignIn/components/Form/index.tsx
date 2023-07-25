@@ -28,7 +28,7 @@ export const Form: React.FC = () => {
     onSubmit: async (values) => {
       try {
         console.log(values);
-        defaultAlert({ title: "Usuário ou senha invalidos!", type: "error", position: "top-start" });
+        defaultAlert({ messages: ["Usuário ou senha invalidos!"], type: "error", position: "top-start" });
       } catch (err) {
         catchDefalutAlert();
       }
