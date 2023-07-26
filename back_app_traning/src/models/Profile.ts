@@ -48,9 +48,9 @@ Profile.init(
 Profile.hasMany(UsersProfiles, {
   sourceKey: "id",
   foreignKey: "profile_id",
-  as: "profiles" // Name is "AS" in the INCLUDE association
+  as: "user_profile" // Name is "AS" in the INCLUDE association
 });
 
-UsersProfiles.belongsTo(Profile, { foreignKey: "profile_id", targetKey: "id", as: "profiles" });
+UsersProfiles.belongsTo(Profile, { foreignKey: "profile_id", targetKey: "id", as: "user_profile" });
 
 export default Profile;

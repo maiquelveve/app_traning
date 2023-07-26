@@ -12,12 +12,12 @@ export const login = async (req: Request<object, object, IUserLogin>, res: Respo
     const userAuth = await User.findOne({ where: { email }, include: [
       { 
         model: UsersProfiles, 
-        as: "user_profile",  
+        as: "profiles",  
         attributes: { exclude: ["user_id", "profile_id"] },
         include: [
           { 
             model: Profile, 
-            as: "profiles", 
+            as: "user_profile", 
             attributes: { exclude: ["id"] },
           }
         ]

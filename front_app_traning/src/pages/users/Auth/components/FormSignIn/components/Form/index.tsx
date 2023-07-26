@@ -1,4 +1,5 @@
 import { Button, Stack, TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -9,7 +10,8 @@ import { useAuthUserContext } from "../../../../../../../context";
 import { apiService } from "../../../../../../../services";
 
 export const Form: React.FC = () => {
-  const { setToken } = useAuthUserContext();
+  const { setToken, setProfilesUser } = useAuthUserContext();
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -36,7 +38,8 @@ export const Form: React.FC = () => {
 
         if(reponse.data.isSuccess) {
           setToken(reponse.data.data[0].token);
-          window.location.replace("/");
+          setProfilesUser([reponse.data.data[0].user.profiles]);
+          navigate("/", { replace: true });
         } else {
           defaultAlert({ messages: reponse.data.errors, type: "error", position: "top-start" });
         }

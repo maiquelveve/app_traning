@@ -1,4 +1,4 @@
-import { createContext, useContext, useCallback } from "react";
+import { createContext, useContext, useCallback, useState } from "react";
 
 import { LOCALSTORAGE_KEY_TOKEN } from "../../config";
 
@@ -9,7 +9,8 @@ export const useAuthUserContext = () => {
 };
 
 export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
-    
+  const [profilesUsersCurrent, setProfilesUserCurrent] = useState<IUserPofile[]>([]);  
+
   const setToken = useCallback((token: string) => {
     localStorage.setItem(LOCALSTORAGE_KEY_TOKEN, token);
   }, []);
@@ -22,11 +23,17 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
     localStorage.clear();
   }, []);
 
+  const setProfilesUser = useCallback((profiles: IUserPofile[]) => {
+    setProfilesUserCurrent(profiles);
+  }, []);
+
   return (
     <AuthUserContext.Provider value={{
       getToken,
       setToken,
       clearToken,
+      profilesUsersCurrent,
+      setProfilesUser
     }}>
       {children}
     </AuthUserContext.Provider>
