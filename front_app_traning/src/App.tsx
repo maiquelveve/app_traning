@@ -1,13 +1,15 @@
 import { BrowserRouter } from "react-router-dom";
 
 import AppRoutes from "./routes";
-import { LayoutProvider } from "./context";
+import { LayoutProvider, AuthUserProvider } from "./context";
 
 function App() {
   return(
     <BrowserRouter>
       <LayoutProvider>
-        <AppRoutes />
+        <AuthUserProvider>
+          <AppRoutes />
+        </AuthUserProvider>
       </LayoutProvider>
     </BrowserRouter>
   );

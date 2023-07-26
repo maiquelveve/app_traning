@@ -1,15 +1,15 @@
 import { Button, Stack, TextField } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import { defaultAlert, catchDefalutAlert } from "../../../../../../../components/Alerts";
 import { TextLoadingButton } from "../../../../../../../components/TextLoadingButton";
 
+import { useAuthUserContext } from "../../../../../../../context";
 import { apiService } from "../../../../../../../services";
 
 export const Form: React.FC = () => {
-  const navigate = useNavigate();
+  const { setToken } = useAuthUserContext();
 
   const formik = useFormik({
     initialValues: {
@@ -35,7 +35,8 @@ export const Form: React.FC = () => {
         const reponse = await apiService.post<IReturnedRequest>("/users/login", { email, password });
 
         if(reponse.data.isSuccess) {
-          navigate("/");
+          setToken(reponse.data.data[0].token);
+          window.location.replace("/");
         } else {
           defaultAlert({ messages: reponse.data.errors, type: "error", position: "top-start" });
         }

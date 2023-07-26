@@ -15,24 +15,24 @@
     "dbcreate:prod": "npx cross-env NODE_ENV=production sequelize db:create",
     "dbmigrate:dev": "npx cross-env NODE_ENV=development sequelize db:migrate",
     "dbmigrate:prod": "npx cross-env NODE_ENV=production sequelize db:migrate",
-    
-    "test": "yarn jest --runInBand",
+
+    "test": "yarn jest --runInBand --no-cache",
     "pretest": "npx cross-env NODE_ENV=test sequelize db:migrate",
     "posttest": "npx cross-env NODE_ENV=test sequelize db:migrate:undo:all",
 
-    "test:unit": "yarn jest --testNamePattern='@unit' --runInBand",
+    "test:unit": "yarn jest --testNamePattern='@unit' --runInBand --no-cache",
     "pretest:unit": "npx cross-env NODE_ENV=test sequelize db:migrate",
     "posttest:unit": "npx cross-env NODE_ENV=test sequelize db:migrate:undo:all",
 
-    "test:integration": "yarn jest --testNamePattern='@integration' --runInBand",
+    "test:integration": "yarn jest --testNamePattern='@integration' --runInBand --no-cache",
     "pretest:integration": "npx cross-env NODE_ENV=test sequelize db:migrate",
     "posttest:integration": "npx cross-env NODE_ENV=test sequelize db:migrate:undo:all",
 
-    "test:groups": "yarn jest --testNamePattern='@unit' --runInBand & yarn jest --testNamePattern='@integration' --runInBand",
+    "test:groups": "yarn jest --testNamePattern='@unit' --runInBand & yarn jest --testNamePattern='@integration' --runInBand --no-cache",
     "pretest:groups": "npx cross-env NODE_ENV=test sequelize db:migrate",
     "posttest:groups": "npx cross-env NODE_ENV=test sequelize db:migrate:undo:all",
 
-    "test:dev": "yarn jest --testNamePattern='@dev' --runInBand",
+    "test:dev": "yarn jest --testNamePattern='@dev' --runInBand --no-cache",
     "pretest:dev": "npx cross-env NODE_ENV=test sequelize db:migrate",
     "posttest:dev": "npx cross-env NODE_ENV=test sequelize db:migrate:undo:all"
   },

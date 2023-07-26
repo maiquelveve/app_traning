@@ -1,5 +1,4 @@
-import { createContext, useContext, useState } from "react";
-
+import { createContext, useContext, useState, useCallback } from "react";
 const AuthPageContext = createContext({} as IAuthPageContext);
 
 export const useAuthPageContext = () => {
@@ -11,23 +10,23 @@ export const AuthPageProvider: React.FC<IAppProps> = ({ children }) => {
   const [showFormSignUp, setShowFormSignUp] = useState(false);
   const [showFormPassword, setShowFormPassword] = useState(false);
 
-  const handleChangeSignIn = () => {
+  const handleChangeSignIn = useCallback(() => {
     setShowFormSignIn(true);
     setShowFormSignUp(false);
     setShowFormPassword(false);
-  };
+  }, []);
 
-  const handleChangeSignUp = () => {
+  const handleChangeSignUp = useCallback(() => {
     setShowFormSignUp(true);
     setShowFormSignIn(false);
     setShowFormPassword(false);
-  };
+  }, []);
 
-  const handleChangePasswordReset = () => {
+  const handleChangePasswordReset = useCallback(() => {
     setShowFormPassword(true);
     setShowFormSignUp(false);
     setShowFormSignIn(false);
-  };
+  }, []);
 
   return (
     <AuthPageContext.Provider value={{
