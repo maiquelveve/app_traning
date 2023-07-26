@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import { User } from "../../models";
+import { Profile, User, UsersProfiles } from "../../models";
 
 import { RETURNED_API_ERRORS, RETURNED_API_ERRORS_500, RETURNED_API_SUCCESS } from "../../returnsRequests";
 import { decryptPassword, generateToken } from "../../helpers";
@@ -9,7 +9,20 @@ export const login = async (req: Request<object, object, IUserLogin>, res: Respo
   try {
     const { email, password } = req.body;
     
-    const userAuth = await User.findOne({ where: { email }});
+    const userAuth = await User.findOne({ where: { email }, include: [
+      { 
+        model: UsersProfiles, 
+        as: "user_profile",  
+        attributes: { exclude: ["user_id", "profile_id"] },
+        include: [
+          { 
+            model: Profile, 
+            as: "profiles", 
+            attributes: { exclude: ["id"] },
+          }
+        ]
+      },
+    ] });
 
     if(!userAuth) {
       return res.status(400).json(RETURNED_API_ERRORS({ errors: ["Email ou senha invalidos."] }));
@@ -22,8 +35,7 @@ export const login = async (req: Request<object, object, IUserLogin>, res: Respo
     return res.status(200).json(
       RETURNED_API_SUCCESS({ 
         data: [{ 
-          name: userAuth.name, 
-          email: userAuth.email, 
+          user: userAuth,
           token: generateToken({ id: userAuth.id })
         }], 
         messageSuccess: "" 
@@ -31,6 +43,7 @@ export const login = async (req: Request<object, object, IUserLogin>, res: Respo
     );
 
   } catch (error) {
+    console.log(error);
     return res.status(500).json(RETURNED_API_ERRORS_500());
   }
 };
