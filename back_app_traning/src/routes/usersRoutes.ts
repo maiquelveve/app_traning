@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import { bodyCreateUsersValidation, bodyLoginUsersValidation, bodyResetPasswordUsersValidation } from "../validations";
-import { serializeDataBody } from "../middleware";
+import { authSystem, serializeDataBody } from "../middleware";
 
 import { usersController } from "../controllers";
 
@@ -26,6 +26,12 @@ usersRoutes.post(
   serializeDataBody(),
   bodyResetPasswordUsersValidation, 
   usersController.resetPassword
+);
+
+usersRoutes.get(
+  "/users/byToken", 
+  authSystem({ permissions: [] }),
+  usersController.getUserByToken
 );
 
 export { usersRoutes };

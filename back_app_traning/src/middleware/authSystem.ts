@@ -20,6 +20,7 @@ export const authSystem = ({ permissions }: ISystemPermission): RequestHandler =
     const { auth_user_id } = decoded as IJwtPayloadAuthUser;
 
     if(permissions?.length) {
+      console.log("Há PERMISSAO");
       // vai buscar no banco se o usuario tem permissao para acessar a rota - pensar melhor depois...
     }
 
