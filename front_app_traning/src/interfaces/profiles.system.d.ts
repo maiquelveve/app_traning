@@ -10,3 +10,14 @@ interface IProfileSystem {
 interface IUserPofile {
   user_profile: IProfileSystem
 }
+
+interface IAnalysisProfilesProps {
+  usersProfiles: IUserPofile[]
+}
+
+interface IAnalysisProfilesReturn {
+  isUserProfiles: boolean;
+  isTrainerProfiles: boolean;
+  isRootProfiles: boolean;
+}
+

@@ -38,7 +38,7 @@ export const Form: React.FC = () => {
 
         if(reponse.data.isSuccess) {
           setToken(reponse.data.data[0].token);
-          setProfilesUser([reponse.data.data[0].user.profiles]);
+          setProfilesUser(reponse.data.data[0].user.profiles);
           navigate("/", { replace: true });
         } else {
           defaultAlert({ messages: reponse.data.errors, type: "error", position: "top-start" });

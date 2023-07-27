@@ -4,11 +4,11 @@ import { Dashoard } from "../pages/home";
 
 import { LayoutSingle } from "../components/layout";
 
-export const rootRoutes = () => {
+export const userRoutes = () => {
   return (
     <>
       <Route 
-        path='/root' 
+        path='/user' 
         element={
           <LayoutSingle>
             <Dashoard />

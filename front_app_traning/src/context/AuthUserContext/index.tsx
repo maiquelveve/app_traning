@@ -1,6 +1,7 @@
 import { createContext, useContext, useCallback, useState } from "react";
 
 import { LOCALSTORAGE_KEY_TOKEN } from "../../config";
+import { analysisProfiles } from "../../utils";
 
 const AuthUserContext = createContext({} as IAuthUserContext);
 
@@ -27,13 +28,18 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
     setProfilesUserCurrent(profiles);
   }, []);
 
+  const { isRootProfiles, isTrainerProfiles, isUserProfiles } = analysisProfiles({ usersProfiles: profilesUsersCurrent });
+  
   return (
     <AuthUserContext.Provider value={{
       getToken,
       setToken,
       clearToken,
       profilesUsersCurrent,
-      setProfilesUser
+      setProfilesUser,
+      isRootProfiles, 
+      isTrainerProfiles, 
+      isUserProfiles,
     }}>
       {children}
     </AuthUserContext.Provider>
