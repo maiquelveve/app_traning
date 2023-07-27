@@ -1,32 +1,20 @@
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route } from "react-router-dom";
 
 import { Dashoard } from "../pages/home";
-import { ErrorPage } from "../pages/system";
 
 import { LayoutSingle } from "../components/layout";
 
-export const RootRoutes = () => {
+export const rootRoutes = () => {
   return (
-    <Routes>
+    <>
       <Route 
-        path='/' 
+        path='/usuarios' 
         element={
           <LayoutSingle>
             <Dashoard />
           </LayoutSingle>
         } 
       />
-
-      <Route 
-        path='/error'
-        element={
-          <LayoutSingle>
-            <ErrorPage />
-          </LayoutSingle>
-        }
-      />
-
-      <Route path='*' element={<Navigate to="/error" />} />
-    </Routes>
+    </>
   );
 };

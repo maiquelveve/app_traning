@@ -1,12 +1,26 @@
+import { Routes } from "react-router-dom";
+
 import { useAuthUserContext } from "../context";
 
-import { PublicRoutes } from "./public.routes";
-import { RootRoutes } from "./root.routes";
+import { rootRoutes } from "./root.routes";
+import { publicRoutes } from "./public.routes";
+import { genericsRoutes } from "./generics.routes";
 
 const AppRoutes = () => {
   const { getToken } = useAuthUserContext();
 
-  return getToken() ? <RootRoutes /> : <PublicRoutes />;
+  return (
+    <Routes>
+      {genericsRoutes()}
+      {!getToken() 
+        ?
+        publicRoutes() 
+        :
+        rootRoutes()  
+      }
+      
+    </Routes>
+  );
 };
 
 export default AppRoutes;

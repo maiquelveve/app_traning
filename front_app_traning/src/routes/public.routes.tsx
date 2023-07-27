@@ -1,26 +1,13 @@
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route } from "react-router-dom";
 
 import { Auth } from "../pages/users";
-import { Dashoard } from "../pages/home";
-import { ErrorPage } from "../pages/system";
 
 import { AuthPageProvider } from "../context";
 import { LayoutSingle } from "../components/layout";
 
-export const PublicRoutes = () => {
+export const publicRoutes = () => {
   return (
-    <Routes>
-      <Route 
-        path='/' 
-        element={
-          <LayoutSingle>
-            <AuthPageProvider>
-              <Dashoard />
-            </AuthPageProvider>
-          </LayoutSingle>
-        } 
-      />
-
+    <>
       <Route 
         path='/acessos' 
         element={ 
@@ -31,13 +18,6 @@ export const PublicRoutes = () => {
           </LayoutSingle> 
         } 
       />
-
-      <Route 
-        path='/error'
-        element={<ErrorPage />}
-      />
-
-      <Route path='*' element={<Navigate to="/error" />} />
-    </Routes>
+    </>
   );
 };
