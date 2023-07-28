@@ -15,7 +15,6 @@ describe("@integration", () => {
   
       await User.destroy({
         where: {},
-        truncate: true
       });
   
       expect(response.body.isSuccess).toBeTruthy();

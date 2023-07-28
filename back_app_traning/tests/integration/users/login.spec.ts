@@ -18,7 +18,6 @@ describe("@integration", () => {
     afterAll(async () => {
       await User.destroy({
         where: {},
-        truncate: true
       });
 
       connectionSql.close();
