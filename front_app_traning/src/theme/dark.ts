@@ -32,11 +32,11 @@ export const darkTheme = createTheme({
       defaultProps: {
         color: "#ffffff"
       }
-    }
+    },
   },
   typography: {
     allVariants: {
       color: "white"
     }
-  }, 
+  },
 });
