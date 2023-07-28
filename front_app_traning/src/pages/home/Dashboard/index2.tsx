@@ -26,7 +26,7 @@ interface Props {
   window?: () => Window;
 }
 
-export function Dashoard(props: Props) {
+export function DashoardResponsive(props: Props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
