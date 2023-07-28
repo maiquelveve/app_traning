@@ -8,6 +8,7 @@ export const getUserByToken = async (req: Request<object, object, IBodyAuth>, re
     const { auth_user_id } = req.body;
     
     const userAuth = await User.findByPk(auth_user_id, { 
+      attributes: { exclude: ["id", "password"] },
       include: [
         { 
           model: UsersProfiles, 
@@ -24,14 +25,7 @@ export const getUserByToken = async (req: Request<object, object, IBodyAuth>, re
       ] 
     });
     
-    return res.status(200).json(
-      RETURNED_API_SUCCESS({ 
-        data: [{ 
-          user: userAuth,
-        }], 
-        messageSuccess: "" 
-      })
-    );
+    return res.status(200).json(RETURNED_API_SUCCESS({ data: [{ user: userAuth }], messageSuccess: "" }));
 
   } catch (error) {
     return res.status(500).json(RETURNED_API_ERRORS_500());

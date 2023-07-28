@@ -9,20 +9,22 @@ export const login = async (req: Request<object, object, IUserLogin>, res: Respo
   try {
     const { email, password } = req.body;
     
-    const userAuth = await User.findOne({ where: { email }, include: [
-      { 
-        model: UsersProfiles, 
-        as: "profiles",  
-        attributes: { exclude: ["user_id", "profile_id"] },
-        include: [
-          { 
-            model: Profile, 
-            as: "user_profile", 
-            attributes: { exclude: ["id"] },
-          }
-        ]
-      },
-    ] });
+    const userAuth = await User.findOne({ 
+      where: { email },
+      include: [
+        { 
+          model: UsersProfiles, 
+          as: "profiles",  
+          attributes: { exclude: ["user_id", "profile_id"] },
+          include: [
+            { 
+              model: Profile, 
+              as: "user_profile", 
+              attributes: { exclude: ["id"] },
+            }
+          ]
+        },
+      ] });
 
     if(!userAuth) {
       return res.status(400).json(RETURNED_API_ERRORS({ errors: ["Email ou senha invalidos."] }));

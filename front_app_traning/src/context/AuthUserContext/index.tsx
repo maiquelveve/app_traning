@@ -1,7 +1,9 @@
-import { createContext, useContext, useCallback, useState } from "react";
+import { createContext, useContext, useCallback, useState, useEffect } from "react";
 
 import { LOCALSTORAGE_KEY_TOKEN } from "../../config";
 import { analysisProfiles } from "../../utils";
+
+import { apiService } from "../../services";
 
 const AuthUserContext = createContext({} as IAuthUserContext);
 
@@ -11,6 +13,19 @@ export const useAuthUserContext = () => {
 
 export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
   const [profilesUsersCurrent, setProfilesUserCurrent] = useState<IUserPofile[]>([]);  
+
+  useEffect(() => {
+    const token = getToken();
+
+    const fetch = async () => {
+      const response = await apiService.get<IReturnedRequest>("/users/byToken", { headers: { Authorization: token } });
+      setProfilesUser(response.data.data[0].user.profiles);
+    };
+
+    if(token) {
+      fetch();
+    }
+  }, []);
 
   const setToken = useCallback((token: string) => {
     localStorage.setItem(LOCALSTORAGE_KEY_TOKEN, token);
@@ -22,6 +37,7 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
   
   const clearToken = useCallback(() => {
     localStorage.clear();
+    setProfilesUser([]);
   }, []);
 
   const setProfilesUser = useCallback((profiles: IUserPofile[]) => {
