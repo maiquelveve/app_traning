@@ -11,7 +11,7 @@ export const FabChangeMode: React.FC<IFabChangeMode> = ({ bottom = 30, right = 3
   return (
     <Fab 
       sx={{
-        position: "absolute",
+        position: "fixed",
         top,
         bottom,
         left,

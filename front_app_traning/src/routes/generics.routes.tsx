@@ -3,7 +3,7 @@ import { Route, Navigate } from "react-router-dom";
 import { Dashoard, DashoardResponsive, DashoardClipped } from "../pages/home";
 
 import { AuthPageProvider } from "../context";
-import { LayoutSingle } from "../components/layout";
+import { LayoutSingle, LayoutDashboard } from "../components/layout";
 import { ErrorPage } from "../pages/system";
 
 export const genericsRoutes = () => {
@@ -32,11 +32,11 @@ export const genericsRoutes = () => {
       <Route 
         path='/' 
         element={
-          <LayoutSingle>
+          <LayoutDashboard>
             <AuthPageProvider>
               <Dashoard />
             </AuthPageProvider>
-          </LayoutSingle>
+          </LayoutDashboard>
         } 
       />
 
