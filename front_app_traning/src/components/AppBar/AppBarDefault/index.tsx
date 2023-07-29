@@ -1,9 +1,11 @@
-import { AppBar, Box, IconButton, Toolbar, Typography, } from "@mui/material";
+import { AppBar, Box, IconButton, Toolbar, Typography, useTheme, } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
 import { useDrawerSidebarContext } from "../../../context";
 
 export const AppBarDefault: React.FC<IAppProps> = ({ children }) => {
+
+  const theme = useTheme();
   const { drawerWidth, handleDrawerToggle } = useDrawerSidebarContext();
 
   return (
@@ -11,7 +13,7 @@ export const AppBarDefault: React.FC<IAppProps> = ({ children }) => {
       position="fixed"
       sx={{
         ml: { sm: `${drawerWidth}px` },
-        backgroundColor: "",
+        backgroundColor: theme.palette.primary.main,
         zIndex: (theme) => theme.zIndex.drawer + 1,
       }}
     >

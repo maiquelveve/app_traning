@@ -19,4 +19,13 @@ export const lightTheme = createTheme({
       paper: "#ffffff",
     },
   },
+  components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          background: "#ffffff"
+        }
+      }
+    },
+  },
 });

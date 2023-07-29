@@ -11,6 +11,7 @@ export const ContainerLayoutDashboard: React.FC<IAppProps> = ({ children }) => {
         component={Paper}
         p={2}
         flexDirection="column"
+        elevation={24}
       >
         {children}
       </Box>

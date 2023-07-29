@@ -17,7 +17,7 @@ export const Auth: React.FC = () => {
         xs={12}
         lg={6}
         sx={{
-          backgroundColor: "background.paper",
+          backgroundColor: "background.default",
           display: "flex",
           flexDirection: "column",
           position: "relative"
