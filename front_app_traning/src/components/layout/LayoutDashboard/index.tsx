@@ -19,7 +19,6 @@ export const LayoutDashboard: React.FC<IAppProps> = ({ children }) => {
         sx={{
           display: "flex",
           flex: "1 1 auto",
-          // backgroundColor: "background.paper",
         }}
       >
         <Box sx={{ display: "flex"}} >

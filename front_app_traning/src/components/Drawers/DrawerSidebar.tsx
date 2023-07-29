@@ -27,7 +27,7 @@ export const DrawerSidebar: React.FC = () => {
         }}
         sx={{
           display: { xs: "block", sm: "none" },
-          "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
+          "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth, backgroundColor: "" },
         }}
       >
         {menus}
@@ -37,7 +37,7 @@ export const DrawerSidebar: React.FC = () => {
         sx={{
           display: { xs: "none", sm: "block" },
           width: drawerWidth,
-          "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
+          "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth, backgroundColor: "" },
         }}
         open
       >
