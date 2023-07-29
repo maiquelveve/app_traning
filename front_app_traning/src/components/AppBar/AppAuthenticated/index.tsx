@@ -2,14 +2,15 @@ import {
   AppBar, 
   IconButton, 
   Toolbar, 
-  Typography 
+  Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
-const drawerWidth = 240;
-const handleDrawerToggle = () => {};
+import { useDrawerSidebarContext } from "../../../context";
 
 export const AppAuthenticated: React.FC = () => {
+  const { drawerWidth, handleDrawerToggle } = useDrawerSidebarContext();
+
   return (
     <AppBar
       position="fixed"
