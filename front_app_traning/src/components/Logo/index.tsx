@@ -12,7 +12,7 @@ import removebgcontainerblack from "../../assets/removebg-containerblack.png";
 import removebgcontainerwhite from "../../assets/removebg-containerwhite.png";
 
 
-const Logo: React.FC<ILogo> = ({ width = 100, height = 50, type = "main" }) => {
+export const Logo: React.FC<ILogo> = ({ width = 100, height = 50, type = "main" }) => {
 
   const logoImg = setLogoImg(type);
 
@@ -51,4 +51,4 @@ function setLogoImg(type: LogoTypeEnum) {
   }
 }
 
-export default Logo;
+// export default Logo;

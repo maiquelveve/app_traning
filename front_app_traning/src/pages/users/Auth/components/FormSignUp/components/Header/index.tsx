@@ -1,6 +1,6 @@
 import { Box, Typography, Stack } from "@mui/material";
 
-import Logo from "../../../../../../../components/Logo";
+import {Logo} from "../../../../../../../components";
 import { blueGrey } from "@mui/material/colors";
 
 export const Header: React.FC = () => {

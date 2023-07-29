@@ -1,6 +1,6 @@
 import { Box, CssBaseline } from "@mui/material";
 
-import { FabChangeMode } from "../../FabChangeMode";
+import { FabChangeMode } from "../../index";
 
 export const LayoutSingle: React.FC<IAppProps>= ({ children }) => {
   return (

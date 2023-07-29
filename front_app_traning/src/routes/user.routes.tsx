@@ -2,7 +2,7 @@ import { Route } from "react-router-dom";
 
 import { Dashoard } from "../pages/home";
 
-import { LayoutSingle } from "../components/layout";
+import { LayoutSingle } from "../components";
 
 export const userRoutes = () => {
   return (

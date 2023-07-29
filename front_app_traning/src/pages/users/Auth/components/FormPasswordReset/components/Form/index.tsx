@@ -2,8 +2,7 @@ import { useFormik } from "formik";
 import { Button, Stack, TextField } from "@mui/material";
 import * as Yup from "yup";
 
-import { catchDefalutAlert, defaultAlert } from "../../../../../../../components/Alerts";
-import { TextLoadingButton } from "../../../../../../../components/TextLoadingButton";
+import { catchDefalutAlert, defaultAlert, TextLoadingButton } from "../../../../../../../components";
 
 import { apiService } from "../../../../../../../services";
 

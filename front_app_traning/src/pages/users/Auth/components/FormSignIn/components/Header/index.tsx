@@ -1,7 +1,7 @@
 import { Box, Typography, Stack, useTheme, Button, Divider } from "@mui/material";
 import { ManageAccounts  } from "@mui/icons-material";
 
-import Logo from "../../../../../../../components/Logo";
+import {Logo} from "../../../../../../../components";
 import { blueGrey } from "@mui/material/colors";
 import { useAuthPageContext } from "../../../../../../../context";
 

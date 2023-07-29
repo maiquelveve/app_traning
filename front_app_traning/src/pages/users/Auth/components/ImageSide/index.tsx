@@ -1,6 +1,6 @@
 import { Box, Typography, useTheme } from "@mui/material";
 
-import Logo from "../../../../../components/Logo";
+import { Logo } from "../../../../../components";
 
 export const ImageSide: React.FC = () => {
   const { palette } = useTheme();

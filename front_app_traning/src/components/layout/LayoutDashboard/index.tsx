@@ -1,62 +1,19 @@
 import { useState } from "react";
 import { 
-  AppBar, 
   Box, 
   CssBaseline, 
-  Divider, 
   Drawer, 
-  IconButton, 
-  List, 
-  ListItem, 
-  ListItemButton, 
-  ListItemIcon,
-  ListItemText, 
   Paper, 
-  Stack, 
   Toolbar, 
-  Typography 
 } from "@mui/material";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import MenuIcon from "@mui/icons-material/Menu";
 
-import { FabChangeMode } from "../../FabChangeMode";
+import { FabChangeMode, menus, AppAuthenticated } from "../../index";
 
 const drawerWidth = 240;
 
 interface Props {
   window?: () => Window;
 }
-
-const menus = (
-  <Stack flex={1}>
-    <List>
-      {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-        <ListItem key={text} disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItemButton>
-        </ListItem>
-      ))}
-    </List>
-    <Divider />
-    <List>
-      {["All mail", "Trash", "Spam"].map((text, index) => (
-        <ListItem key={text} disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItemButton>
-        </ListItem>
-      ))}
-    </List>
-  </Stack>
-);
 
 export const LayoutDashboard: React.FC<IAppProps & Props>= ({ window, children }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -81,29 +38,7 @@ export const LayoutDashboard: React.FC<IAppProps & Props>= ({ window, children }
         }}
       >
         <Box sx={{ display: "flex"}} >
-          <AppBar
-            position="fixed"
-            sx={{
-              ml: { sm: `${drawerWidth}px` },
-              backgroundColor: "",
-              zIndex: (theme) => theme.zIndex.drawer + 1,
-            }}
-          >
-            <Toolbar>
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleDrawerToggle}
-                sx={{ mr: 2, display: { sm: "none" } }}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Typography variant="h6" noWrap component="div">
-                Responsive drawer
-              </Typography>
-            </Toolbar>
-          </AppBar>
+          <AppAuthenticated />
           <Box
             component="nav"
             sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}

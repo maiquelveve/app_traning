@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-import { defaultAlert, catchDefalutAlert } from "../../../../../../../components/Alerts";
-import { TextLoadingButton } from "../../../../../../../components/TextLoadingButton";
+import { defaultAlert, catchDefalutAlert, TextLoadingButton } from "../../../../../../../components";
 
 import { useAuthUserContext } from "../../../../../../../context";
 import { apiService } from "../../../../../../../services";
