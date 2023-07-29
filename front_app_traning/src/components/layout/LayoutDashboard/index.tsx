@@ -1,9 +1,13 @@
 import { Box, CssBaseline, } from "@mui/material";
 
-import { DrawerSidebarProvider } from "../../../context";
-import { FabChangeMode, DrawerSidebar, AppAuthenticated, ContainerLayoutDashboard } from "../../index";
+import { DrawerSidebarProvider, useAuthUserContext } from "../../../context";
+import { FabChangeMode, DrawerSidebar, AppAuthenticated, AppUnauthenticated, ContainerLayoutDashboard } from "../../index";
 
 export const LayoutDashboard: React.FC<IAppProps> = ({ children }) => {
+
+  const { getToken } = useAuthUserContext();
+  const token = getToken();
+
   return (
     <>
       <FabChangeMode />
@@ -19,7 +23,7 @@ export const LayoutDashboard: React.FC<IAppProps> = ({ children }) => {
       >
         <Box sx={{ display: "flex"}} >
           <DrawerSidebarProvider>
-            <AppAuthenticated />
+            {token ? <AppAuthenticated /> : <AppUnauthenticated /> }
             <DrawerSidebar />
             <ContainerLayoutDashboard>
               {children}
