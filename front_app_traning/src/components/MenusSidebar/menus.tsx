@@ -1,5 +1,4 @@
 import { 
-  Divider, 
   List, 
   ListItem, 
   ListItemButton, 
@@ -10,32 +9,21 @@ import {
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 
-export const menus = (
-  <Stack flex={1}>
-    <List>
-      {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-        <ListItem key={text} disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItemButton>
-        </ListItem>
-      ))}
-    </List>
-    <Divider />
-    <List>
-      {["All mail", "Trash", "Spam"].map((text, index) => (
-        <ListItem key={text} disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItemButton>
-        </ListItem>
-      ))}
-    </List>
-  </Stack>
-);
+export const Menus: React.FC<ISidebarMenusProps> = ({ menus }) => {
+  return (
+    <Stack flex={1}>
+      <List>
+        {menus.map((menu, index) => (
+          <ListItem key={menu.name} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={menu.name} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Stack>
+  );
+};

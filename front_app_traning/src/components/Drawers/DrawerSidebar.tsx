@@ -1,14 +1,10 @@
-import { 
-  Box, 
-  Drawer, 
-  Toolbar, 
-} from "@mui/material";
+import { Box, Drawer} from "@mui/material";
 
 import { useDrawerSidebarContext } from "../../context";
-import { menus } from "..";
+
+import { ContainerDrawerSidebar } from "./ContainerDrawerSidebar";
 
 export const DrawerSidebar: React.FC = () => {
-
   const { drawerWidth, mobileOpen, handleDrawerToggle, container } = useDrawerSidebarContext();
 
   return (
@@ -22,15 +18,13 @@ export const DrawerSidebar: React.FC = () => {
         variant="temporary"
         open={mobileOpen}
         onClose={handleDrawerToggle}
-        ModalProps={{
-          keepMounted: true, // Better open performance on mobile.
-        }}
+        ModalProps={{ keepMounted: true }}
         sx={{
           display: { xs: "block", sm: "none" },
           "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth, backgroundColor: "" },
         }}
       >
-        {menus}
+        <ContainerDrawerSidebar />
       </Drawer>
       <Drawer
         variant="permanent"
@@ -41,10 +35,7 @@ export const DrawerSidebar: React.FC = () => {
         }}
         open
       >
-        <Toolbar />
-        <Box sx={{ overflow: "auto" }}>
-          {menus}
-        </Box>
+        <ContainerDrawerSidebar />
       </Drawer>
     </Box>
   );

@@ -1,6 +1,6 @@
 import { Box, Paper, Toolbar } from "@mui/material";
 
-import { useDrawerSidebarContext } from "../../context";
+import { useDrawerSidebarContext } from "../../../context";
 
 export const ContainerLayoutDashboard: React.FC<IAppProps> = ({ children }) => {
   const { drawerWidth } = useDrawerSidebarContext();

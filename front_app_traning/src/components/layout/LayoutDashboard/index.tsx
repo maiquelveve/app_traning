@@ -1,7 +1,8 @@
 import { Box, CssBaseline, } from "@mui/material";
 
 import { DrawerSidebarProvider, useAuthUserContext } from "../../../context";
-import { FabChangeMode, DrawerSidebar, AppAuthenticated, AppUnauthenticated, ContainerLayoutDashboard } from "../../index";
+import { FabChangeMode, DrawerSidebar, AppAuthenticated, AppUnauthenticated } from "../../index";
+import { ContainerLayoutDashboard } from "./ContainerLayoutDashboard";
 
 export const LayoutDashboard: React.FC<IAppProps> = ({ children }) => {
 
