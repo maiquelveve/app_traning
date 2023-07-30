@@ -2,17 +2,20 @@ import { Route } from "react-router-dom";
 
 import { Dashoard } from "../pages/home";
 
-import { LayoutSingle } from "../components";
+import { LayoutDashboard } from "../components";
+import { AuthPageProvider } from "../context";
 
 export const trainerRoutes = () => {
   return (
     <>
       <Route 
-        path='/trainer' 
+        path='/meus_alunos' 
         element={
-          <LayoutSingle>
-            <Dashoard />
-          </LayoutSingle>
+          <LayoutDashboard>
+            <AuthPageProvider>
+              <Dashoard />
+            </AuthPageProvider>
+          </LayoutDashboard>
         } 
       />
     </>

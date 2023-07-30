@@ -1,33 +1,13 @@
-import { useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import { 
-  List, 
-  ListItem, 
-  ListItemButton, 
-  ListItemIcon,
-  ListItemText, 
-  Stack, 
-} from "@mui/material";
+import { List, Stack } from "@mui/material";
+
+import { ListItemsMenu } from "./ListItemsMenu";
 
 export const Menus: React.FC<ISidebarMenusProps> = ({ menus }) => {
-  const navigate = useNavigate();
-
-  const handleClick = useCallback((to: string) => {
-    navigate(to);
-  }, []);
-
   return (
     <Stack flex={1}>
       <List>
         {menus.map((menu, index) => (
-          <ListItem key={index} disablePadding>
-            <ListItemButton onClick={() => handleClick(menu.to)}>
-              <ListItemIcon>
-                {menu.Icon}
-              </ListItemIcon>
-              <ListItemText primary={menu.name} />
-            </ListItemButton>
-          </ListItem>
+          <ListItemsMenu key={index} {...menu} />
         ))}
       </List>
     </Stack>
