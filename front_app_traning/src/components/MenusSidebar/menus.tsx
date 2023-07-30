@@ -1,3 +1,5 @@
+import { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { 
   List, 
   ListItem, 
@@ -6,18 +8,22 @@ import {
   ListItemText, 
   Stack, 
 } from "@mui/material";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 
 export const Menus: React.FC<ISidebarMenusProps> = ({ menus }) => {
+  const navigate = useNavigate();
+
+  const handleClick = useCallback((to: string) => {
+    navigate(to);
+  }, []);
+
   return (
     <Stack flex={1}>
       <List>
         {menus.map((menu, index) => (
-          <ListItem key={menu.name} disablePadding>
-            <ListItemButton>
+          <ListItem key={index} disablePadding>
+            <ListItemButton onClick={() => handleClick(menu.to)}>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {menu.Icon}
               </ListItemIcon>
               <ListItemText primary={menu.name} />
             </ListItemButton>

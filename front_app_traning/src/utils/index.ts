@@ -1,1 +1,2 @@
-export * from "./analysisiProfiles";
+export * from "./analysisProfiles";
+export * from "./getMenus";
