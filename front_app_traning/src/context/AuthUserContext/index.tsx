@@ -1,4 +1,5 @@
 import { createContext, useContext, useCallback, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { LOCALSTORAGE_KEY_TOKEN } from "../../config";
 import { analysisProfiles } from "../../utils";
@@ -13,6 +14,9 @@ export const useAuthUserContext = () => {
 
 export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
   const [profilesUsersCurrent, setProfilesUserCurrent] = useState<IUserPofile[]>([]);  
+  const [loadingAuthUserContext, setloadingAuthUserContext] = useState(true); 
+  
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = getToken();
@@ -25,6 +29,8 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
     if(token) {
       fetch();
     }
+
+    setloadingAuthUserContext(false);
   }, []);
 
   const setToken = useCallback((token: string) => {
@@ -35,9 +41,10 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
     return localStorage.getItem(LOCALSTORAGE_KEY_TOKEN);
   }, []);
   
-  const clearToken = useCallback(() => {
+  const handleLogout = useCallback(() => {
     localStorage.clear();
     setProfilesUser([]);
+    navigate("/");
   }, []);
 
   const setProfilesUser = useCallback((profiles: IUserPofile[]) => {
@@ -50,9 +57,10 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
     <AuthUserContext.Provider value={{
       getToken,
       setToken,
-      clearToken,
+      handleLogout,
       profilesUsersCurrent,
       setProfilesUser,
+      loadingAuthUserContext,
       isRootProfiles, 
       isTrainerProfiles, 
       isUserProfiles,

@@ -7,9 +7,18 @@ import { genericsRoutes } from "./generics.routes";
 import { userRoutes } from "./user.routes";
 import { trainerRoutes } from "./trainer.routes";
 import { rootRoutes } from "./root.routes";
+import { loadingRoutes } from "./loading.routes";
 
 const AppRoutes = () => {
-  const { getToken, isUserProfiles, isTrainerProfiles, isRootProfiles } = useAuthUserContext();
+  const { getToken, isUserProfiles, isTrainerProfiles, isRootProfiles, loadingAuthUserContext } = useAuthUserContext();
+
+  if(loadingAuthUserContext) {
+    return(
+      <Routes>
+        {loadingRoutes()}
+      </Routes>
+    );
+  }
 
   return (
     <Routes>

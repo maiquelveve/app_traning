@@ -3,6 +3,7 @@ export * from "./AppBar";
 export * from "./Drawers";
 export * from "./FabChangeMode";
 export * from "./layout";
+export * from "./loading";
 export * from "./Logo";
 export * from "./MenusSidebar";
 export * from "./TextLoadingButton";

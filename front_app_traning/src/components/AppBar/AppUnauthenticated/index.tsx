@@ -1,13 +1,14 @@
-import { Typography } from "@mui/material";
+import { IconButton } from "@mui/material";
+import { LockOpen } from "@mui/icons-material";
 
 import { AppBarDefault } from "../AppBarDefault";
 
 export const AppUnauthenticated: React.FC = () => {
   return (
     <AppBarDefault>
-      <Typography variant="h6" noWrap component="div">
-        FAZER LOGIN
-      </Typography>
+      <IconButton aria-label="delete" size="small">
+        <LockOpen fontSize="medium" />
+      </IconButton>
     </AppBarDefault>
   );
 };

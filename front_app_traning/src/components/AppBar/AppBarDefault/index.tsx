@@ -1,7 +1,8 @@
-import { AppBar, Box, IconButton, Toolbar, Typography, useTheme, } from "@mui/material";
+import { AppBar, Box, IconButton, Toolbar, useTheme, } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
 import { useDrawerSidebarContext } from "../../../context";
+import { Logo } from "../..";
 
 export const AppBarDefault: React.FC<IAppProps> = ({ children }) => {
 
@@ -27,9 +28,9 @@ export const AppBarDefault: React.FC<IAppProps> = ({ children }) => {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap component="div">
-          APP TRAINING
-        </Typography>
+        <Box display="flex" alignItems="center" justifyContent="center">
+          <Logo type="removebgcontainerwhite" />
+        </Box>
         <Box sx={{ flexGrow: 1 }} />
         {children}
       </Toolbar>
