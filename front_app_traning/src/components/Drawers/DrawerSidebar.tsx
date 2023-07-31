@@ -1,4 +1,4 @@
-import { Box, Drawer} from "@mui/material";
+import { Box, Drawer } from "@mui/material";
 
 import { useDrawerSidebarContext } from "../../context";
 
@@ -21,19 +21,29 @@ export const DrawerSidebar: React.FC = () => {
         ModalProps={{ keepMounted: true }}
         sx={{
           display: { xs: "block", sm: "none" },
-          "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth, backgroundColor: "" },
+          "& .MuiDrawer-paper": { 
+            boxSizing: "border-box", 
+            width: drawerWidth, 
+            borderRightWidth: 2.5, 
+            borderRightColor: "grey",  
+          },
         }}
       >
         <ContainerDrawerSidebar />
       </Drawer>
       <Drawer
         variant="permanent"
+        open
         sx={{
           display: { xs: "none", sm: "block" },
           width: drawerWidth,
-          "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth, backgroundColor: "" },
-        }}
-        open
+          "& .MuiDrawer-paper": { 
+            boxSizing: "border-box", 
+            width: drawerWidth, 
+            borderRightWidth: 2.5, 
+            borderRightColor: "grey",  
+          },
+        }}        
       >
         <ContainerDrawerSidebar />
       </Drawer>
