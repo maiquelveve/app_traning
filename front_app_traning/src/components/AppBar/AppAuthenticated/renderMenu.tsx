@@ -1,4 +1,5 @@
-import { Menu, MenuItem } from "@mui/material";
+import { Divider, ListItemIcon, Menu, MenuItem, Typography } from "@mui/material";
+import { ManageAccounts, SyncLock, SettingsApplications } from "@mui/icons-material";
 
 import { useAuthUserContext } from "../../../context";
 
@@ -22,10 +23,28 @@ export const renderMenu = ({ anchorEl, handleMenuClose, menuId}: IRenderMenuProp
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Prefil</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Trocar Senha</MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <ListItemIcon>
+          <ManageAccounts fontSize="small" />
+        </ListItemIcon>
+        <Typography variant="subtitle1">Perfil</Typography>
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <ListItemIcon>
+          <SyncLock fontSize="small" />
+        </ListItemIcon>
+        <Typography variant="subtitle1">Troca Senha</Typography>
+      </MenuItem>
       {isTrainerProfiles &&
-        <MenuItem onClick={handleMenuClose}>Minha Conta</MenuItem>
+        <>
+          <Divider />
+          <MenuItem onClick={handleMenuClose}>
+            <ListItemIcon>
+              <SettingsApplications fontSize="small" />
+            </ListItemIcon>
+            <Typography variant="subtitle1">Minha Conta</Typography>
+          </MenuItem>
+        </>
       }
     </Menu>
   );
