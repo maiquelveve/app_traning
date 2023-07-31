@@ -38,6 +38,7 @@ export const defaultAlert = ({ messages, type, position = "center", timer = 5000
     background: configType.backgroundColor,
     customClass: {
       title: "title",
+      container: "background"
     }
   });
 

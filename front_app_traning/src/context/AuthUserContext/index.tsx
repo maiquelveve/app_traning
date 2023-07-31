@@ -2,9 +2,9 @@ import { createContext, useContext, useCallback, useState, useEffect } from "rea
 import { useNavigate } from "react-router-dom";
 
 import { LOCALSTORAGE_KEY_TOKEN } from "../../config";
-import { analysisProfiles, namesSplits } from "../../utils";
-
 import { apiService } from "../../services";
+import { analysisProfiles, namesSplits } from "../../utils";
+import { catchDefalutAlert, defaultAlert } from "../../components";
 
 const AuthUserContext = createContext({} as IAuthUserContext);
 
@@ -23,9 +23,24 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
     const token = getToken();
 
     const fetch = async () => {
-      const response = await apiService.get<IReturnedRequest>("/users/byToken", { headers: { Authorization: token } });
-      setProfilesUser(response.data.data[0].user.profiles);
-      setAuthUserCurrent(response.data.data[0].user);
+      try {
+        const response = await apiService.get<IReturnedRequest>("/users/byToken", { headers: { Authorization: token } });
+
+        if(response.data.isSuccess) {
+          setProfilesUser(response.data.data[0].user.profiles);
+          setAuthUserCurrent(response.data.data[0].user);
+        } else {
+          if(response.status === 401) {
+            defaultAlert({ messages: ["Sessão inspirada! Faça login novamente."], type: "warning", position: "top" });
+          } else {
+            defaultAlert({ messages: response.data.errors, type: "warning", position: "top" });
+          }
+
+          handleLogout();
+        }
+      } catch (error) {
+        catchDefalutAlert();
+      }
     };
 
     if(token) {
