@@ -7,7 +7,7 @@ import {
   ListItemIcon, 
   ListItemText, 
 } from "@mui/material";
-import { PersonAdd } from "@mui/icons-material";
+import { PersonAdd, Logout } from "@mui/icons-material";
 
 import { useAuthUserContext } from "../../context";
 
@@ -31,7 +31,7 @@ export const FooterContainerDrawerSidebar: React.FC = () => {
         {token &&
           <ListItemButton onClick={handleLogout}>
             <ListItemIcon>
-              <PersonAdd />
+              <Logout />
             </ListItemIcon>
             <ListItemText primary={"SAIR"} />
           </ListItemButton>
