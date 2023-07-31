@@ -8,3 +8,7 @@ interface ILayoutContext {
 interface ILayoutDashboardProps {
   window?: () => Window;
 }
+
+interface IPagedProps {
+  title?: string;
+}

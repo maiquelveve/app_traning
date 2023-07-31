@@ -1,11 +1,20 @@
+import { useCallback } from "react";
 import { Divider, ListItemIcon, Menu, MenuItem, Typography } from "@mui/material";
 import { ManageAccounts, SyncLock, SettingsApplications } from "@mui/icons-material";
 
 import { useAuthUserContext } from "../../../context";
+import { useNavigate } from "react-router-dom";
 
 export const renderMenu = ({ anchorEl, handleMenuClose, menuId}: IRenderMenuProps) => {
+  const navigate = useNavigate();
+
   const { isTrainerProfiles } = useAuthUserContext();
   const isMenuOpen = Boolean(anchorEl);
+
+  const handleNavigate = useCallback((to: string) => {
+    handleMenuClose();
+    navigate(to);
+  }, []);
 
   return (
     <Menu
@@ -23,13 +32,13 @@ export const renderMenu = ({ anchorEl, handleMenuClose, menuId}: IRenderMenuProp
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={() => handleNavigate("/perfil")}>
         <ListItemIcon>
           <ManageAccounts fontSize="small" />
         </ListItemIcon>
         <Typography variant="subtitle1">Perfil</Typography>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={() => handleNavigate("/troca_senha")}>
         <ListItemIcon>
           <SyncLock fontSize="small" />
         </ListItemIcon>

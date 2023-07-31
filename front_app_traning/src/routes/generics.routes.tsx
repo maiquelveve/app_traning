@@ -1,32 +1,33 @@
 import { Route, Navigate } from "react-router-dom";
 
-import { Dashoard, DashoardResponsive, DashoardClipped } from "../pages/home";
+import { ErrorPage } from "../pages/system";
+import { Dashoard } from "../pages/home";
+import { Profile, ChangePassword } from "../pages/users";
 
 import { AuthPageProvider } from "../context";
 import { LayoutSingle, LayoutDashboard } from "../components/layout";
-import { ErrorPage } from "../pages/system";
 
 export const genericsRoutes = () => {
   return (
     <>
       <Route 
-        path='/responsive' 
+        path='/perfil' 
         element={
-          <LayoutSingle>
+          <LayoutDashboard>
             <AuthPageProvider>
-              <DashoardResponsive />
+              <Profile />
             </AuthPageProvider>
-          </LayoutSingle>
+          </LayoutDashboard>
         } 
       />
       <Route 
-        path='/clipped' 
+        path='/troca_senha' 
         element={
-          <LayoutSingle>
+          <LayoutDashboard>
             <AuthPageProvider>
-              <DashoardClipped />
+              <ChangePassword />
             </AuthPageProvider>
-          </LayoutSingle>
+          </LayoutDashboard>
         } 
       />
       <Route 
