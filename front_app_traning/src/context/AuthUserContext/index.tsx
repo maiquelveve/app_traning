@@ -2,7 +2,7 @@ import { createContext, useContext, useCallback, useState, useEffect } from "rea
 import { useNavigate } from "react-router-dom";
 
 import { LOCALSTORAGE_KEY_TOKEN } from "../../config";
-import { analysisProfiles } from "../../utils";
+import { analysisProfiles, namesSplits } from "../../utils";
 
 import { apiService } from "../../services";
 
@@ -14,6 +14,7 @@ export const useAuthUserContext = () => {
 
 export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
   const [profilesUsersCurrent, setProfilesUserCurrent] = useState<IUserPofile[]>([]);  
+  const [authUser, setAuthUser] = useState<IAuthUser | null>(null);
   const [loadingAuthUserContext, setloadingAuthUserContext] = useState(true); 
   
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
     const fetch = async () => {
       const response = await apiService.get<IReturnedRequest>("/users/byToken", { headers: { Authorization: token } });
       setProfilesUser(response.data.data[0].user.profiles);
+      setAuthUserCurrent(response.data.data[0].user);
     };
 
     if(token) {
@@ -51,6 +53,10 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
     setProfilesUserCurrent(profiles);
   }, []);
 
+  const setAuthUserCurrent = useCallback((userCurrent: IAuthUser) => {
+    setAuthUser({ email: userCurrent.email, name: namesSplits(userCurrent.name) });
+  }, []);
+
   const { isRootProfiles, isTrainerProfiles, isUserProfiles } = analysisProfiles({ usersProfiles: profilesUsersCurrent });
   
   return (
@@ -64,6 +70,8 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
       isRootProfiles, 
       isTrainerProfiles, 
       isUserProfiles,
+      setAuthUserCurrent,
+      authUserCurrent: authUser,
     }}>
       {children}
     </AuthUserContext.Provider>

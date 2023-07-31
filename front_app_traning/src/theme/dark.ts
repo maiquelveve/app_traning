@@ -33,6 +33,13 @@ export const darkTheme = createTheme({
         color: "#ffffff"
       }
     },
+    MuiMenu: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: "#303134"
+        }
+      }
+    }
   },
   typography: {
     allVariants: {

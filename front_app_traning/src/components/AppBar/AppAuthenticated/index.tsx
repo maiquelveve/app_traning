@@ -1,52 +1,86 @@
-import { useState } from "react";
-import { Avatar, Box, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
+import React, { useState, useMemo, useCallback } from "react";
+import { Badge, Box, IconButton } from "@mui/material";
+import { AccountCircle, Mail, Notifications, MoreVert} from "@mui/icons-material";
 
 import { AppBarDefault } from "../AppBarDefault";
-
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+import { renderMenu } from "./renderMenu";
+import { renderMobileMenu } from "./renderMobileMenu";
 
 export const AppAuthenticated: React.FC = () => {
-  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState<null | HTMLElement>(null);
 
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
+  const menuId = useMemo(() => "primary-search-account-menu", []);
+  const mobileMenuId = useMemo(() => "primary-search-account-menu-mobile", []);
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+  const handleMenuClose = useCallback(() => {
+    setAnchorEl(null);
+  }, []);
+  
+  const handleMobileMenuClose = useCallback(() => {
+    setMobileMoreAnchorEl(null);
+  }, []);
+
+  const handleMobileMenuOpen = useCallback((event: React.MouseEvent<HTMLElement>) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  }, []);
+
+  const handleProfileMenuOpen = useCallback((event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  }, []);
 
   return (
     <AppBarDefault>
-      <Box>
-        <Tooltip title="Open settings">
-          <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-          </IconButton>
-        </Tooltip>
-        <Menu
-          sx={{ mt: "45px" }}
-          id="menu-appbar"
-          anchorEl={anchorElUser}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          keepMounted
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          open={Boolean(anchorElUser)}
-          onClose={handleCloseUserMenu}
+      <Box sx={{ display: { xs: "none", md: "flex" } }}>
+        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+          <Badge badgeContent={4} color="error">
+            <Mail />
+          </Badge>
+        </IconButton>
+        <IconButton
+          size="large"
+          aria-label="show 17 new notifications"
+          color="inherit"
         >
-          {settings.map((setting) => (
-            <MenuItem key={setting} onClick={handleCloseUserMenu}>
-              <Typography textAlign="center">{setting}</Typography>
-            </MenuItem>
-          ))}
-        </Menu>
+          <Badge badgeContent={17} color="error">
+            <Notifications />
+          </Badge>
+        </IconButton>
+        <IconButton
+          size="large"
+          edge="end"
+          aria-label="account of current user"
+          aria-controls={menuId}
+          aria-haspopup="true"
+          onClick={handleProfileMenuOpen}
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
       </Box>
+      <Box sx={{ display: { xs: "flex", md: "none" } }}>
+        <IconButton
+          size="large"
+          aria-label="show more"
+          aria-controls={mobileMenuId}
+          aria-haspopup="true"
+          onClick={handleMobileMenuOpen}
+          color="inherit"
+        >
+          <MoreVert />
+        </IconButton>
+      </Box>      
+      {renderMobileMenu({
+        handleMobileMenuClose,
+        handleProfileMenuOpen,
+        mobileMenuId,
+        mobileMoreAnchorEl
+      })}
+      {renderMenu({ 
+        anchorEl,
+        handleMenuClose,
+        menuId,
+      })}
     </AppBarDefault>
   );
 };

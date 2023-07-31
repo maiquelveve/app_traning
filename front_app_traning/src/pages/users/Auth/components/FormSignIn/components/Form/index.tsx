@@ -9,7 +9,7 @@ import { useAuthUserContext } from "../../../../../../../context";
 import { apiService } from "../../../../../../../services";
 
 export const Form: React.FC = () => {
-  const { setToken, setProfilesUser } = useAuthUserContext();
+  const { setToken, setProfilesUser, setAuthUserCurrent } = useAuthUserContext();
   const navigate = useNavigate();
 
   const formik = useFormik({
@@ -33,14 +33,15 @@ export const Form: React.FC = () => {
     onSubmit: async (values) => {
       try {
         const { email, password } = values;
-        const reponse = await apiService.post<IReturnedRequest>("/users/login", { email, password });
+        const response = await apiService.post<IReturnedRequest>("/users/login", { email, password });
 
-        if(reponse.data.isSuccess) {
-          setToken(reponse.data.data[0].token);
-          setProfilesUser(reponse.data.data[0].user.profiles);
+        if(response.data.isSuccess) {
+          setToken(response.data.data[0].token);
+          setProfilesUser(response.data.data[0].user.profiles);
+          setAuthUserCurrent(response.data.data[0].user);
           navigate("/", { replace: true });
         } else {
-          defaultAlert({ messages: reponse.data.errors, type: "error", position: "top-start" });
+          defaultAlert({ messages: response.data.errors, type: "error", position: "top-start" });
         }
 
       } catch (err) {
