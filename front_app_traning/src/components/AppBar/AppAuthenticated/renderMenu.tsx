@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { Divider, ListItemIcon, Menu, MenuItem, Typography } from "@mui/material";
+import { Box, Divider, ListItemIcon, Menu, MenuItem, Typography } from "@mui/material";
 import { ManageAccounts, SyncLock, SettingsApplications } from "@mui/icons-material";
 
 import { useAuthUserContext } from "../../../context";
@@ -45,7 +45,7 @@ export const renderMenu = ({ anchorEl, handleMenuClose, menuId}: IRenderMenuProp
         <Typography variant="subtitle1">Troca Senha</Typography>
       </MenuItem>
       {isTrainerProfiles &&
-        <>
+        <Box>
           <Divider />
           <MenuItem onClick={handleMenuClose}>
             <ListItemIcon>
@@ -53,7 +53,7 @@ export const renderMenu = ({ anchorEl, handleMenuClose, menuId}: IRenderMenuProp
             </ListItemIcon>
             <Typography variant="subtitle1">Minha Conta</Typography>
           </MenuItem>
-        </>
+        </Box>
       }
     </Menu>
   );

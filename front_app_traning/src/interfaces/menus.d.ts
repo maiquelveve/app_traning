@@ -4,10 +4,6 @@ interface ISidebarMenus {
   to: string;
 }
 
-interface ISidebarMenusProps {
-  menus: ISidebarMenus[];
-}
-
 interface IRenderMenuProps {
   menuId: string; 
   anchorEl: null | HTMLElement, 

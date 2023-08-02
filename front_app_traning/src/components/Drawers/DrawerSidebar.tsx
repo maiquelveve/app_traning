@@ -10,7 +10,7 @@ export const DrawerSidebar: React.FC = () => {
   return (
     <Box
       component="nav"
-      sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+      sx={{ width: { md: drawerWidth }, flexShrink: { sm: 0 } }}
       aria-label="mailbox folders"
     >
       <Drawer
@@ -20,7 +20,7 @@ export const DrawerSidebar: React.FC = () => {
         onClose={handleDrawerToggle}
         ModalProps={{ keepMounted: true }}
         sx={{
-          display: { xs: "block", sm: "none" },
+          display: { xs: "block", md: "none" },
           "& .MuiDrawer-paper": { 
             boxSizing: "border-box", 
             width: drawerWidth, 
@@ -35,7 +35,7 @@ export const DrawerSidebar: React.FC = () => {
         variant="permanent"
         open
         sx={{
-          display: { xs: "none", sm: "block" },
+          display: { xs: "none", md: "block" },
           width: drawerWidth,
           "& .MuiDrawer-paper": { 
             boxSizing: "border-box", 

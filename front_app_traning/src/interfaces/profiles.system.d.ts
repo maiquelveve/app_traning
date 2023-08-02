@@ -20,4 +20,3 @@ interface IAnalysisProfilesReturn {
   isTrainerProfiles: boolean;
   isRootProfiles: boolean;
 }
-
