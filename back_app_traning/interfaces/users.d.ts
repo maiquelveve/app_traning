@@ -14,6 +14,11 @@ interface IUserUpdateProfile {
   email: string;
 }
 
+interface IUserChangePassword {
+  passwordCurrent: string;
+  newPassword: string;
+}
+
 interface IUserSerialize {
   id?: number;
   name?: string;

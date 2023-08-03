@@ -3,8 +3,12 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import { TextLoadingButton, catchDefalutAlert, defaultAlert } from "../../../../../components";
+import { useAuthUserContext } from "../../../../../context";
+import { apiService } from "../../../../../services";
 
 export const FormChangePassword: React.FC = () => {
+  const { getToken } = useAuthUserContext();
+
   const theme = useTheme();
   const lgUp = useMediaQuery(theme.breakpoints.up("lg"));
   const mdUp = useMediaQuery(theme.breakpoints.up("md"));
@@ -33,10 +37,23 @@ export const FormChangePassword: React.FC = () => {
         .required("Repita Nova Senha é obrigatório.")
         .oneOf([Yup.ref("newPassword")], "Nova Senha diferente do Confirme a Senha"),
     }),
-    onSubmit: async (values) => {
+    onSubmit: async ({ passwordCurrent, newPassword }) => {
       try {
-        console.log(values);
-        defaultAlert({ messages:["Usuário atualizado com sucesso!"], type: "success", position: "top-end" });
+        const token = getToken();
+        const response = await apiService.put<IReturnedRequest>(
+          "/users/changePassword", 
+          { passwordCurrent, newPassword }, 
+          {  
+            headers: { Authorization: token }
+          }
+        );
+
+        if(response.data.isSuccess) {
+          defaultAlert({ messages: ["Senha atualizada com sucesso!"], type: "success", position: "top-end" });
+        } else {
+          defaultAlert({ messages: response.data.errors, type: "error", position: "top-end" });
+        }
+
       } catch (err) {
         catchDefalutAlert();
       }

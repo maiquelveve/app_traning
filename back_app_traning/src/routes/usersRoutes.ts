@@ -5,7 +5,8 @@ import {
   bodyCreateUsersValidation, 
   bodyLoginUsersValidation, 
   bodyResetPasswordUsersValidation, 
-  bodyUpdateProfileUsersValidation 
+  bodyUpdateProfileUsersValidation,
+  bodyChangePasswordUsersValidation 
 } from "../validations";
 
 import { usersController } from "../controllers";
@@ -45,6 +46,14 @@ usersRoutes.put(
   serializeDataBody(),
   bodyUpdateProfileUsersValidation,
   usersController.updateProfile
+);
+
+usersRoutes.put(
+  "/users/changePassword", 
+  authSystem({ permissions: [] }),
+  serializeDataBody(),
+  bodyChangePasswordUsersValidation,
+  usersController.changePassword
 );
 
 export { usersRoutes };
