@@ -9,6 +9,11 @@ interface IUserLogin {
   password: string;
 }
 
+interface IUserUpdateProfile {
+  name: string;
+  email: string;
+}
+
 interface IUserSerialize {
   id?: number;
   name?: string;

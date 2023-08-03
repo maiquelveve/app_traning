@@ -5,8 +5,10 @@ import * as Yup from "yup";
 import { useAuthUserContext } from "../../../../../context";
 import { CardComponent, TextLoadingButton, catchDefalutAlert, defaultAlert } from "../../../../../components";
 
+import { apiService } from "../../../../../services";
+
 export const FormProfile: React.FC = () => {
-  const { authUserCurrent, setAuthUserCurrent } = useAuthUserContext();
+  const { authUserCurrent, setAuthUserCurrent, getToken } = useAuthUserContext();
   
   const formik = useFormik({
     initialValues: {
@@ -28,8 +30,21 @@ export const FormProfile: React.FC = () => {
     }),
     onSubmit: async ({ email, name }) => {
       try {
-        setAuthUserCurrent({ email, name });
-        defaultAlert({ messages:["Usuário atualizado com sucesso!"], type: "success", position: "top-start" });
+        const token = getToken();
+        const response = await apiService.put<IReturnedRequest>(
+          "users/profile", 
+          { name, email }, 
+          { 
+            headers: { Authorization: token } 
+          }
+        );
+
+        if(response.data.isSuccess) {
+          setAuthUserCurrent({ email, name });
+          defaultAlert({ messages:["Usuário atualizado com sucesso!"], type: "success", position: "top-end" });
+        } else {
+          defaultAlert({ messages: response.data.errors, type: "error", position: "top-end" });
+        }
       } catch (err) {
         catchDefalutAlert();
       }
@@ -88,12 +103,13 @@ export const FormProfile: React.FC = () => {
           </Grid>
         </CardContent>
         <CardActions sx={{ justifyContent: "flex-end" }}>
-          <Box display="flex" justifyContent="flex-end">
+          <Box display="flex" justifyContent="flex-end" width={101}>
             <Button
               size="large"
               sx={{ mt: 3, borderRadius: 5 }}
               type="submit"
               variant="contained"
+              fullWidth
             >
               <TextLoadingButton isLoading={formik.isSubmitting} text="Salvar" />
             </Button>
