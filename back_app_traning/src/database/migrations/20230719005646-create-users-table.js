@@ -9,6 +9,11 @@ module.exports = {
         allowNull: false,
         primaryKey: true
       },
+      avatar_url: {
+        type: Sequelize.STRING(150),
+        allowNull: true,
+        defaultValue: null
+      },
       name: {
         type: Sequelize.STRING(150),
         allowNull: false
