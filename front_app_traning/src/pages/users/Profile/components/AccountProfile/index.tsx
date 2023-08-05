@@ -44,7 +44,7 @@ export const AccountProfile: React.FC = () => {
             }}
           >
             <Avatar
-              src={"avatar"}
+              src={authUserCurrent?.avatar_url}
               sx={{
                 height: 80,
                 mb: 2,

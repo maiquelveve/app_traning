@@ -39,6 +39,7 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
           handleLogout();
         }
       } catch (error) {
+        handleLogout();
         catchDefalutAlert();
       }
     };
@@ -69,7 +70,7 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
   }, []);
 
   const setAuthUserCurrent = useCallback((userCurrent: IAuthUser) => {
-    setAuthUser({ email: userCurrent.email, name: namesSplits(userCurrent.name) });
+    setAuthUser({ email: userCurrent.email, name: namesSplits(userCurrent.name), avatar_url: userCurrent.avatar_url });
   }, []);
 
   const { isRootProfiles, isTrainerProfiles, isUserProfiles } = analysisProfiles({ usersProfiles: profilesUsersCurrent });

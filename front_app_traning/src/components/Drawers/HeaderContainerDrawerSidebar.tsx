@@ -19,7 +19,7 @@ export const HeaderContainerDrawerSidebar: React.FC = () => {
           <Stack spacing={1} alignItems="center" justifyContent="center" display="flex" flex={1}>
             <Avatar 
               sx={{ height: theme.spacing(12), width: theme.spacing(12), ml: 2 }} 
-              src={""} 
+              src={authUserCurrent?.avatar_url} 
             />
             <Typography align="center" variant="subtitle2" textTransform="capitalize" >{authUserCurrent?.name}</Typography>
           </Stack>

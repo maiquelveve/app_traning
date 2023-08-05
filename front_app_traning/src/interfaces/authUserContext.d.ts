@@ -14,5 +14,6 @@ interface IAuthUserContext {
 
 interface IAuthUser {
   name: string;
-  email: string
+  email: string;
+  avatar_url: string | undefined;
 }

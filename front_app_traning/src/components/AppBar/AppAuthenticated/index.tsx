@@ -1,6 +1,8 @@
 import React, { useState, useMemo, useCallback } from "react";
-import { Badge, Box, IconButton } from "@mui/material";
-import { AccountCircle, Mail, Notifications, MoreVert} from "@mui/icons-material";
+import { Avatar, Badge, Box, IconButton, useTheme } from "@mui/material";
+import { Mail, Notifications, MoreVert} from "@mui/icons-material";
+
+import { useAuthUserContext } from "../../../context";
 
 import { AppBarDefault } from "../AppBarDefault";
 import { renderMenu } from "./renderMenu";
@@ -9,6 +11,8 @@ import { renderMobileMenu } from "./renderMobileMenu";
 export const AppAuthenticated: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState<null | HTMLElement>(null);
+  const { authUserCurrent } = useAuthUserContext();
+  const theme = useTheme();
 
   const menuId = useMemo(() => "primary-search-account-menu", []);
   const mobileMenuId = useMemo(() => "primary-search-account-menu-mobile", []);
@@ -55,7 +59,10 @@ export const AppAuthenticated: React.FC = () => {
           onClick={handleProfileMenuOpen}
           color="inherit"
         >
-          <AccountCircle />
+          <Avatar 
+            sx={{ height: theme.spacing(4), width: theme.spacing(4), ml: 2 }} 
+            src={authUserCurrent?.avatar_url} 
+          />
         </IconButton>
       </Box>
       <Box sx={{ display: { xs: "flex", md: "none" } }}>
