@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { Avatar, Box, Divider, Stack, Typography, useTheme } from "@mui/material";
 
 import { useAuthUserContext } from "../../context";
@@ -8,9 +7,7 @@ export const HeaderContainerDrawerSidebar: React.FC = () => {
   const { getToken, authUserCurrent } = useAuthUserContext();
   const theme = useTheme();
 
-  const token = useMemo(() => {
-    return getToken();
-  }, []);
+  const token = getToken();
 
   return(
     <>
