@@ -11,8 +11,3 @@ export {
   AUTH_USER_MAIL,
   AUTH_PASS_MAIL,
 };
-
-
-
-
-

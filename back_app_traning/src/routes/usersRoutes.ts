@@ -1,12 +1,12 @@
 import { Router } from "express";
 
-import { authSystem, serializeDataBody } from "../middleware";
+import { authSystem, serializeDataBody, uploadImgProfileSystem } from "../middleware";
 import { 
   bodyCreateUsersValidation, 
   bodyLoginUsersValidation, 
   bodyResetPasswordUsersValidation, 
   bodyUpdateProfileUsersValidation,
-  bodyChangePasswordUsersValidation 
+  bodyChangePasswordUsersValidation
 } from "../validations";
 
 import { usersController } from "../controllers";
@@ -54,6 +54,13 @@ usersRoutes.put(
   serializeDataBody(),
   bodyChangePasswordUsersValidation,
   usersController.changePassword
+);
+
+usersRoutes.post(
+  "/users/uploadImgProfile", 
+  authSystem({ permissions: [] }),
+  uploadImgProfileSystem,
+  usersController.uploadImgProfile
 );
 
 export { usersRoutes };

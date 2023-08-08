@@ -9,39 +9,35 @@
     "dev": "tsx watch src/server/index.ts",
     "build": "tsup src",
     "start": "node dist/server/index.js",
-
     "dbmigrate:generate": "npx sequelize migration:generate --name",
     "dbcreate:dev": "npx cross-env NODE_ENV=development sequelize db:create",
     "dbcreate:test": "npx cross-env NODE_ENV=test sequelize db:create",
     "dbcreate:prod": "npx cross-env NODE_ENV=production sequelize db:create",
     "dbmigrate:dev": "npx cross-env NODE_ENV=development sequelize db:migrate",
     "dbmigrate:prod": "npx cross-env NODE_ENV=production sequelize db:migrate",
-
     "test": "yarn jest --runInBand --no-cache & yarn run undo:all:migrate:test",
     "pretest": "yarn run create:all:migrate:test",
-
     "test:unit": "yarn jest --testNamePattern='@unit' --runInBand --no-cache & yarn run undo:all:migrate:test",
     "pretest:unit": "yarn run create:all:migrate:test",
-
     "test:integration": "yarn jest --testNamePattern='@integration' --runInBand --no-cache & yarn run undo:all:migrate:test",
     "pretest:integration": "yarn run create:all:migrate:test",
-
     "test:groups": "yarn jest --testNamePattern='@unit' --runInBand & yarn jest --testNamePattern='@integration' --runInBand --no-cache & yarn run undo:all:migrate:test",
     "pretest:groups": "yarn run create:all:migrate:test",
-
     "test:dev": "yarn jest --testNamePattern='@dev' --runInBand --no-cache & yarn run undo:all:migrate:test",
     "pretest:dev": "yarn run create:all:migrate:test",
-
     "undo:all:migrate:test": "npx cross-env NODE_ENV=test sequelize db:migrate:undo:all",
     "create:all:migrate:test": "npx cross-env NODE_ENV=test sequelize db:migrate"
   },
   "dependencies": {
+    "@types/multer": "^1.4.7",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "firebase-admin": "^11.10.1",
     "jsonwebtoken": "^9.0.1",
+    "multer": "^1.4.5-lts.1",
     "mysql2": "^3.5.2",
     "nodemailer": "^6.9.4",
     "sequelize": "^6.32.1",
