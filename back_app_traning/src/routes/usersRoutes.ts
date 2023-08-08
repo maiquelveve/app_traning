@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { authSystem, serializeDataBody, uploadImgProfileSystem } from "../middleware";
+import { authSystem, serializeDataBody, uploadFileSystem } from "../middleware";
 import { 
   bodyCreateUsersValidation, 
   bodyLoginUsersValidation, 
@@ -59,7 +59,7 @@ usersRoutes.put(
 usersRoutes.post(
   "/users/uploadImgProfile", 
   authSystem({ permissions: [] }),
-  uploadImgProfileSystem,
+  uploadFileSystem,
   usersController.uploadImgProfile
 );
 

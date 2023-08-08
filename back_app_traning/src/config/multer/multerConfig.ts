@@ -1,6 +1,8 @@
-import multer, { Options  } from "multer";
+import multer, { Options } from "multer";
 import path from "path";
 import crypto from "crypto";
+
+import { ERROR_SET_FILE_NAME, ERROR_INVALID_TYPE_FILE } from "../constants";
 
 export const multerConfig: Options = {
   dest: path.resolve(__dirname, "..", "..", "..", "tmp", "uploads", "imgsProfiles"),
@@ -12,9 +14,9 @@ export const multerConfig: Options = {
     filename(req, file, callback) {
       crypto.randomBytes(16, (err, hash) => {
         if(err) {
-          callback(err, "");
+          callback(new Error(ERROR_SET_FILE_NAME), "");
         } 
-
+        
         const filename = `${hash.toString("hex")}-${file.originalname}`;
         callback(null, filename);
       });
@@ -35,7 +37,7 @@ export const multerConfig: Options = {
     if(allowMimes.includes(file.mimetype)) {
       callback(null, true);
     } else {
-      callback(new Error("Invalid file type"));
+      callback(new Error(ERROR_INVALID_TYPE_FILE));
     }
   },
 };
