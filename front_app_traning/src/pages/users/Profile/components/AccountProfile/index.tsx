@@ -1,12 +1,14 @@
+import { useState } from "react";
 import { Avatar, Box, CardActions, CardContent, Typography } from "@mui/material";
 
 import { useAuthUserContext } from "../../../../../context";
-import { CardComponent, UploadFilesImg, } from "../../../../../components";
+import { CardComponent, UploadFilesImg, catchDefalutAlert } from "../../../../../components";
 
 import { analysisProfiles } from "../../../../../utils";
 import { namesSplits } from "../../../../../utils";
 
 export const AccountProfile: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const { profilesUsersCurrent, authUserCurrent } = useAuthUserContext();
   
   const textProfiles = () => {
@@ -32,7 +34,17 @@ export const AccountProfile: React.FC = () => {
   };
 
   const handleSaveFlie = (file: File) => {
-    console.log(file);
+    setIsLoading(true);
+    
+    try {
+      console.log(file);
+
+    } catch (error) {
+      catchDefalutAlert();
+
+    } finally {
+      setTimeout(() => setIsLoading(false), 5000);
+    }
   };
 
   return(
@@ -71,7 +83,7 @@ export const AccountProfile: React.FC = () => {
           </Box>
         </CardContent>
         <CardActions>
-          <UploadFilesImg onSaveFile={handleSaveFlie} />
+          <UploadFilesImg onSaveFile={handleSaveFlie} isLoading={isLoading} />
         </CardActions>
       </Box>
     </CardComponent>
