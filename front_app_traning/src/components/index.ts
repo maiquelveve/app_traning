@@ -7,4 +7,4 @@ export * from "./loading";
 export * from "./Logo";
 export * from "./MenusSidebar";
 export * from "./TextLoadingButton";
-export * from "./UploadFiles";
+export * from "./UploadFilesImg";

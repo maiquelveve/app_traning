@@ -1,58 +1,38 @@
-import { Box, Button, Typography } from "@mui/material";
-import React, { forwardRef } from "react";
 import { useDropzone } from "react-dropzone";
+import { Box, Button, Typography } from "@mui/material";
 
-export const UploadFiles: React.FC =  () => {
-
-  const { getInputProps, getRootProps, acceptedFiles, fileRejections } = useDropzone({ 
+export const UploadFilesImg: React.FC<IUploadFileImgProps> =  ({ onSaveFile }) => {
+  const { getInputProps, getRootProps, acceptedFiles, fileRejections  } = useDropzone({ 
+    accept: { "image/*": [".jpeg", ".png", ".jpg"] },
     maxFiles: 1,
-    accept: {
-      "image/*": [".jpeg", ".png", ".jpg"]
-    }
   });
   
-  const acceptedFileItems = acceptedFiles.map(file => ( { preview: URL.createObjectURL(file) } ))[0];
+  const acceptedFileItems = acceptedFiles.map(file => ({ file, preview: URL.createObjectURL(file) }))[0];
   const fileRejectionItems = fileRejections.map(({ errors }) => (errors))[0];
-
-
-  // PROPS A RECEBER
-  // eslint-disable-next-line react/display-name
-  const ButtonSelectedFile: React.FC<IAppProps> = (prop) => { 
-    return (
-      <Button
-        {...prop}
-        fullWidth
-        variant="text"
-      >
-        Selecione uma Imagem
-      </Button>
-    );
-  };
 
   return (
     <Box>
       <input {...getInputProps()} />
       <Box>
         {(!acceptedFileItems && !fileRejectionItems) &&
-          <ButtonSelectedFile {...getRootProps()} />
-          // <Button
-          //   {...getRootProps({className: "dropzone"})}
-          //   fullWidth
-          //   variant="text"
-          // >
-          //   Selecione uma Imagem
-          // </Button>
+          <Button
+            {...getRootProps()}
+            fullWidth
+            variant="text"
+          >
+            Selecione uma Imagem
+          </Button>
         }
         <Box>
           {acceptedFileItems &&
             <Box 
-              {...getRootProps()}
               display="flex" 
               flexDirection="row" 
               alignItems="center" 
               justifyContent="center" 
             >
               <Box 
+                {...getRootProps()}
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
@@ -75,6 +55,7 @@ export const UploadFiles: React.FC =  () => {
               <Button
                 fullWidth
                 variant="text"
+                onClick={() => onSaveFile(acceptedFileItems.file)}
               >
                 Enviar Imagem
               </Button>

@@ -1,7 +1,7 @@
 import { Avatar, Box, CardActions, CardContent, Typography } from "@mui/material";
 
 import { useAuthUserContext } from "../../../../../context";
-import { CardComponent, UploadFiles, } from "../../../../../components";
+import { CardComponent, UploadFilesImg, } from "../../../../../components";
 
 import { analysisProfiles } from "../../../../../utils";
 import { namesSplits } from "../../../../../utils";
@@ -29,6 +29,10 @@ export const AccountProfile: React.FC = () => {
     }
 
     return user;
+  };
+
+  const handleSaveFlie = (file: File) => {
+    console.log(file);
   };
 
   return(
@@ -67,7 +71,7 @@ export const AccountProfile: React.FC = () => {
           </Box>
         </CardContent>
         <CardActions>
-          <UploadFiles />
+          <UploadFilesImg onSaveFile={handleSaveFlie} />
         </CardActions>
       </Box>
     </CardComponent>
