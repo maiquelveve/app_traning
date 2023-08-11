@@ -6,10 +6,11 @@ import { CardComponent, UploadFilesImg, catchDefalutAlert } from "../../../../..
 
 import { analysisProfiles } from "../../../../../utils";
 import { namesSplits } from "../../../../../utils";
+import { apiService } from "../../../../../services";
 
 export const AccountProfile: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { profilesUsersCurrent, authUserCurrent } = useAuthUserContext();
+  const { profilesUsersCurrent, authUserCurrent, getToken } = useAuthUserContext();
   
   const textProfiles = () => {
     const profiles = analysisProfiles({ usersProfiles: profilesUsersCurrent });
@@ -33,17 +34,22 @@ export const AccountProfile: React.FC = () => {
     return user;
   };
 
-  const handleSaveFlie = (file: File) => {
+  const handleSaveFlie = async (file: File) => {
     setIsLoading(true);
-    
     try {
-      console.log(file);
+      const token = getToken();
+      const data = new FormData();
+      data.append("file", file);
+      
+      const response = await apiService.post("/users/uploadImgProfile", data, { headers: { Authorization: token } });
+
+      console.log(response);
 
     } catch (error) {
       catchDefalutAlert();
 
     } finally {
-      setTimeout(() => setIsLoading(false), 5000);
+      setIsLoading(false);
     }
   };
 
