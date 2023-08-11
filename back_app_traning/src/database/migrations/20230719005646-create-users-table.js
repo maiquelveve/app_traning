@@ -14,6 +14,11 @@ module.exports = {
         allowNull: true,
         defaultValue: null
       },
+      avatar_filename: {
+        type: Sequelize.STRING(150),
+        allowNull: true,
+        defaultValue: null
+      },
       name: {
         type: Sequelize.STRING(150),
         allowNull: false

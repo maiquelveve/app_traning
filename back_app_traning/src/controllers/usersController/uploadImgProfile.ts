@@ -12,10 +12,13 @@ export const uploadImgProfile = async (req: Request, res: Response): Promise<Res
     const { auth_user_id } = decoded as IJwtPayloadAuthUser;
     
     const avatar_url = `${API_URL}${ROUTES_FILES_IMGS}/${file?.filename}`;
-    await User.update({ avatar_url }, { where: { id: auth_user_id } });
+
+    
+    await User.update({ avatar_url, avatar_filename: file?.filename }, { where: { id: auth_user_id } });
+    const user = await User.findByPk(auth_user_id, { attributes: { exclude: ["id", "password"] } });
     
     //FAZER AQUI O BUSCAR ARQUIVO E APAGAR
-    return res.status(200).json(RETURNED_API_SUCCESS({ data: [{ avatar_url }], messageSuccess: "" }));
+    return res.status(200).json(RETURNED_API_SUCCESS({ data: [{ user }], messageSuccess: "" }));
 
   } catch (error) {
     return res.status(500).json(RETURNED_API_ERRORS_500());

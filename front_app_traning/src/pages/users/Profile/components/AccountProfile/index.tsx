@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Avatar, Box, CardActions, CardContent, Typography } from "@mui/material";
 
 import { useAuthUserContext } from "../../../../../context";
-import { CardComponent, UploadFilesImg, catchDefalutAlert } from "../../../../../components";
+import { CardComponent, UploadFilesImg, catchDefalutAlert, defaultAlert } from "../../../../../components";
 
 import { analysisProfiles } from "../../../../../utils";
 import { namesSplits } from "../../../../../utils";
@@ -10,7 +10,7 @@ import { apiService } from "../../../../../services";
 
 export const AccountProfile: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { profilesUsersCurrent, authUserCurrent, getToken } = useAuthUserContext();
+  const { profilesUsersCurrent, authUserCurrent, getToken, setAuthUserCurrent } = useAuthUserContext();
   
   const textProfiles = () => {
     const profiles = analysisProfiles({ usersProfiles: profilesUsersCurrent });
@@ -41,9 +41,23 @@ export const AccountProfile: React.FC = () => {
       const data = new FormData();
       data.append("file", file);
       
-      const response = await apiService.post("/users/uploadImgProfile", data, { headers: { Authorization: token } });
+      const response = await apiService.post<IReturnedRequest>(
+        "/users/uploadImgProfile", 
+        data, 
+        { 
+          headers: { 
+            Authorization: token 
+          } 
+        }
+      );
 
-      console.log(response);
+      if(response.data.isSuccess) {
+        setAuthUserCurrent(response.data.data[0].user);
+        defaultAlert({ messages:["Usuário atualizado com sucesso!"], type: "success", position: "top-end" });
+        
+      } else {
+        defaultAlert({ messages: response.data.errors, type: "error", position: "top-end" });
+      }
 
     } catch (error) {
       catchDefalutAlert();

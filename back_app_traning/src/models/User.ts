@@ -15,6 +15,7 @@ import UsersProfiles from "./UsersProfiles";
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare id: CreationOptional<number>;
   declare avatar_url?: string;
+  declare avatar_filename?: string;
   declare name: string;
   declare email: string;
   declare password: string;  
@@ -34,6 +35,11 @@ User.init(
       primaryKey: true
     },
     avatar_url: {
+      type: new DataTypes.STRING(255),
+      allowNull: true,
+      defaultValue: null,
+    },
+    avatar_filename: {
       type: new DataTypes.STRING(255),
       allowNull: true,
       defaultValue: null,
