@@ -1,15 +1,14 @@
 import multer, { Options } from "multer";
-import path from "path";
 import crypto from "crypto";
 
-import { ERROR_SET_FILE_NAME, ERROR_INVALID_TYPE_FILE } from "../constants";
+import { ERROR_SET_FILE_NAME, ERROR_INVALID_TYPE_FILE, PROFILE_IMG_FILE_DIR } from "../constants";
 
 export const multerConfig: Options = {
-  dest: path.resolve(__dirname, "..", "..", "..", "tmp", "uploads", "imgsProfiles"),
+  dest: PROFILE_IMG_FILE_DIR,
   
   storage: multer.diskStorage({
     destination(req, file, callback) {
-      callback(null, path.resolve(__dirname, "..", "..", "..", "tmp", "uploads", "imgsProfiles"));
+      callback(null, PROFILE_IMG_FILE_DIR);
     },
     filename(req, file, callback) {
       crypto.randomBytes(16, (err, hash) => {
@@ -24,7 +23,7 @@ export const multerConfig: Options = {
   }),
 
   limits: {
-    fieldSize: 1 * 1024 * 1024
+    fieldSize: 2 * 1024 * 1024
   },
 
   fileFilter(req, file, callback) {
