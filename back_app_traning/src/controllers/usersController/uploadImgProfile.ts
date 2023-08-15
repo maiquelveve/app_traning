@@ -10,10 +10,12 @@ import {
   UPLOAD_FILE_SYSTEM_NAME_SINGLE 
 } from "../../config";
 
-import { deleteFileInDir, newFilename, writeFile } from "../../helpers";
+import { deleteFileInDir, initialTransactionDB, newFilename, writeFile } from "../../helpers";
 import { filesValidations } from "../../validations";
 
 export const uploadImgProfile = async (req: Request<object, object, IBodyAuth>, res: Response): Promise<Response> => {
+  const transactionDB = await initialTransactionDB();
+
   try {
     const file = req[UPLOAD_FILE_SYSTEM_NAME_SINGLE];
     const fileValidation = filesValidations({ file, allowMimes: ALLOW_MIMES_IMG_SYSTEM });
@@ -31,15 +33,17 @@ export const uploadImgProfile = async (req: Request<object, object, IBodyAuth>, 
     
     if(user?.avatar_filename) deleteFileInDir({ pathFile: `${PROFILE_IMG_FILE_DIR}/${user.avatar_filename}` });
     
-    await User.update({ avatar_url, avatar_filename }, { where: { id: user_id } });
+    await User.update({ avatar_url, avatar_filename }, { where: { id: user_id }, transaction: transactionDB });
     writeFile({filename: filename, fileBuffer: file.buffer});
 
+    transactionDB.commit();
     return res.status(200).json(RETURNED_API_SUCCESS({ 
       data: [ { user: { name: user?.name, email: user?.email, avatar_url, avatar_filename } } ], 
       messageSuccess: "" 
     }));
 
   } catch (error) {
+    transactionDB.rollback();
     return res.status(500).json(RETURNED_API_ERRORS_500());
   }
 };
