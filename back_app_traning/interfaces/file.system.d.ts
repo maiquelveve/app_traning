@@ -1,4 +1,8 @@
-interface IDeleteFileDirProps {
+interface IDeleteFileProps {
+  pathFile: string;
+}
+
+interface IFindFileProps {
   pathFile: string;
 }
 

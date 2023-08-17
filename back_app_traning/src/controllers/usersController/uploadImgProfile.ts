@@ -10,7 +10,7 @@ import {
   UPLOAD_FILE_SYSTEM_NAME_SINGLE 
 } from "../../config";
 
-import { deleteFileInDir, initialTransactionDB, newFilename, writeFile } from "../../helpers";
+import { deleteFile, initialTransactionDB, newFilename, writeFile, findFile } from "../../helpers";
 import { filesValidations } from "../../validations";
 
 export const uploadImgProfile = async (req: Request<object, object, IBodyAuth>, res: Response): Promise<Response> => {
@@ -31,7 +31,12 @@ export const uploadImgProfile = async (req: Request<object, object, IBodyAuth>, 
     const avatar_url = `${API_URL}${ROUTES_FILES_IMGS}/${filename}`;
     const avatar_filename = filename;
     
-    if(user?.avatar_filename) deleteFileInDir({ pathFile: `${PROFILE_IMG_FILE_DIR}/${user.avatar_filename}` });
+    if(user?.avatar_filename) {
+      const pathFile = `${PROFILE_IMG_FILE_DIR}/${user.avatar_filename}`; 
+      const currentFile = findFile({ pathFile });
+      
+      if(currentFile) deleteFile({ pathFile });
+    }
     
     await User.update({ avatar_url, avatar_filename }, { where: { id: user_id }, transaction: transactionDB });
     writeFile({filename: filename, fileBuffer: file.buffer});
