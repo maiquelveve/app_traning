@@ -1,6 +1,6 @@
 import * as fs from "node:fs";
 
-import { FILE_TEST, PROFILE_IMG_FILE_DIR_TEST } from "../../../../src/config";
+import { TEST_FILE, PROFILE_IMG_FILE_DIR_TEST } from "../../../../src/config";
 import { deleteFile } from "../../../../src/helpers";
 
 const NAME_NEW_FILE = "testwrite.jpg";
@@ -13,7 +13,7 @@ describe("@unit", () => {
     });
 
     beforeEach(() => {
-      const file = fs.readFileSync(`${FILE_TEST}`); 
+      const file = fs.readFileSync(`${TEST_FILE}`); 
       fs.writeFileSync(`${PROFILE_IMG_FILE_DIR_TEST}/${NAME_NEW_FILE}`, file);
     });
 

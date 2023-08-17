@@ -21,6 +21,7 @@ export const uploadImgProfile = async (req: Request<object, object, IBodyAuth>, 
     const fileValidation = filesValidations({ file, allowMimes: ALLOW_MIMES_IMG_SYSTEM });
 
     if(!file || fileValidation.isError) {
+      transactionDB.rollback();
       return res.status(404).json(RETURNED_API_ERRORS({ errors: fileValidation.errors }));
     }
 

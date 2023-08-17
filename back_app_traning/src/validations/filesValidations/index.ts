@@ -14,7 +14,7 @@ export const filesValidations = ({ file, allowMimes, limit=LIMIT_FILE_SIZE }: IF
   }
 
   if(!allowMimes.includes(file.mimetype)) {
-    return {isError: true, isSuccess: false, errors: ["Arquivo invalido, escolha arquivo do tipo JPGE, JPG, PNG"] };
+    return {isError: true, isSuccess: false, errors: ["Arquivo invalido, escolha arquivo do tipo JPGE, JPG, PNG."] };
   } 
 
   return {isError: false, isSuccess: true, errors: [] };
