@@ -7,7 +7,7 @@ interface IFindFileProps {
 }
 
 interface IWriteFileProps {
-  filename: string;
+  pathFilename: string;
   fileBuffer:  Buffer;
 }
 

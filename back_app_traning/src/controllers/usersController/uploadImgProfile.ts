@@ -39,7 +39,7 @@ export const uploadImgProfile = async (req: Request<object, object, IBodyAuth>, 
     }
     
     await User.update({ avatar_url, avatar_filename }, { where: { id: user_id }, transaction: transactionDB });
-    writeFile({filename: filename, fileBuffer: file.buffer});
+    writeFile({pathFilename: `${PROFILE_IMG_FILE_DIR}/${filename}`, fileBuffer: file.buffer});
 
     transactionDB.commit();
     return res.status(200).json(RETURNED_API_SUCCESS({ 
