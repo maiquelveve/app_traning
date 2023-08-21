@@ -1,0 +1,1 @@
+Não apague esse arquivo, pois sem ele o git não vai versionar essa página e cada vez que clonar o repositório terá que criar essa pasta para não dar erro nos testes. Obrigado!
