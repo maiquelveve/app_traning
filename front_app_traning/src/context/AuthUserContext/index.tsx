@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { LOCALSTORAGE_KEY_TOKEN } from "../../config";
 import { apiService } from "../../services";
-import { analysisProfiles, namesSplits } from "../../utils";
+import { analysisProfiles } from "../../utils";
 import { catchDefalutAlert, defaultAlert } from "../../components";
 
 const AuthUserContext = createContext({} as IAuthUserContext);
@@ -25,7 +25,7 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
     const fetch = async () => {
       try {
         const response = await apiService.get<IReturnedRequest>("/users/byToken", { headers: { Authorization: token } });
-
+        console.log(response.data.data[0].user);
         if(response.data.isSuccess) {
           setProfilesUser(response.data.data[0].user.profiles);
           setAuthUserCurrent(response.data.data[0].user);
@@ -70,7 +70,7 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
   }, []);
 
   const setAuthUserCurrent = useCallback((userCurrent: IAuthUser) => {
-    setAuthUser({ email: userCurrent.email, name: namesSplits(userCurrent.name), avatar_url: userCurrent.avatar_url });
+    setAuthUser({ email: userCurrent.email, name: userCurrent.name, avatar_url: userCurrent.avatar_url });
   }, []);
 
   const { isRootProfiles, isTrainerProfiles, isUserProfiles } = analysisProfiles({ usersProfiles: profilesUsersCurrent });
