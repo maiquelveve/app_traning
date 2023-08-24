@@ -13,15 +13,6 @@ module.exports = {
         type: Sequelize.STRING(150),
         allowNull: false
       },
-      activated: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-      },
-      requested: {
-        type: Sequelize.JSON,
-        allowNull: true,
-        defaultValue: null
-      },
       modality_type_id: {
         type: Sequelize.INTEGER,
         allowNull: false,

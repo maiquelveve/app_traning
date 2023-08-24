@@ -28,26 +28,19 @@ module.exports = {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
-      trainer_id: {
+      user_trainer_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: { model: "users", key: "id" },
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
-      modality_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: { model: "modalities", key: "id" },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
-      },
     });
 
     await queryInterface.addConstraint("students", {
-      fields: ["user_student_id", "trainer_id", "modality_id"],
+      fields: ["user_student_id", "user_trainer_id"],
       type: "unique", 
-      name: "unique_user_student_trainer_modality_constraint",
+      name: "unique_user_student_trainer_constraint",
     });
   },
 
