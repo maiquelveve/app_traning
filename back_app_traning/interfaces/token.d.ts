@@ -11,7 +11,7 @@ interface IJwtPayloadAuthUser {
   auth_user_id: number;
 }
 
-type EnumSystemPermission = "root" | "client" | "trainer" // Pensar melhor aqui tbm....
+type EnumSystemPermission = "root" | "user" | "trainer"
 
 interface ISystemPermission {
   permissions?: EnumSystemPermission[];
