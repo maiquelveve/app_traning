@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import { RETURNED_API_ERRORS_500, RETURNED_API_SUCCESS } from "../../returnsRequests";
+import { RETURNED_API_ERRORS_500, RETURNED_API_SUCCESS, RETURNED_API_ERRORS } from "../../returnsRequests";
 import { Modality, ModalityType } from "../../models";
 
 export const getAllModelities = async (
@@ -11,6 +11,10 @@ export const getAllModelities = async (
   try {
     const page = req.query.page ? parseInt(req.query.page as string) : 1;
     const perPage = req.query.perPage ? parseInt(req.query.perPage as string) : 10;
+
+    if(page === 0 || perPage === 0) {
+      return res.status(404).json(RETURNED_API_ERRORS({ errors: ["Erro nos atributos para realizar a páginação da consulta."] }));
+    }
 
     const { count, rows} = await Modality.findAndCountAll({
       attributes: { exclude: ["modality_type_id"]},

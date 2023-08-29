@@ -4,7 +4,7 @@ import { connectionSql } from "../../../src/database/connectionSql";
 import { testServer } from "../../jest-setup";
 import { encryptPassword } from "../../../src/helpers";
 
-describe("@dev", () => {
+describe("@integration", () => {
   describe("MODALITIES CONTROLLER - Get All Modalities", () => {
 
     const nameRoot = "testRoot";
@@ -36,7 +36,7 @@ describe("@dev", () => {
       const responseRoot = await testServer.post("/users/login").send({ email: emailRoot, password: passwordRoot });
       tokenRoot =  responseRoot.body.data[0].token;
 
-      const responseNotRoot=await testServer.post("/users/login").send({ email: emailNotRoot, password: passwordNotRoot });
+      const responseNotRoot = await testServer.post("/users/login").send({ email: emailNotRoot, password: passwordNotRoot });
       tokenNotRoot =  responseNotRoot.body.data[0].token;
     });
 
@@ -55,19 +55,62 @@ describe("@dev", () => {
       const newResponse = await testServer.get("/modalities").set("authorization", tokenRoot);
       
       expect(newResponse.body.isSuccess).toBeTruthy();
+      expect(newResponse.body.data[0].modalities.length > 0).toBeTruthy();
+      expect(newResponse.status).toEqual(200);
     });
 
     it("it not should be possible to get all modalities by token NOT ROOT valid",  async () => {      
       const newResponse = await testServer.get("/modalities").set("authorization", tokenNotRoot);
       
       expect(newResponse.body.isError).toBeTruthy();
+      expect(newResponse.status).toEqual(401);
     });
 
     it("it not should be possible to get all modalities by token invalid",  async () => {      
       const newResponse = await testServer.get("/modalities").set("authorization", "123456789");
       
       expect(newResponse.body.isError).toBeTruthy();
+      expect(newResponse.status).toEqual(401);
     });
+
+    it("it should be possible to get all modalities with pagination definition - DEFAUL",  async () => {      
+      const newResponse = await testServer.get("/modalities?page=1&perPage=10").set("authorization", tokenRoot);
+      
+      expect(newResponse.body.isSuccess).toBeTruthy();
+      expect(newResponse.status).toEqual(200);
+      expect(newResponse.body.data[0].modalities.length > 0).toBeTruthy();
+    });
+
+    it("it should be possible to get all modalities with pagination definition - PAGE",  async () => {      
+      const newResponse = await testServer.get("/modalities?page=2&perPage=10").set("authorization", tokenRoot);
+      
+      expect(newResponse.body.isSuccess).toBeTruthy();
+      expect(newResponse.status).toEqual(200);
+      expect(newResponse.body.data[0].currentPage).toEqual(2);
+    });
+
+    it("it should be possible to get all modalities with pagination definition - PER_PAGE",  async () => {      
+      const newResponse = await testServer.get("/modalities?page=1&perPage=1").set("authorization", tokenRoot);
+      
+      expect(newResponse.body.isSuccess).toBeTruthy();
+      expect(newResponse.status).toEqual(200);
+      expect(newResponse.body.data[0].totalPages > 1).toBeTruthy();
+    });
+    
+    it("it should not be possible to get all modalities with pagination definition with PAGE = 0",  async () => {      
+      const newResponse = await testServer.get("/modalities?page=0&perPage=10").set("authorization", tokenRoot);
+      
+      expect(newResponse.body.isError).toBeTruthy();
+      expect(newResponse.status).toEqual(404);
+    });
+
+    it("it should not be possible to get all modalities with pagination definition with PER_PAGE = 0",  async () => {      
+      const newResponse = await testServer.get("/modalities?page=1&perPage=0").set("authorization", tokenRoot);
+      
+      expect(newResponse.body.isError).toBeTruthy();
+      expect(newResponse.status).toEqual(404);
+    });
+
   });
 });  
 

@@ -1,11 +1,11 @@
 "use strict";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const typesModaitiesSistem = require("./datas/typesModaitiesSistem");
+const typesModaitiesSystem = require("./datas/typesModaitiesSystem");
 
 module.exports = {
   async up (queryInterface) {
-    queryInterface.bulkInsert("modalities_types", typesModaitiesSistem);
+    queryInterface.bulkInsert("modalities_types", typesModaitiesSystem);
   },
 
   async down (queryInterface) {
