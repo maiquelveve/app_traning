@@ -40,7 +40,6 @@ export const FormProfile: React.FC = () => {
         );
 
         if(response.data.isSuccess) {
-          console.log(name);
           setAuthUserCurrent({ email, name, avatar_url: authUserCurrent?.avatar_url });
           defaultAlert({ messages:["Usuário atualizado com sucesso!"], type: "success", position: "top-end" });
         } else {

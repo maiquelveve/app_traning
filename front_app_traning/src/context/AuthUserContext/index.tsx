@@ -25,7 +25,6 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
     const fetch = async () => {
       try {
         const response = await apiService.get<IReturnedRequest>("/users/byToken", { headers: { Authorization: token } });
-        console.log(response.data.data[0].user);
         if(response.data.isSuccess) {
           setProfilesUser(response.data.data[0].user.profiles);
           setAuthUserCurrent(response.data.data[0].user);
