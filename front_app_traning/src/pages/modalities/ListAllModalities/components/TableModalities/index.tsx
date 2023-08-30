@@ -1,24 +1,32 @@
-import * as React from "react";
+import { useState } from "react";
+import { 
+  Pagination, 
+  Table, 
+  TableBody,
+  TableCell, 
+  TableContainer, 
+  TableHead, 
+  TableRow, 
+  Toolbar, 
+  Typography, 
+  Paper, 
+  Checkbox, 
+  IconButton, 
+  Tooltip, 
+  Box,
+  Autocomplete,
+  TextField,
+  MenuItem,
+  Select
+} from "@mui/material";
 import { alpha } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
-import Checkbox from "@mui/material/Checkbox";
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
+import { green } from "@mui/material/colors";
 import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
+import SearchIcon from "@mui/icons-material/Search";
 
+import { useLayoutContext } from "../../../../../context";
 interface Data {
-  calories: number;
+  calories: string;
   carbs: number;
   fat: number;
   name: string;
@@ -27,7 +35,7 @@ interface Data {
 
 function createData(
   name: string,
-  calories: number,
+  calories: string,
   fat: number,
   carbs: number,
   protein: number,
@@ -42,37 +50,36 @@ function createData(
 }
 
 const rows = [
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Donut", 452, 25.0, 51, 4.9),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-  createData("Honeycomb", 408, 3.2, 87, 6.5),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Jelly Bean", 375, 0.0, 94, 0.0),
-  createData("KitKat", 518, 26.0, 65, 7.0),
-  createData("Lollipop", 392, 0.2, 98, 0.0),
-  createData("Marshmallow", 318, 0, 81, 2.0),
-  createData("Nougat", 360, 19.0, 9, 37.0),
-  createData("Oreo", 437, 18.0, 63, 4.0),
+  createData("Cupcake","Treino", 3.7, 67, 4.3),
+  createData("Donut","Treino", 25.0, 51, 4.9),
+  createData("Eclair","Treino", 16.0, 24, 6.0),
+  createData("Frozen yoghurt","Treino", 6.0, 24, 4.0),
+  createData("Gingerbread","Treino", 16.0, 49, 3.9),
+  createData("Honeycomb","Treino", 3.2, 87, 6.5),
+  createData("Ice cream sandwich","Treino", 9.0, 37, 4.3),
+  createData("Jelly Bean","Treino", 0.0, 94, 0.0),
+  createData("KitKat","Treino", 26.0, 65, 7.0),
 ];
 
 function TableToolbar({ selectedData }: { selectedData: string }) {
+
+  const top100Films = [
+    { label: "Aula",},
+    { label: "Treino"},
+  ];
 
   return (
     <Toolbar
       sx={{
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
-        // ...(selectedData !== "" && {
-        //   bgcolor: (theme) => theme.palette.primary.main,
-        // }),
         ...(selectedData !== "" && {
-          bgcolor: (theme) =>
-            alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
+          bgcolor: (theme) => theme.palette.primary.main,
         }),
         borderTopLeftRadius: 5,
-        borderTopRightRadius: 5
+        borderTopRightRadius: 5,
+        mt: 2,
+        mb: 1
       }}
     >
       {selectedData !== "" ? (
@@ -93,6 +100,7 @@ function TableToolbar({ selectedData }: { selectedData: string }) {
         >
           Lista das Modalidades
         </Typography>
+        // <Box sx={{ flex: "1 1 100%" }}  />
       )}
       {selectedData !== "" ? (
         <Tooltip title="Delete">
@@ -101,36 +109,49 @@ function TableToolbar({ selectedData }: { selectedData: string }) {
           </IconButton>
         </Tooltip>
       ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
+        <Box display="flex" flexDirection="row" mt={3}>
+          <Tooltip title="Informe o Tipo da Modalidade" placement="top">
+            <Autocomplete
+              disablePortal
+              id="combo-box-type"
+              options={top100Films}
+              size="small"
+              freeSolo
+              sx={{ width: 180 }}
+              renderInput={(params) => <TextField {...params} variant="outlined" label="Tipos" />}
+            />
+          </Tooltip>
+          <Tooltip title="Informe a Modalidade" placement="top">
+            <TextField
+              id="input_modality"
+              size="small"
+              variant="outlined"
+              label="Pesquisar"
+              sx={{ width: 250, mx: 1 }}
+            />
+          </Tooltip>
+          <Tooltip title="Pesquisar" placement="top">
+            <IconButton>
+              <SearchIcon />
+            </IconButton>
+          </Tooltip>
+        </Box>
       )}
     </Toolbar>
   );
 }
 
 export const TableModalities: React.FC = () => {
-  const [selected, setSelected] = React.useState<string>("");
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [selected, setSelected] = useState<string>("");
 
-  const handleChangePage = (_: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+  const { themeCurrent } = useLayoutContext();
 
   return (
     <Box sx={{ width: "100%" }} component={Paper} elevation={24} borderRadius={5}>
       <TableToolbar selectedData={selected} />
       <TableContainer>
         <Table
-          sx={{ minWidth: 750 }}
+          sx={{ minWidth: 350 }}
           aria-labelledby="tableTitle"
           size={"medium"}
         >
@@ -141,13 +162,13 @@ export const TableModalities: React.FC = () => {
                 align={"left"}
                 padding={"normal"}
               >
-                Nome
+                MODALIDADE
               </TableCell>
               <TableCell
                 align={"center"}
                 padding={"normal"}
               >
-                Tipo
+                TIPO
               </TableCell>
             </TableRow>
           </TableHead>
@@ -157,8 +178,14 @@ export const TableModalities: React.FC = () => {
                 hover
                 onClick={() => row.name !== selected ? setSelected(row.name) : setSelected("")}
                 key={row.name}
-                selected={selected === row.name ? true : false}
+                selected={selected === row.name  ? true : false}
                 sx={{ cursor: "pointer" }}
+                style={{
+                  backgroundColor: (themeCurrent === "dark")  ? 
+                    selected === row.name ? green[400] : "inherit"
+                    : 
+                    selected === row.name ? alpha("#078D03", 0.12) : "inherit"
+                }}
               >
                 <TableCell padding="checkbox">
                   <Checkbox color="primary" checked={selected === row.name ? true : false} />
@@ -167,18 +194,33 @@ export const TableModalities: React.FC = () => {
                 <TableCell align="center">{row.calories}</TableCell>
               </TableRow> 
             ))}
-          </TableBody>
+          </TableBody>          
         </Table>
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+      <Box py={2} mx={3} alignItems="center" justifyContent="right" display="flex" flexDirection="row">
+        <Typography
+          color="inherit"
+          variant="subtitle1"
+          component="div"
+        >
+          Mostrar Registros
+        </Typography>
+        <Select
+          labelId="demo-simple-select-autowidth-label"
+          id="demo-simple-select-autowidth"
+          value={5}
+          onChange={() => { console.log("oi"); }}
+          autoWidth
+          variant="standard"
+          size="small"
+          sx={{ mx: 2 }}
+        >
+          <MenuItem value={5}>5</MenuItem>
+          <MenuItem value={10}>10</MenuItem>
+          <MenuItem value={90}>90</MenuItem>
+        </Select>
+        <Pagination count={10} color="primary" size="small" />
+      </Box>
     </Box>
   );
 };
