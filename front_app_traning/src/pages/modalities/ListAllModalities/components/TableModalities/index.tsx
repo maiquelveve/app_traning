@@ -20,12 +20,11 @@ import {
   Select,
   Button,
   useMediaQuery,
+  Stack,
 } from "@mui/material";
 import { alpha, useTheme } from "@mui/material/styles";
 import { green } from "@mui/material/colors";
-import DeleteIcon from "@mui/icons-material/Delete";
-import SearchIcon from "@mui/icons-material/Search";
-import AddIcon from "@mui/icons-material/Add";
+import{ Edit, Add, Search, Cancel } from "@mui/icons-material";
 
 import { useLayoutContext } from "../../../../../context";
 interface Data {
@@ -86,7 +85,6 @@ function TableToolbar({ selectedData }: { selectedData: string }) {
         }),
         borderTopLeftRadius: 5,
         borderTopRightRadius: 5,
-        mt: 2,
         mb: 1,
       }}
     >
@@ -102,23 +100,30 @@ function TableToolbar({ selectedData }: { selectedData: string }) {
       ) : (
         !lgDown &&
           <Box sx={{ flex: "1 1 100%" }} mt={3} justifyContent="center" alignItems="center">
-            <Button variant="contained" size="large" startIcon={<AddIcon />}>
+            <Button variant="contained" size="large" startIcon={<Add />}>
               Nova Modalidade
             </Button>
           </Box>
       )}
       {selectedData !== "" ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
+        <Stack display="flex" flexDirection="row">
+          <Tooltip title="Editar">
+            <IconButton>
+              <Edit />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Desativar">
+            <IconButton>
+              <Cancel />
+            </IconButton>
+          </Tooltip>
+        </Stack>
       ) : (
         <Box display="flex" flex={1} flexDirection="row" mt={3} justifyContent="center" alignItems="center">
           {lgDown &&
             <Tooltip title="Cadastrar nova da Modalidade" placement="top" >
               <IconButton sx={{ mr: 1 }}>
-                <AddIcon color="primary" />
+                <Add color="primary" />
               </IconButton>
             </Tooltip>
           }
@@ -144,7 +149,7 @@ function TableToolbar({ selectedData }: { selectedData: string }) {
           </Tooltip>
           <Tooltip title="Pesquisar" placement="top">
             <IconButton>
-              <SearchIcon />
+              <Search />
             </IconButton>
           </Tooltip>
         </Box>
