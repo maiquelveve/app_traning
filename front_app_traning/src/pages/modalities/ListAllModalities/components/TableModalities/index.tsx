@@ -17,12 +17,15 @@ import {
   Autocomplete,
   TextField,
   MenuItem,
-  Select
+  Select,
+  Button,
+  useMediaQuery,
 } from "@mui/material";
-import { alpha } from "@mui/material/styles";
+import { alpha, useTheme } from "@mui/material/styles";
 import { green } from "@mui/material/colors";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SearchIcon from "@mui/icons-material/Search";
+import AddIcon from "@mui/icons-material/Add";
 
 import { useLayoutContext } from "../../../../../context";
 interface Data {
@@ -62,6 +65,11 @@ const rows = [
 ];
 
 function TableToolbar({ selectedData }: { selectedData: string }) {
+  const theme = useTheme();
+
+  const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
+  const mdDown = useMediaQuery(theme.breakpoints.down("md"));
+  const smDown = useMediaQuery(theme.breakpoints.down("sm"));
 
   const top100Films = [
     { label: "Aula",},
@@ -79,7 +87,7 @@ function TableToolbar({ selectedData }: { selectedData: string }) {
         borderTopLeftRadius: 5,
         borderTopRightRadius: 5,
         mt: 2,
-        mb: 1
+        mb: 1,
       }}
     >
       {selectedData !== "" ? (
@@ -92,15 +100,12 @@ function TableToolbar({ selectedData }: { selectedData: string }) {
           {selectedData}
         </Typography>
       ) : (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          Lista das Modalidades
-        </Typography>
-        // <Box sx={{ flex: "1 1 100%" }}  />
+        !lgDown &&
+          <Box sx={{ flex: "1 1 100%" }} mt={3} justifyContent="center" alignItems="center">
+            <Button variant="contained" size="large" startIcon={<AddIcon />}>
+              Nova Modalidade
+            </Button>
+          </Box>
       )}
       {selectedData !== "" ? (
         <Tooltip title="Delete">
@@ -109,7 +114,14 @@ function TableToolbar({ selectedData }: { selectedData: string }) {
           </IconButton>
         </Tooltip>
       ) : (
-        <Box display="flex" flexDirection="row" mt={3}>
+        <Box display="flex" flex={1} flexDirection="row" mt={3} justifyContent="center" alignItems="center">
+          {lgDown &&
+            <Tooltip title="Cadastrar nova da Modalidade" placement="top" >
+              <IconButton sx={{ mr: 1 }}>
+                <AddIcon color="primary" />
+              </IconButton>
+            </Tooltip>
+          }
           <Tooltip title="Informe o Tipo da Modalidade" placement="top">
             <Autocomplete
               disablePortal
@@ -117,7 +129,7 @@ function TableToolbar({ selectedData }: { selectedData: string }) {
               options={top100Films}
               size="small"
               freeSolo
-              sx={{ width: 180 }}
+              sx={{ width: mdDown ? smDown ? 80 : 150 : 180 }}
               renderInput={(params) => <TextField {...params} variant="outlined" label="Tipos" />}
             />
           </Tooltip>
@@ -127,7 +139,7 @@ function TableToolbar({ selectedData }: { selectedData: string }) {
               size="small"
               variant="outlined"
               label="Pesquisar"
-              sx={{ width: 250, mx: 1 }}
+              sx={{ width: mdDown ? smDown ? 120 : 200 : 250, mx: 1 }}
             />
           </Tooltip>
           <Tooltip title="Pesquisar" placement="top">
@@ -145,6 +157,10 @@ export const TableModalities: React.FC = () => {
   const [selected, setSelected] = useState<string>("");
 
   const { themeCurrent } = useLayoutContext();
+  const theme = useTheme();
+
+  const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
+  const smDown = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Box sx={{ width: "100%" }} component={Paper} elevation={24} borderRadius={5}>
@@ -197,14 +213,23 @@ export const TableModalities: React.FC = () => {
           </TableBody>          
         </Table>
       </TableContainer>
-      <Box py={2} mx={3} alignItems="center" justifyContent="right" display="flex" flexDirection="row">
-        <Typography
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          Mostrar Registros
-        </Typography>
+      <Box 
+        py={2} 
+        mx={3} 
+        display="flex" 
+        flexDirection="row"
+        alignItems="center" 
+        justifyContent={lgDown ? "center" : "right"} 
+      >
+        {!smDown &&
+          <Typography
+            color="inherit"
+            variant="subtitle1"
+            component="div"
+          >
+            Registros
+          </Typography>
+        }        
         <Select
           labelId="demo-simple-select-autowidth-label"
           id="demo-simple-select-autowidth"
