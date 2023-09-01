@@ -10,9 +10,18 @@ import { rootRoutes } from "./root.routes";
 import { loadingRoutes } from "./loading.routes";
 
 const AppRoutes = () => {
-  const { getToken, isUserProfiles, isTrainerProfiles, isRootProfiles, loadingAuthUserContext } = useAuthUserContext();
+  const { 
+    getToken, 
+    isUserProfiles, 
+    isTrainerProfiles, 
+    isRootProfiles, 
+    loadingAuthUserContext, 
+    profilesUsersCurrent 
+  } = useAuthUserContext();
 
-  if(loadingAuthUserContext) {
+  const token = getToken();
+
+  if(loadingAuthUserContext || (token && !profilesUsersCurrent.length)) {
     return(
       <Routes>
         {loadingRoutes()}
@@ -23,7 +32,7 @@ const AppRoutes = () => {
   return (
     <Routes>
       {genericsRoutes()}
-      {!getToken() && publicRoutes()}
+      {!token && publicRoutes()}
         
       {isUserProfiles && userRoutes()}
       {isTrainerProfiles && trainerRoutes()}
