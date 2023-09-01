@@ -7,7 +7,6 @@ import {
 import{ Edit, Cancel } from "@mui/icons-material";
 
 export const SelectedToobar: React.FC<ITableToolbarSelectedProps> = ({ selectedData, handleDeactivate, handleEdit }) => {
-
   return(
     <>
       <Typography
@@ -16,16 +15,20 @@ export const SelectedToobar: React.FC<ITableToolbarSelectedProps> = ({ selectedD
         variant="subtitle1"
         component="div"
       >
-        {selectedData}
+        {selectedData!.name}
       </Typography>
       <Stack display="flex" flexDirection="row">
         <Tooltip title="Editar">
-          <IconButton onClick={() => handleEdit({ id: 1 })}>
+          <IconButton 
+            onClick={() => 
+              handleEdit({ modalityCurrent: selectedData as IModality })
+            }
+          >
             <Edit />
           </IconButton>
         </Tooltip>
         <Tooltip title="Desativar">
-          <IconButton onClick={() => handleDeactivate({ id: 1 })}>
+          <IconButton onClick={() => handleDeactivate({ modalityCurrent: selectedData as IModality })}>
             <Cancel />
           </IconButton>
         </Tooltip>

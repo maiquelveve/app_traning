@@ -1,31 +1,20 @@
-import { useCallback } from "react";
 import { Toolbar } from "@mui/material";
 
 import { SelectedToobar } from "./SelectedToobar";
 import { DeafaultToolbar } from "./DefaultToobar";
 
-export const TableToolbar: React.FC<ITableToolbarProps> = ({ selectedData }) => {
-
-  const handleEdit = useCallback(({ id }: THandleToolbarSelectedIdtProps): void => { 
-    console.log(id); 
-  }, []);
-
-  const handleDeactivate = useCallback(({ id }: THandleToolbarSelectedIdtProps): void => { 
-    console.log(id); 
-  }, []);
-
-  const handleSerch = useCallback(({ filter, modality_type_id }: THandleSerchToolbarDefaultProps): IModality[] => { 
-    console.log(filter); 
-    console.log(modality_type_id); 
-    return [];
-  }, []);
-
+export const TableToolbar: React.FC<ITableToolbarSelectedProps & ITableToolbarDefaultProps> = ({ 
+  selectedData,
+  handleDeactivate,
+  handleEdit,
+  handleSerch 
+}) => {
   return (
     <Toolbar
       sx={{
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
-        ...(selectedData !== "" && {
+        ...((selectedData?.name !== "" && selectedData) && {
           bgcolor: (theme) => theme.palette.primary.main,
         }),
         borderTopLeftRadius: 5,
@@ -33,7 +22,7 @@ export const TableToolbar: React.FC<ITableToolbarProps> = ({ selectedData }) => 
         mb: 1,
       }}
     >
-      {selectedData !== "" ? (
+      {(selectedData?.name !== "" && selectedData) ? (
         <SelectedToobar 
           selectedData={selectedData} 
           handleDeactivate={handleDeactivate} 

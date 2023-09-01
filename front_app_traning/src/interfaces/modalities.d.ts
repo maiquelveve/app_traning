@@ -1,19 +1,17 @@
 interface IModality {
   id?: number;
   name: string;
-  type: string;
+  type: string; // alterar aqui
 }
 
-interface ITableToolbarProps {
-  selectedData: string
+type THandleToolbarSelectedProps = {
+  modalityCurrent: IModality | null;
 }
 
-type THandleToolbarSelectedIdtProps = {
-  id: number
-}
-interface ITableToolbarSelectedProps extends  ITableToolbarProps {
-  handleEdit: (props: THandleToolbarSelectedIdtProps) => void;
-  handleDeactivate: (props: THandleToolbarSelectedIdtProps) => void;
+interface ITableToolbarSelectedProps {
+  selectedData: IModality | null;
+  handleEdit: (props: THandleToolbarSelectedProps) => void;
+  handleDeactivate: (props: THandleToolbarSelectedProps) => void;
 }
 
 type THandleSerchToolbarDefaultProps = {

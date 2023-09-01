@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { 
   Table, 
   TableBody,
@@ -22,14 +22,28 @@ import { TableFooter } from "./TableFooter";
 import { TableEmpty } from "./TableEmpty";
 
 export const TableModalities: React.FC = () => {
-  const [selected, setSelected] = useState<string>("");
+  const [selected, setSelected] = useState<IModality | null>(null);
   const [loading, setLoading] = useState(true);
   const [modalities, setModalities] = useState<IModality[]>([]);
 
+  const handleEdit = useCallback(({ modalityCurrent }: THandleToolbarSelectedProps): void => { 
+    console.log(modalityCurrent); 
+  }, []);
+
+  const handleDeactivate = useCallback(({ modalityCurrent }: THandleToolbarSelectedProps): void => { 
+    console.log(modalityCurrent); 
+  }, []);
+
+  const handleSerch = useCallback(({ filter, modality_type_id }: THandleSerchToolbarDefaultProps): IModality[] => { 
+    console.log(filter); 
+    console.log(modality_type_id); 
+    return [];
+  }, []);
+
   useEffect(() => {
     setModalities([
-      { name: "Musculação", type: "treino"}, 
-      { name: "Pilates", type: "Aula"}
+      { id: 1, name: "Musculação", type: "treino"}, 
+      { id: 2, name: "Pilates", type: "Aula"}
     ]);
     setLoading(false);
   }, []);
@@ -44,7 +58,12 @@ export const TableModalities: React.FC = () => {
         </Box>
         : 
         <Box component={Stack} spacing={5}>
-          <TableToolbar selectedData={selected} />
+          <TableToolbar 
+            selectedData={selected}  
+            handleDeactivate={handleDeactivate} 
+            handleEdit={handleEdit}
+            handleSerch={handleSerch}
+          />
           {!modalities.length ? <TableEmpty /> :
             <Box>
               <TableContainer>
@@ -70,19 +89,19 @@ export const TableModalities: React.FC = () => {
                     {modalities.map((modality) => (
                       <TableRow
                         hover
-                        onClick={() => modality.name !== selected ? setSelected(modality.name) : setSelected("")}
+                        onClick={() => modality.name !== selected?.name ? setSelected(modality) : setSelected(null)}
                         key={modality.name}
-                        selected={selected === modality.name  ? true : false}
+                        selected={selected?.name === modality.name  ? true : false}
                         sx={{ cursor: "pointer" }}
                         style={{
                           backgroundColor: (themeCurrent === "dark")  ? 
-                            selected === modality.name ? green[400] : "inherit"
+                            selected?.name === modality.name ? green[400] : "inherit"
                             : 
-                            selected === modality.name ? alpha("#078D03", 0.12) : "inherit"
+                            selected?.name === modality.name ? alpha("#078D03", 0.12) : "inherit"
                         }}
                       >
                         <TableCell padding="checkbox">
-                          <Checkbox color="primary" checked={selected === modality.name ? true : false} />
+                          <Checkbox color="primary" checked={selected?.name === modality.name ? true : false} />
                         </TableCell>
                         <TableCell align="left">{modality.name}</TableCell>
                         <TableCell align="center">{modality.type}</TableCell>
