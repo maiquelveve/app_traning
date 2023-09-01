@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { 
   Table, 
   TableBody,
@@ -33,6 +33,9 @@ export const TableModalities: React.FC = () => {
 
   const { themeCurrent } = useLayoutContext();
   const { getToken } = useAuthUserContext();
+
+  const filterSearch = useRef("");
+  const modalityTypeId = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     async function fetch() {
@@ -78,8 +81,10 @@ export const TableModalities: React.FC = () => {
   }, []);
 
   const handleSerch = useCallback(({ filter, modality_type_id }: THandleSerchToolbarDefaultProps): IModality[] => { 
-    console.log(filter); 
-    console.log(modality_type_id); 
+    filterSearch.current = filter;
+    modalityTypeId.current = modality_type_id;
+    console.log(filter, filterSearch.current); 
+    console.log(modality_type_id, modalityTypeId.current); 
     return [];
   }, []);
 
