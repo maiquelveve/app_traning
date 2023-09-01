@@ -8,7 +8,13 @@ import {
   useMediaQuery,
 } from "@mui/material";
 
-export const TableFooter: React.FC = () => {
+export const TableFooter: React.FC<IChangePageAndPerPage & ITableFooterProps> = ({ 
+  handleChangePageCurrent, 
+  handleChangePerPageCurrent,
+  totalPageCont=1,
+  pageCurrent,
+  perPageCurrent
+}) => {
   const theme = useTheme();
 
   const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
@@ -35,8 +41,8 @@ export const TableFooter: React.FC = () => {
       <Select
         labelId="demo-simple-select-autowidth-label"
         id="demo-simple-select-autowidth"
-        value={5}
-        onChange={() => { console.log("oi"); }}
+        value={perPageCurrent}
+        onChange={(event: any) => handleChangePerPageCurrent({ perPageCurrent: +event.target.value })}
         autoWidth
         variant="standard"
         size="small"
@@ -46,7 +52,13 @@ export const TableFooter: React.FC = () => {
         <MenuItem value={10}>10</MenuItem>
         <MenuItem value={90}>90</MenuItem>
       </Select>
-      <Pagination count={10} color="primary" size="small" />
+      <Pagination 
+        color="primary" 
+        size="small" 
+        page={pageCurrent}
+        count={totalPageCont} 
+        onChange={(_, page) => handleChangePageCurrent({ pageCurrent: page})} 
+      />
     </Box>
   );
 };

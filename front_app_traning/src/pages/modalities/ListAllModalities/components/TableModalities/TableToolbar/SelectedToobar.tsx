@@ -15,7 +15,7 @@ export const SelectedToobar: React.FC<ITableToolbarSelectedProps> = ({ selectedD
         variant="subtitle1"
         component="div"
       >
-        {selectedData!.name}
+        {selectedData!.modality}
       </Typography>
       <Stack display="flex" flexDirection="row">
         <Tooltip title="Editar">

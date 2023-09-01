@@ -14,7 +14,7 @@ export const TableToolbar: React.FC<ITableToolbarSelectedProps & ITableToolbarDe
       sx={{
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
-        ...((selectedData?.name !== "" && selectedData) && {
+        ...((selectedData?.modality !== "" && selectedData) && {
           bgcolor: (theme) => theme.palette.primary.main,
         }),
         borderTopLeftRadius: 5,
@@ -22,7 +22,7 @@ export const TableToolbar: React.FC<ITableToolbarSelectedProps & ITableToolbarDe
         mb: 1,
       }}
     >
-      {(selectedData?.name !== "" && selectedData) ? (
+      {(selectedData?.modality !== "" && selectedData) ? (
         <SelectedToobar 
           selectedData={selectedData} 
           handleDeactivate={handleDeactivate} 

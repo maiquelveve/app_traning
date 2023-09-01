@@ -1,6 +1,6 @@
 interface IModality {
   id?: number;
-  name: string;
+  modality: string;
   type: string; // alterar aqui
 }
 
@@ -20,4 +20,9 @@ type THandleSerchToolbarDefaultProps = {
 }
 interface ITableToolbarDefaultProps {
   handleSerch: (props: THandleSerchToolbarDefaultProps) => void;
+}
+
+
+interface ITableFooterProps {
+  totalPageCont: number;
 }
