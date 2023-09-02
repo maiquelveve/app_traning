@@ -1,5 +1,5 @@
-import { getAllModelities } from "./getAllModelities";
+import { getModelities } from "./getModelities";
 
 export const modalitiesController = {
-  getAllModelities
+  getModelities
 };

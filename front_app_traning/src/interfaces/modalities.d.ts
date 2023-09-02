@@ -1,7 +1,7 @@
 interface IModality {
   id?: number;
   modality: string;
-  type: string; // alterar aqui
+  modalityType: IModalityType
 }
 
 type THandleToolbarSelectedProps = {
@@ -19,7 +19,7 @@ type THandleSerchToolbarDefaultProps = {
   modality_type_id?: number;
 }
 interface ITableToolbarDefaultProps {
-  handleSerch: (props: THandleSerchToolbarDefaultProps) => void;
+  handleSearch: (props: THandleSerchToolbarDefaultProps) => void;
 }
 
 

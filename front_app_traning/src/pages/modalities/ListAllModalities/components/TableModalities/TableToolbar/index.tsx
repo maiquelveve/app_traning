@@ -7,7 +7,7 @@ export const TableToolbar: React.FC<ITableToolbarSelectedProps & ITableToolbarDe
   selectedData,
   handleDeactivate,
   handleEdit,
-  handleSerch 
+  handleSearch 
 }) => {
   return (
     <Toolbar
@@ -29,7 +29,7 @@ export const TableToolbar: React.FC<ITableToolbarSelectedProps & ITableToolbarDe
           handleEdit={handleEdit} 
         />
       ) : (
-        <DeafaultToolbar handleSerch={handleSerch} />
+        <DeafaultToolbar handleSearch={handleSearch} />
       )}
     </Toolbar>
   );

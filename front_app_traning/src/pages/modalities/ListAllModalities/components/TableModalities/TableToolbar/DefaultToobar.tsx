@@ -12,7 +12,7 @@ import {
 import{ Add, Search } from "@mui/icons-material";
 import { LoadingSimple } from "../../../../../../components";
 
-export const DeafaultToolbar: React.FC<ITableToolbarDefaultProps> = ({ handleSerch }) => {
+export const DeafaultToolbar: React.FC<ITableToolbarDefaultProps> = ({ handleSearch }) => {
   const [searchFiter, setSearchFilter] = useState("");
   const [selectedModalityTypeId, setSelectedModalityTypeId] = useState<number | undefined>(undefined);
   const [modalitiesTypes, setModalitiesTypes] = useState<IModalityType[]>([]);
@@ -25,8 +25,8 @@ export const DeafaultToolbar: React.FC<ITableToolbarDefaultProps> = ({ handleSer
 
   useEffect(() => {
     setModalitiesTypes([
-      { id: 1, type: "Aula",},
-      { id: 2, type: "Treino"},
+      { id: 2, type: "Aula",},
+      { id: 1, type: "Treino"},
     ]);
     setLoading(false);
   }, []);
@@ -88,7 +88,7 @@ export const DeafaultToolbar: React.FC<ITableToolbarDefaultProps> = ({ handleSer
           />
         </Tooltip>
         <Tooltip title="Pesquisar" placement="top">
-          <IconButton onClick={() => handleSerch({ filter: searchFiter, modality_type_id: selectedModalityTypeId }) }>
+          <IconButton onClick={() => handleSearch({ filter: searchFiter, modality_type_id: selectedModalityTypeId }) }>
             <Search />
           </IconButton>
         </Tooltip>

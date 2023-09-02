@@ -22,19 +22,21 @@ import { LoadingText, catchDefalutAlert } from "../../../../../components";
 import { TableToolbar } from "./TableToolbar";
 import { TableFooter } from "./TableFooter";
 import { TableEmpty } from "./TableEmpty";
+import { modalitiesTypesConversion } from "../../../../../utils";
 
 export const TableModalities: React.FC = () => {
-  const [selected, setSelected] = useState<IModality | null>(null);
   const [pageCurrent, setpageCurrent] = useState(1);
   const [perPageCurrent, setPerPageCurrent] = useState(5);
   const [totalPage, setTotalPage] = useState(10);
-  const [loading, setLoading] = useState(true);
+  
+  const [selected, setSelected] = useState<IModality | null>(null);
   const [modalities, setModalities] = useState<IModality[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const { themeCurrent } = useLayoutContext();
   const { getToken } = useAuthUserContext();
 
-  const filterSearch = useRef("");
+  const filterSearch = useRef<string | undefined>(undefined);
   const modalityTypeId = useRef<number | undefined>(undefined);
 
   useEffect(() => {
@@ -43,7 +45,9 @@ export const TableModalities: React.FC = () => {
         headers: { Authorization: getToken() }, 
         params: {
           page: pageCurrent,
-          perPage: perPageCurrent
+          perPage: perPageCurrent,
+          modalitySearch: filterSearch.current,
+          modality_type_id: modalityTypeId.current
         }
       });
 
@@ -53,7 +57,6 @@ export const TableModalities: React.FC = () => {
 
     try {
       fetch();
-      
     } catch (error) {
       catchDefalutAlert();  
     } finally {
@@ -80,85 +83,105 @@ export const TableModalities: React.FC = () => {
     console.log(modalityCurrent); 
   }, []);
 
-  const handleSerch = useCallback(({ filter, modality_type_id }: THandleSerchToolbarDefaultProps): IModality[] => { 
+  const handleSearch = useCallback(async ({ filter, modality_type_id }: THandleSerchToolbarDefaultProps): Promise<void> => { 
+    setLoading(true);
     filterSearch.current = filter;
     modalityTypeId.current = modality_type_id;
-    console.log(filter, filterSearch.current); 
-    console.log(modality_type_id, modalityTypeId.current); 
-    return [];
+
+    try {
+      const responseApi = await apiService.get<IReturnedRequest>("/modalities", { 
+        headers: { Authorization: getToken() }, 
+        params: {
+          page: pageCurrent,
+          perPage: perPageCurrent,
+          modalitySearch: filterSearch.current,
+          modality_type_id: modalityTypeId.current
+        }
+      });
+
+      setModalities(responseApi.data.data[0].modalities);
+      setTotalPage(responseApi.data.data[0].totalPages);
+
+    } catch (error) {
+      catchDefalutAlert();  
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   return (
     <Box sx={{ width: "100%" }} component={Paper} elevation={24} borderRadius={5}>
-      {loading ? 
-        <Box display="flex" justifyContent="center" alignItems="center" height={350}>
-          <LoadingText text="Aguarde! Carregando as modalidades..." size={50} /> 
-        </Box>
-        : 
-        <Box component={Stack} spacing={5}>
-          <TableToolbar 
-            selectedData={selected}  
-            handleDeactivate={handleDeactivate} 
-            handleEdit={handleEdit}
-            handleSerch={handleSerch}
-          />
+      <Box component={Stack} spacing={5}>
+        <TableToolbar 
+          selectedData={selected}  
+          handleDeactivate={handleDeactivate} 
+          handleEdit={handleEdit}
+          handleSearch={handleSearch}
+        />
+        {loading ? 
+          <Box display="flex" justifyContent="center" alignItems="center" height={350}>
+            <LoadingText text="Aguarde! Carregando as modalidades..." size={50} /> 
+          </Box>
+          : 
           <Box>
             {!modalities.length ? <TableEmpty /> :
-              <TableContainer sx={{ mb: 1 }}>
-                <Table sx={{ minWidth: 350 }} aria-labelledby="tableModalities">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell padding="checkbox"></TableCell>
-                      <TableCell
-                        align={"left"}
-                        padding={"normal"}
-                      >
-                        MODALIDADE
-                      </TableCell>
-                      <TableCell
-                        align={"center"}
-                        padding={"normal"}
-                      >
-                        TIPO
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {modalities.map((modality) => (
-                      <TableRow
-                        hover
-                        onClick={() => modality.modality !== selected?.modality ? setSelected(modality) : setSelected(null)}
-                        key={modality.modality}
-                        selected={selected?.modality === modality.modality  ? true : false}
-                        sx={{ cursor: "pointer" }}
-                        style={{
-                          backgroundColor: (themeCurrent === "dark")  ? 
-                            selected?.modality === modality.modality ? green[400] : "inherit"
-                            : 
-                            selected?.modality === modality.modality ? alpha("#078D03", 0.12) : "inherit"
-                        }}
-                      >
-                        <TableCell padding="checkbox">
-                          <Checkbox color="primary" checked={selected?.modality === modality.modality ? true : false} />
+              <>
+                <TableContainer sx={{ mb: 1 }}>
+                  <Table sx={{ minWidth: 350 }} aria-labelledby="tableModalities">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell padding="checkbox"></TableCell>
+                        <TableCell
+                          align={"left"}
+                          padding={"normal"}
+                        >
+                          MODALIDADE
                         </TableCell>
-                        <TableCell align="left">{modality.modality}</TableCell>
-                        <TableCell align="center">{modality.type}</TableCell>
-                      </TableRow> 
-                    ))}
-                  </TableBody>          
-                </Table>
-              </TableContainer>
+                        <TableCell
+                          align={"center"}
+                          padding={"normal"}
+                        >
+                          TIPO
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {modalities.map((modality) => (
+                        <TableRow
+                          hover
+                          onClick={() => modality.modality !== selected?.modality ? setSelected(modality) : setSelected(null)}
+                          key={modality.modality}
+                          selected={selected?.modality === modality.modality  ? true : false}
+                          sx={{ cursor: "pointer" }}
+                          style={{
+                            backgroundColor: (themeCurrent === "dark")  ? 
+                              selected?.modality === modality.modality ? green[400] : "inherit"
+                              : 
+                              selected?.modality === modality.modality ? alpha("#078D03", 0.12) : "inherit"
+                          }}
+                        >
+                          <TableCell padding="checkbox">
+                            <Checkbox color="primary" checked={selected?.modality === modality.modality ? true : false} />
+                          </TableCell>
+                          <TableCell align="left">{modality.modality}</TableCell>
+                          <TableCell align="center">{modalitiesTypesConversion(modality.modalityType.type)}</TableCell>
+                        </TableRow> 
+                      ))}
+                    </TableBody>          
+                  </Table>
+                </TableContainer>
+                <TableFooter 
+                  handleChangePageCurrent={handleChangePageCurrent}
+                  handleChangePerPageCurrent={handleChangePerPageCurrent}
+                  totalPageCont={totalPage}
+                  perPageCurrent={perPageCurrent}
+                  pageCurrent={pageCurrent}
+                />
+              </>
             }
-            <TableFooter 
-              handleChangePageCurrent={handleChangePageCurrent}
-              handleChangePerPageCurrent={handleChangePerPageCurrent}
-              totalPageCont={totalPage}
-              perPageCurrent={perPageCurrent}
-              pageCurrent={pageCurrent}
-            />
           </Box>
-        </Box>
-      }
+        }
+      </Box>
     </Box>
   );
 };
