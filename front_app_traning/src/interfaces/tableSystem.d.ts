@@ -1,14 +1,14 @@
-interface IPageCurrent {
+interface IPageCurrentProps {
   pageCurrent: number;
 }
 
-interface IPerPageCurrent {
+interface IPerPageCurrentProps {
   perPageCurrent: number;
 }
 
 interface IChangePageAndPerPage {
-  handleChangePageCurrent: (props: IPageCurrent) => void;
-  handleChangePerPageCurrent: (props: IPerPageCurrent) => void;
+  handleChangePageCurrent: (props: IPageCurrentProps) => void;
+  handleChangePerPageCurrent: (props: IPerPageCurrentProps) => void;
   pageCurrent: number;
   perPageCurrent: number;
 }

@@ -8,15 +8,19 @@ import {
   useMediaQuery,
 } from "@mui/material";
 
-export const TableFooter: React.FC<IChangePageAndPerPage & ITableFooterProps> = ({ 
-  handleChangePageCurrent, 
-  handleChangePerPageCurrent,
-  totalPageCont=1,
-  pageCurrent,
-  perPageCurrent
-}) => {
-  const theme = useTheme();
+import { useModalitiesPageContext } from "../../../../../../context";
 
+export const TableFooter: React.FC = () => {
+
+  const theme = useTheme();
+  const { 
+    handleChangePageCurrent, 
+    handleChangePerPageCurrent, 
+    totalPage, 
+    pageCurrent, 
+    perPageCurrent 
+  } = useModalitiesPageContext();
+  
   const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
   const smDown = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -56,7 +60,7 @@ export const TableFooter: React.FC<IChangePageAndPerPage & ITableFooterProps> = 
         color="primary" 
         size="small" 
         page={pageCurrent}
-        count={totalPageCont} 
+        count={totalPage} 
         onChange={(_, page) => handleChangePageCurrent({ pageCurrent: page})} 
       />
     </Box>

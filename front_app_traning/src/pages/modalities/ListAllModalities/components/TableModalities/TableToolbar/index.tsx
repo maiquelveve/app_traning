@@ -3,12 +3,7 @@ import { Toolbar } from "@mui/material";
 import { SelectedToobar } from "./SelectedToobar";
 import { DeafaultToolbar } from "./DefaultToobar";
 
-export const TableToolbar: React.FC<ITableToolbarSelectedProps & ITableToolbarDefaultProps> = ({ 
-  selectedData,
-  handleDeactivate,
-  handleEdit,
-  handleSearch 
-}) => {
+export const TableToolbar: React.FC<ITableToolbarSelectedProps> = ({ selectedData }) => {
   return (
     <Toolbar
       sx={{
@@ -23,13 +18,9 @@ export const TableToolbar: React.FC<ITableToolbarSelectedProps & ITableToolbarDe
       }}
     >
       {(selectedData?.modality !== "" && selectedData) ? (
-        <SelectedToobar 
-          selectedData={selectedData} 
-          handleDeactivate={handleDeactivate} 
-          handleEdit={handleEdit} 
-        />
+        <SelectedToobar selectedData={selectedData} />
       ) : (
-        <DeafaultToolbar handleSearch={handleSearch} />
+        <DeafaultToolbar />
       )}
     </Toolbar>
   );

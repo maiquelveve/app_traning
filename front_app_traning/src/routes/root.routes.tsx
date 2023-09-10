@@ -4,7 +4,8 @@ import { Dashoard } from "../pages/home";
 import { ListAllModalities } from "../pages/modalities";
 
 import { LayoutDashboard } from "../components";
-import { AuthPageProvider } from "../context";
+
+import { ModalitiesPageProvider } from "../context";
 
 export const rootRoutes = () => {
   return (
@@ -13,9 +14,7 @@ export const rootRoutes = () => {
         path='/' 
         element={
           <LayoutDashboard>
-            <AuthPageProvider>
-              <Dashoard />
-            </AuthPageProvider>
+            <Dashoard />
           </LayoutDashboard>
         } 
       />
@@ -23,9 +22,9 @@ export const rootRoutes = () => {
         path='/modalidades' 
         element={
           <LayoutDashboard>
-            <AuthPageProvider>
-              <ListAllModalities />
-            </AuthPageProvider>
+            <ModalitiesPageProvider>
+              <ListAllModalities /> 
+            </ModalitiesPageProvider>
           </LayoutDashboard>
         } 
       />

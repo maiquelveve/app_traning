@@ -4,7 +4,6 @@ import { ErrorPage } from "../pages/system";
 import { Dashoard } from "../pages/home";
 import { Profile, ChangePassword } from "../pages/users";
 
-import { AuthPageProvider } from "../context";
 import { LayoutSingle, LayoutDashboard } from "../components/layout";
 
 export const genericsRoutes = () => {
@@ -14,9 +13,7 @@ export const genericsRoutes = () => {
         path='/perfil' 
         element={
           <LayoutDashboard>
-            <AuthPageProvider>
-              <Profile />
-            </AuthPageProvider>
+            <Profile />
           </LayoutDashboard>
         } 
       />
@@ -24,9 +21,7 @@ export const genericsRoutes = () => {
         path='/troca_senha' 
         element={
           <LayoutDashboard>
-            <AuthPageProvider>
-              <ChangePassword />
-            </AuthPageProvider>
+            <ChangePassword />
           </LayoutDashboard>
         } 
       />
@@ -34,9 +29,7 @@ export const genericsRoutes = () => {
         path='/' 
         element={
           <LayoutDashboard>
-            <AuthPageProvider>
-              <Dashoard />
-            </AuthPageProvider>
+            <Dashoard />
           </LayoutDashboard>
         } 
       />
@@ -45,9 +38,7 @@ export const genericsRoutes = () => {
         path='/error' 
         element={
           <LayoutSingle>
-            <AuthPageProvider>
-              <ErrorPage />
-            </AuthPageProvider>
+            <ErrorPage />
           </LayoutSingle>
         } 
       />

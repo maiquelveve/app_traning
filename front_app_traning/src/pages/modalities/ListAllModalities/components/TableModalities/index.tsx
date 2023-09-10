@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useState } from "react";
 import { 
   Table, 
   TableBody,
@@ -14,111 +14,26 @@ import {
 import { alpha } from "@mui/material/styles";
 import { green } from "@mui/material/colors";
 
-import { apiService } from "../../../../../services";
+import { useLayoutContext, useModalitiesPageContext } from "../../../../../context";
+import { LoadingText } from "../../../../../components";
 
-import { useLayoutContext, useAuthUserContext } from "../../../../../context";
-import { LoadingText, catchDefalutAlert } from "../../../../../components";
+import { modalitiesTypesConversion } from "../../../../../utils";
 
 import { TableToolbar } from "./TableToolbar";
 import { TableFooter } from "./TableFooter";
 import { TableEmpty } from "./TableEmpty";
-import { modalitiesTypesConversion } from "../../../../../utils";
 
 export const TableModalities: React.FC = () => {
-  const [pageCurrent, setpageCurrent] = useState(1);
-  const [perPageCurrent, setPerPageCurrent] = useState(5);
-  const [totalPage, setTotalPage] = useState(10);
-  
   const [selected, setSelected] = useState<IModality | null>(null);
-  const [modalities, setModalities] = useState<IModality[]>([]);
-  const [loading, setLoading] = useState(true);
 
+  const { modalities, loadingModalities } = useModalitiesPageContext();
   const { themeCurrent } = useLayoutContext();
-  const { getToken } = useAuthUserContext();
-
-  const filterSearch = useRef<string | undefined>(undefined);
-  const modalityTypeId = useRef<number | undefined>(undefined);
-
-  useEffect(() => {
-    async function fetch() {
-      const responseApi = await apiService.get<IReturnedRequest>("/modalities", { 
-        headers: { Authorization: getToken() }, 
-        params: {
-          page: pageCurrent,
-          perPage: perPageCurrent,
-          modalitySearch: filterSearch.current,
-          modality_type_id: modalityTypeId.current
-        }
-      });
-
-      setModalities(responseApi.data.data[0].modalities);
-      setTotalPage(responseApi.data.data[0].totalPages);
-    }
-
-    try {
-      fetch();
-    } catch (error) {
-      catchDefalutAlert();  
-    } finally {
-      setLoading(false);
-    }
-  }, [pageCurrent, perPageCurrent]);
-
-
-  const handleChangePageCurrent = useCallback(({ pageCurrent }: IPageCurrent) => {
-    setpageCurrent(pageCurrent);
-  }, []);
-
-  const handleChangePerPageCurrent = useCallback(({ perPageCurrent }: IPerPageCurrent) => {
-    setpageCurrent(1);
-    setPerPageCurrent(perPageCurrent);
-  }, []);
-
-
-  const handleEdit = useCallback(({ modalityCurrent }: THandleToolbarSelectedProps): void => { 
-    console.log(modalityCurrent); 
-  }, []);
-
-  const handleDeactivate = useCallback(({ modalityCurrent }: THandleToolbarSelectedProps): void => { 
-    console.log(modalityCurrent); 
-  }, []);
-
-  const handleSearch = useCallback(async ({ filter, modality_type_id }: THandleSerchToolbarDefaultProps): Promise<void> => { 
-    setLoading(true);
-    filterSearch.current = filter;
-    modalityTypeId.current = modality_type_id;
-
-    try {
-      const responseApi = await apiService.get<IReturnedRequest>("/modalities", { 
-        headers: { Authorization: getToken() }, 
-        params: {
-          page: pageCurrent,
-          perPage: perPageCurrent,
-          modalitySearch: filterSearch.current,
-          modality_type_id: modalityTypeId.current
-        }
-      });
-
-      setModalities(responseApi.data.data[0].modalities);
-      setTotalPage(responseApi.data.data[0].totalPages);
-
-    } catch (error) {
-      catchDefalutAlert();  
-    } finally {
-      setLoading(false);
-    }
-  }, []);
 
   return (
     <Box sx={{ width: "100%" }} component={Paper} elevation={24} borderRadius={5}>
       <Box component={Stack} spacing={5}>
-        <TableToolbar 
-          selectedData={selected}  
-          handleDeactivate={handleDeactivate} 
-          handleEdit={handleEdit}
-          handleSearch={handleSearch}
-        />
-        {loading ? 
+        <TableToolbar selectedData={selected} />
+        {loadingModalities ? 
           <Box display="flex" justifyContent="center" alignItems="center" height={350}>
             <LoadingText text="Aguarde! Carregando as modalidades..." size={50} /> 
           </Box>
@@ -170,13 +85,7 @@ export const TableModalities: React.FC = () => {
                     </TableBody>          
                   </Table>
                 </TableContainer>
-                <TableFooter 
-                  handleChangePageCurrent={handleChangePageCurrent}
-                  handleChangePerPageCurrent={handleChangePerPageCurrent}
-                  totalPageCont={totalPage}
-                  perPageCurrent={perPageCurrent}
-                  pageCurrent={pageCurrent}
-                />
+                <TableFooter />
               </>
             }
           </Box>

@@ -10,19 +10,14 @@ type THandleToolbarSelectedProps = {
 
 interface ITableToolbarSelectedProps {
   selectedData: IModality | null;
-  handleEdit: (props: THandleToolbarSelectedProps) => void;
-  handleDeactivate: (props: THandleToolbarSelectedProps) => void;
 }
 
 type THandleSerchToolbarDefaultProps = {
   filter: string; 
   modality_type_id?: number;
 }
-interface ITableToolbarDefaultProps {
-  handleSearch: (props: THandleSerchToolbarDefaultProps) => void;
-}
 
-
-interface ITableFooterProps {
-  totalPageCont: number;
+type THandleSerchToolbarDefaultContextProps = THandleSerchToolbarDefaultProps & {
+  pageCurrent: number;
+  perPageCurrent: number;
 }

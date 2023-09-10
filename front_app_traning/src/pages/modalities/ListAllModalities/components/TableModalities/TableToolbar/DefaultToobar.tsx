@@ -10,13 +10,17 @@ import {
   useTheme,
 } from "@mui/material";
 import{ Add, Search } from "@mui/icons-material";
+
+import { useModalitiesPageContext } from "../../../../../../context";
 import { LoadingSimple } from "../../../../../../components";
 
-export const DeafaultToolbar: React.FC<ITableToolbarDefaultProps> = ({ handleSearch }) => {
+export const DeafaultToolbar: React.FC = () => {
   const [searchFiter, setSearchFilter] = useState("");
   const [selectedModalityTypeId, setSelectedModalityTypeId] = useState<number | undefined>(undefined);
   const [modalitiesTypes, setModalitiesTypes] = useState<IModalityType[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  const { handleSearch } = useModalitiesPageContext();
   const theme = useTheme();
 
   const lgDown = useMediaQuery(theme.breakpoints.down("lg"));

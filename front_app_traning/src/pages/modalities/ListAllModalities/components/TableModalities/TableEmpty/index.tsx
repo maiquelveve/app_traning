@@ -13,7 +13,7 @@ export const TableEmpty: React.FC = () => {
         variant="caption"
         color="gray"
       >
-          Utilize os filtros para melhorar sua pesquisa
+        Utilize os filtros para melhorar sua pesquisa
       </Typography>
     </Box>
   );
