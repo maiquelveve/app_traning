@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { 
   IconButton, 
   Tooltip, 
@@ -8,24 +8,40 @@ import {
   Button,
   useMediaQuery,
   useTheme,
-} from "@mui/material";
-import{ Add, Search } from "@mui/icons-material";
 
-import { useModalitiesPageContext } from "../../../../../../context";
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Typography 
+} from "@mui/material";
+import{ Add, Search, Close } from "@mui/icons-material";
+
+import { useModalitiesPageContext, useAuthUserContext } from "../../../../../../context";
 import { LoadingSimple } from "../../../../../../components";
 
 export const DeafaultToolbar: React.FC = () => {
-  const [searchFiter, setSearchFilter] = useState("");
   const [selectedModalityTypeId, setSelectedModalityTypeId] = useState<number | undefined>(undefined);
   const [modalitiesTypes, setModalitiesTypes] = useState<IModalityType[]>([]);
+  const [searchFiter, setSearchFilter] = useState("");
+  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   
   const { handleSearch } = useModalitiesPageContext();
+  const { isRootProfiles } = useAuthUserContext();
   const theme = useTheme();
 
   const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
   const mdDown = useMediaQuery(theme.breakpoints.down("md"));
   const smDown = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const handleOpen = useCallback(() => {
+    setOpen(true);
+  }, []);
+
+  const handleClose = useCallback(() => {
+    setOpen(false);
+  }, []);
 
   useEffect(() => {
     setModalitiesTypes([
@@ -38,9 +54,9 @@ export const DeafaultToolbar: React.FC = () => {
   return(
     <Box display="flex" flexDirection="row" sx={{ flex: "1 1 100%" }}>
       <Box alignItems="center" justifyContent="right">
-        {!lgDown &&
+        {(!lgDown && isRootProfiles) &&
           <Box mt={3} justifyContent="center" alignItems="center">
-            <Button variant="contained" size="large" startIcon={<Add />} sx={{ borderRadius: 3}}>
+            <Button onClick={handleOpen} variant="contained" size="large" startIcon={<Add />} sx={{ borderRadius: 3}}>
               Nova Modalidade
             </Button>
           </Box>
@@ -54,7 +70,7 @@ export const DeafaultToolbar: React.FC = () => {
         alignItems="center"
         justifyContent={lgDown ? "center" : "right" }  
       >
-        {lgDown &&
+        {(lgDown && isRootProfiles) &&
           <Tooltip title="Cadastrar nova da Modalidade" placement="top" >
             <IconButton sx={{ mr: 1 }}>
               <Add color="primary" />
@@ -97,6 +113,60 @@ export const DeafaultToolbar: React.FC = () => {
           </IconButton>
         </Tooltip>
       </Box>
+      <Modal handleClose={handleClose} open={open} title="Cadastrar Modalidade" />
     </Box>
   );
+};
+
+interface IModalSystem {
+  handleClose: () => void;
+  title: string;
+  open: boolean;
+}
+
+const Modal: React.FC<IModalSystem> = ({ handleClose, open, title }) => {
+  return (
+    <Dialog
+      onClose={handleClose}
+      aria-labelledby="customized-dialog-title"
+      open={open}
+    >
+      <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+        {title}
+      </DialogTitle>
+      <IconButton
+        aria-label="close"
+        onClick={handleClose}
+        sx={{
+          position: "absolute",
+          right: 8,
+          top: 8,
+          color: (theme) => theme.palette.grey[500],
+        }}
+      >
+        <Close />
+      </IconButton>
+      <DialogContent dividers>
+        <Typography gutterBottom>
+          Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+          dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
+          consectetur ac, vestibulum at eros.
+        </Typography>
+        <Typography gutterBottom>
+          Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+          Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+        </Typography>
+        <Typography gutterBottom>
+          Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
+          magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
+          ullamcorper nulla non metus auctor fringilla.
+        </Typography>
+      </DialogContent>
+      <DialogActions>
+        <Button autoFocus onClick={handleClose} variant="contained">
+          SALVAR
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );    
 };

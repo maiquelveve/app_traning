@@ -7,7 +7,7 @@ const modalitiesRoutes = Router();
 
 modalitiesRoutes.get(
   "/modalities", 
-  authSystem({ permissions: ["root"] }),
+  authSystem({ permissions: ["root", "trainer"] }),
   modalitiesController.getModelities
 );
 

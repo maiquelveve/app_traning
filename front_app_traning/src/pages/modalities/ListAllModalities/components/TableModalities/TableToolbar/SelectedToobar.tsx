@@ -6,7 +6,11 @@ import {
 } from "@mui/material";
 import{ Edit, DeleteForever } from "@mui/icons-material";
 
+import { useAuthUserContext } from "../../../../../../context";
+
 export const SelectedToobar: React.FC<ITableToolbarSelectedProps> = ({ selectedData }) => {
+  const { isRootProfiles } = useAuthUserContext();
+
   return(
     <>
       <Typography
@@ -17,20 +21,22 @@ export const SelectedToobar: React.FC<ITableToolbarSelectedProps> = ({ selectedD
       >
         {selectedData!.modality}
       </Typography>
-      <Stack display="flex" flexDirection="row">
-        <Tooltip title="Editar">
-          <IconButton 
-            onClick={() => {}}
-          >
-            <Edit />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Desativar">
-          <IconButton onClick={() => {}}>
-            <DeleteForever />
-          </IconButton>
-        </Tooltip>
-      </Stack>
+      {isRootProfiles &&
+        <Stack display="flex" flexDirection="row">
+          <Tooltip title="Editar">
+            <IconButton 
+              onClick={() => {}}
+            >
+              <Edit />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Desativar">
+            <IconButton onClick={() => {}}>
+              <DeleteForever />
+            </IconButton>
+          </Tooltip>
+        </Stack>
+      }
     </>
   );
 };

@@ -53,7 +53,7 @@ export const ModalitiesPageProvider: React.FC<IAppProps> = ({ children }) => {
       const responseApi = await apiService.get<IReturnedRequest>("/modalities", { 
         /***** 
           AQUI oocrreu um bug em DEV ao salvar o arquivo dizendo que getToken é undefined, acredito que seja o VITE que so atualizar o que mudou perdendo o contextUserAuthn sendo necessário dar F5, atualizado toda a aplicação, mas se colocar "localStorage.getItem(LOCALSTORAGE_KEY_TOKEN)" direto não ocorre mais o bug em DEV. 
-        *****/
+        *****/ 
         headers: { Authorization: getToken() }, 
         params: {
           page: pageCurrent,
