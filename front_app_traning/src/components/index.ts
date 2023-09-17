@@ -8,3 +8,4 @@ export * from "./Logo";
 export * from "./MenusSidebar";
 export * from "./TextLoadingButton";
 export * from "./UploadFilesImg";
+export * from "./Modals";

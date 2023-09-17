@@ -8,17 +8,12 @@ import {
   Button,
   useMediaQuery,
   useTheme,
-
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Typography 
 } from "@mui/material";
-import{ Add, Search, Close } from "@mui/icons-material";
+import{ Add, Search } from "@mui/icons-material";
 
 import { useModalitiesPageContext, useAuthUserContext } from "../../../../../../context";
 import { LoadingSimple } from "../../../../../../components";
+import { ModalCreate } from "../..";
 
 export const DeafaultToolbar: React.FC = () => {
   const [selectedModalityTypeId, setSelectedModalityTypeId] = useState<number | undefined>(undefined);
@@ -113,60 +108,8 @@ export const DeafaultToolbar: React.FC = () => {
           </IconButton>
         </Tooltip>
       </Box>
-      <Modal handleClose={handleClose} open={open} title="Cadastrar Modalidade" />
+      
+      <ModalCreate handleClose={handleClose} open={open} />
     </Box>
   );
-};
-
-interface IModalSystem {
-  handleClose: () => void;
-  title: string;
-  open: boolean;
-}
-
-const Modal: React.FC<IModalSystem> = ({ handleClose, open, title }) => {
-  return (
-    <Dialog
-      onClose={handleClose}
-      aria-labelledby="customized-dialog-title"
-      open={open}
-    >
-      <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-        {title}
-      </DialogTitle>
-      <IconButton
-        aria-label="close"
-        onClick={handleClose}
-        sx={{
-          position: "absolute",
-          right: 8,
-          top: 8,
-          color: (theme) => theme.palette.grey[500],
-        }}
-      >
-        <Close />
-      </IconButton>
-      <DialogContent dividers>
-        <Typography gutterBottom>
-          Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-          dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-          consectetur ac, vestibulum at eros.
-        </Typography>
-        <Typography gutterBottom>
-          Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-          Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-        </Typography>
-        <Typography gutterBottom>
-          Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
-          magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
-          ullamcorper nulla non metus auctor fringilla.
-        </Typography>
-      </DialogContent>
-      <DialogActions>
-        <Button autoFocus onClick={handleClose} variant="contained">
-          SALVAR
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );    
 };
