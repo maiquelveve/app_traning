@@ -1,0 +1,450 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2023-09-17T20:51:42.117Z",
+  "__export_source": "insomnia.desktop.app:v2023.5.8",
+  "resources": [
+    {
+      "_id": "req_95795a86de1b467eb15f3ae50b1030cc",
+      "parentId": "fld_41c7e5b8234e48e081d438217defa52c",
+      "modified": 1694983134667,
+      "created": 1694983106759,
+      "url": "http://localhost:3333/modalitiesTypes",
+      "name": "Get Modalities Types",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "insomnia/2023.5.8"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1694983106759,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_41c7e5b8234e48e081d438217defa52c",
+      "parentId": "wrk_09ce0e464ed54b118e09009ef43cdbdd",
+      "modified": 1694983103237,
+      "created": 1694983103237,
+      "name": "MODALITIES TYPES",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1694983103237,
+      "_type": "request_group"
+    },
+    {
+      "_id": "wrk_09ce0e464ed54b118e09009ef43cdbdd",
+      "parentId": null,
+      "modified": 1694983857791,
+      "created": 1689716662183,
+      "name": "APP_TRANING",
+      "description": "",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "req_617a99137c8e46e4ba7ac4f17791d423",
+      "parentId": "fld_d64b37817fcf42e6a8c1740926b15030",
+      "modified": 1694983655857,
+      "created": 1693264957134,
+      "url": "http://localhost:3333/modalities",
+      "name": "getAllModalities",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "Insomnia/2023.5.6",
+          "id": "pair_d64194f6df9148f8bce4e60edc3f3702",
+          "disabled": false
+        },
+        {
+          "id": "pair_b68771fcc1574deca5297aa944e03087",
+          "name": "authorization",
+          "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRoX3VzZXJfaWQiOjEsImlhdCI6MTY5NDk4MzYzNiwiZXhwIjoxNjk1NTg4NDM2fQ._66qZq6rn5HvHGSeo3dAfDOTdGIMm1rochYEceZ3FpA",
+          "description": ""
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1693264957134,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_d64b37817fcf42e6a8c1740926b15030",
+      "parentId": "wrk_09ce0e464ed54b118e09009ef43cdbdd",
+      "modified": 1693264951697,
+      "created": 1693264951697,
+      "name": "MODALITIES",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1693264951697,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_64aa94f4eec44e3ea1063c48749eb671",
+      "parentId": "fld_c0d1eb140ca34317a3dd2a8e543c037f",
+      "modified": 1691249017610,
+      "created": 1691246515437,
+      "url": "http://localhost:3333/users/profile",
+      "name": "Update Profile",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"name\": \"Maiquel Santos Leites\",\n\t\"email\": \"maiquelveve2008@gmail.com\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "id": "pair_1e922d9f512c4d8e88435f077e95c758",
+          "name": "authorization",
+          "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRoX3VzZXJfaWQiOjEsImlhdCI6MTY5MTI0ODk5MSwiZXhwIjoxNjkxODUzNzkxfQ.VYX_pSePGnmVKfaPGCs_79odsyFPqBUgoUKNl-AHxpU",
+          "description": ""
+        },
+        {
+          "id": "pair_8a5a9cca49f441549d53a49b0e914940",
+          "name": "",
+          "value": "",
+          "description": ""
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_7efd70b71a6f422c8555f8d8efaabca7"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1691246515437,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_c0d1eb140ca34317a3dd2a8e543c037f",
+      "parentId": "wrk_09ce0e464ed54b118e09009ef43cdbdd",
+      "modified": 1689716716652,
+      "created": 1689716716652,
+      "name": "USERS",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1689716716652,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_618d60a3c3284044851cc0ed062b2f4f",
+      "parentId": "fld_c0d1eb140ca34317a3dd2a8e543c037f",
+      "modified": 1691969994961,
+      "created": 1691963898721,
+      "url": "http://localhost:3333/users/uploadImgProfile",
+      "name": "Upload img profiles",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_028953e15ce849ceb2f75dc0fb9b0759",
+            "name": "file",
+            "value": "",
+            "description": "",
+            "type": "file",
+            "fileName": "D:\\Pessoal\\EU NEW.jpeg"
+          }
+        ]
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "id": "pair_1e922d9f512c4d8e88435f077e95c758",
+          "name": "authorization",
+          "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRoX3VzZXJfaWQiOjIsImlhdCI6MTY5MTk2OTgwMCwiZXhwIjoxNjkyNTc0NjAwfQ.J6RhuKN1dOE4rsAoa-5UmtJqLmkqLQRIhLxPN9OQxps",
+          "description": ""
+        },
+        {
+          "id": "pair_8a5a9cca49f441549d53a49b0e914940",
+          "name": "",
+          "value": "",
+          "description": ""
+        },
+        {
+          "name": "Content-Type",
+          "value": "multipart/form-data",
+          "id": "pair_7efd70b71a6f422c8555f8d8efaabca7"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1691055292637.875,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_2664d1d0309c44388d61e6aa62550ad6",
+      "parentId": "fld_c0d1eb140ca34317a3dd2a8e543c037f",
+      "modified": 1691967902467,
+      "created": 1691249700773,
+      "url": "http://localhost:3333/users/byToken",
+      "name": "Get User By Token",
+      "description": "",
+      "method": "GET",
+      "body": {
+        "mimeType": "application/json",
+        "text": ""
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "id": "pair_1e922d9f512c4d8e88435f077e95c758",
+          "name": "authorization",
+          "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRoX3VzZXJfaWQiOjEsImlhdCI6MTY5MTk2Mzg3NywiZXhwIjoxNjkyNTY4Njc3fQ.Nz7WfnshiFm55HGFgxoWXnbqDOutrSU4ld-e98V1JZk",
+          "description": ""
+        },
+        {
+          "id": "pair_8a5a9cca49f441549d53a49b0e914940",
+          "name": "",
+          "value": "",
+          "description": ""
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_7efd70b71a6f422c8555f8d8efaabca7"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1690864069838.75,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_ab8e9f26645647228502f6ef16e8617f",
+      "parentId": "fld_c0d1eb140ca34317a3dd2a8e543c037f",
+      "modified": 1691249120895,
+      "created": 1691246688323,
+      "url": "http://localhost:3333/users/changePassword",
+      "name": "Change Password",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"passwordCurrent\": \"0.mlg61\",\n\t\"newPassword\": \"123456\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "id": "pair_1e922d9f512c4d8e88435f077e95c758",
+          "name": "authorization",
+          "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRoX3VzZXJfaWQiOjEsImlhdCI6MTY5MTI0OTA5OSwiZXhwIjoxNjkxODUzODk5fQ.VLuvuK_Jl2dayHDuxmI_4r_uId3RQyhwkZSs_2zU4VA",
+          "description": ""
+        },
+        {
+          "id": "pair_8a5a9cca49f441549d53a49b0e914940",
+          "name": "",
+          "value": "",
+          "description": ""
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_e74c5ec055fd4026b2d77fcd18dd1a5b"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1690481624240.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_887527291bbc4992ae0e51a54dfb115c",
+      "parentId": "fld_c0d1eb140ca34317a3dd2a8e543c037f",
+      "modified": 1691249640931,
+      "created": 1689716733044,
+      "url": "http://localhost:3333/users",
+      "name": "create",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"name\": \"fran leites\",\n\t\"email\": \"fran@gmail.com\",\n\t\"password\": \"123456\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1689716733044,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_10c6c9afab384da2b8bdbc5335175807",
+      "parentId": "fld_c0d1eb140ca34317a3dd2a8e543c037f",
+      "modified": 1693264995834,
+      "created": 1689903062255,
+      "url": "http://localhost:3333/users/login",
+      "name": "login",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"email\": \"maiquelveve2008@gmail.com\",\n\t\"password\": \"123456\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_906eb0cd5f0241438f12496844400fa9"
+        },
+        {
+          "id": "pair_a02f13a1788c4596849a33c520964931",
+          "name": "authorization",
+          "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNjg5OTgyODU1LCJleHAiOjE2OTA1ODc2NTV9.CbZh5e7d-7Q11zwxF-edACfqCw7XtITRWVMup73_3vY",
+          "description": "",
+          "disabled": true
+        },
+        {
+          "id": "pair_7b10350b03464e84963241501082c8df",
+          "name": "",
+          "value": "",
+          "description": ""
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1684708135835.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_03d7b90c7ebf4dfeb015a787c5eef506",
+      "parentId": "fld_c0d1eb140ca34317a3dd2a8e543c037f",
+      "modified": 1691249065669,
+      "created": 1690028247968,
+      "url": "http://localhost:3333/users/resetPassword",
+      "name": "reset password",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"email\": \"maiquelveve2008@gmail.com\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_906eb0cd5f0241438f12496844400fa9"
+        },
+        {
+          "id": "pair_a02f13a1788c4596849a33c520964931",
+          "name": "",
+          "value": "",
+          "description": "",
+          "disabled": false
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1682203837231.25,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "env_e51b56bdd77163b4904fafca6b5fcde99071325f",
+      "parentId": "wrk_09ce0e464ed54b118e09009ef43cdbdd",
+      "modified": 1689716662189,
+      "created": 1689716662189,
+      "name": "Base Environment",
+      "data": {},
+      "dataPropertyOrder": null,
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1689716662189,
+      "_type": "environment"
+    },
+    {
+      "_id": "jar_e51b56bdd77163b4904fafca6b5fcde99071325f",
+      "parentId": "wrk_09ce0e464ed54b118e09009ef43cdbdd",
+      "modified": 1689716662191,
+      "created": 1689716662191,
+      "name": "Default Jar",
+      "cookies": [],
+      "_type": "cookie_jar"
+    },
+    {
+      "_id": "spc_309d2bace4974887a387686e60e55f70",
+      "parentId": "wrk_09ce0e464ed54b118e09009ef43cdbdd",
+      "modified": 1689716662184,
+      "created": 1689716662184,
+      "fileName": "APP_GYM",
+      "contents": "",
+      "contentType": "yaml",
+      "_type": "api_spec"
+    }
+  ]
+}
