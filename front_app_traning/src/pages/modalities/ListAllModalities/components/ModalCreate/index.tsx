@@ -1,20 +1,15 @@
 import { useCallback, useState, useEffect } from "react";
 import { TextField, Box, Tooltip, Autocomplete, Stack, Button } from "@mui/material";
-
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-import { LoadingSimple, ModalDefault } from "../../../../../components";
+import { LoadingSimple, ModalDefault, catchDefalutAlert } from "../../../../../components";
+import { modalitiesTypesConversion } from "../../../../../utils";
+import { apiService } from "../../../../../services";
 
 export const ModalCreate: React.FC<IModalModality> = ({ handleClose, open }) => {
   const [modalitiesTypes, setModalitiesTypes] = useState<IModalityType[]>([]);
   const [loading, setLoading] = useState(true);
-
-  const handleSaveModality = useCallback<(props: ICreateModalityProps) => void>(({ modality, modality_type }) => {
-    const modality_type_id = modalitiesTypes.find(modalityType => modalityType.type === modality_type)?.id;
-    console.log("CREATE MODALITY",  modality, modality_type_id);
-    handleCloseItModal();
-  }, []);
 
   const handleCloseItModal = useCallback(() => {
     formik.resetForm();
@@ -22,21 +17,25 @@ export const ModalCreate: React.FC<IModalModality> = ({ handleClose, open }) => 
   }, []);
 
   useEffect(() => {
-    setModalitiesTypes([
-      { id: 2, type: "Aula",},
-      { id: 1, type: "Treino"},
-      { id: 2, type: "Luta",},
-      { id: 1, type: "corrida"},
-      { id: 2, type: "pulo",},
-      { id: 1, type: "jiu"},
-      { id: 2, type: "muy thai",},
-      { id: 1, type: "Treino judo"},
-      { id: 2, type: "cuncional",},
-      { id: 1, type: "dança"},
-      { id: 2, type: "zumba",},
-      { id: 1, type: "fiso"},
-    ]);
-    setLoading(false);
+    try {
+      const fetch = async () => {
+        const response = await apiService.get<IReturnedRequest>("/modalitiesTypes");
+        const data = response.data.data[0].modalitiesTypes.map((modality:  IModalityType): IModalityType => {
+          return {
+            type: modalitiesTypesConversion(modality.type),
+            id: modality.id
+          };
+        }); 
+        setModalitiesTypes(data);
+      };
+      fetch();
+
+    } catch (error) {
+      catchDefalutAlert();
+
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   const formik = useFormik({
@@ -58,7 +57,9 @@ export const ModalCreate: React.FC<IModalModality> = ({ handleClose, open }) => 
         .required("Modalidade Tipo é obrigatório."),
     }),
     onSubmit: async ({ modality, modality_type }) => {
-      handleSaveModality({ modality, modality_type});
+      const modality_type_id = modalitiesTypes.find(modalityType => modalityType.type === modality_type)?.id;
+      console.log("CREATE MODALITY",  modality, modality_type_id);
+      handleCloseItModal();
     }
   });
 

@@ -12,8 +12,10 @@ import {
 import{ Add, Search } from "@mui/icons-material";
 
 import { useModalitiesPageContext, useAuthUserContext } from "../../../../../../context";
-import { LoadingSimple } from "../../../../../../components";
+import { LoadingSimple, catchDefalutAlert } from "../../../../../../components";
 import { ModalCreate } from "../..";
+import { modalitiesTypesConversion } from "../../../../../../utils";
+import { apiService } from "../../../../../../services";
 
 export const DeafaultToolbar: React.FC = () => {
   const [selectedModalityTypeId, setSelectedModalityTypeId] = useState<number | undefined>(undefined);
@@ -39,11 +41,25 @@ export const DeafaultToolbar: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    setModalitiesTypes([
-      { id: 2, type: "Aula",},
-      { id: 1, type: "Treino"},
-    ]);
-    setLoading(false);
+    try {
+      const fetch = async () => {
+        const response = await apiService.get<IReturnedRequest>("/modalitiesTypes");
+        const data = response.data.data[0].modalitiesTypes.map((modality:  IModalityType): IModalityType => {
+          return {
+            type: modalitiesTypesConversion(modality.type),
+            id: modality.id
+          };
+        }); 
+        setModalitiesTypes(data);
+      };
+      fetch();
+
+    } catch (error) {
+      catchDefalutAlert();
+
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   return(
