@@ -30,6 +30,12 @@ export const ModalitiesPageProvider: React.FC<IAppProps> = ({ children }) => {
   const handleChangeLoadingModalities = useCallback((boolean: boolean) => setLoadingModalities(boolean), []);
   const handleSetModalities = useCallback((modalities: IModality[]) => setModalities(modalities), []);
  
+  const handleModalityCreate = useCallback((data: IModalityCreateProps) => {
+    console.log(data);
+    const dataReturnMock: IModality = { modality: "", modalityType: { type: "" } };
+    return dataReturnMock;
+  }, []);
+
   const handleChangePerPageCurrent = useCallback(({ perPageCurrent }: IPerPageCurrentProps) => {
     setPageCurrent(1);
     setPerPageCurrent(perPageCurrent);
@@ -95,6 +101,7 @@ export const ModalitiesPageProvider: React.FC<IAppProps> = ({ children }) => {
       handleChangeModalityTypeId,
       handleChangeLoadingModalities,
       handleSearch: handleSearchGetFilters,
+      handleModalityCreate,
       loadingModalities,
       filterSearch,
       modalityTypeId,

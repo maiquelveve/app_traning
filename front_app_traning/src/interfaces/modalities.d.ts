@@ -4,6 +4,11 @@ interface IModality {
   modalityType: IModalityType
 }
 
+interface IModalityCreateProps {
+  modality: string;
+  modality_type_id: number;
+}
+
 type THandleToolbarSelectedProps = {
   modalityCurrent: IModality | null;
 }
