@@ -2,3 +2,8 @@ interface IModalitiesQueryFilter {
   modalitySearch?: string;
   modality_type_id?: string;
 }
+
+interface IModalityCreate {
+  modality: string;
+  modality_type_id: number;
+}

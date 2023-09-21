@@ -2,7 +2,7 @@
 export const serializeData = (data: any) => {
   switch (typeof data) {
     case "string":
-      return data.toLowerCase().trim();
+      return data.toUpperCase().trim();
     case "number":
       return Number(data);
 

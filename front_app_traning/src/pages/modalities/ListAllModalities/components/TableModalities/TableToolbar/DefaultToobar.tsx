@@ -13,7 +13,7 @@ import{ Add, Search } from "@mui/icons-material";
 
 import { useModalitiesPageContext, useAuthUserContext } from "../../../../../../context";
 import { LoadingSimple, catchDefalutAlert } from "../../../../../../components";
-import { ModalCreate } from "../..";
+import { ModalCreate } from "../../../../components";
 import { modalitiesTypesConversion } from "../../../../../../utils";
 import { apiService } from "../../../../../../services";
 

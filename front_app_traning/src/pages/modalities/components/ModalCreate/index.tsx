@@ -3,13 +3,16 @@ import { TextField, Box, Tooltip, Autocomplete, Stack, Button } from "@mui/mater
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-import { LoadingSimple, ModalDefault, catchDefalutAlert } from "../../../../../components";
-import { modalitiesTypesConversion } from "../../../../../utils";
-import { apiService } from "../../../../../services";
+import { LoadingSimple, ModalDefault, catchDefalutAlert, defaultAlert } from "../../../../components";
+import { useModalitiesPageContext } from "../../../../context/ModalitiesPageContext";
+import { modalitiesTypesConversion } from "../../../../utils";
+import { apiService } from "../../../../services";
 
 export const ModalCreate: React.FC<IModalModality> = ({ handleClose, open }) => {
   const [modalitiesTypes, setModalitiesTypes] = useState<IModalityType[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const { handleModalityCreate } = useModalitiesPageContext();
 
   const handleCloseItModal = useCallback(() => {
     formik.resetForm();
@@ -57,9 +60,19 @@ export const ModalCreate: React.FC<IModalModality> = ({ handleClose, open }) => 
         .required("Modalidade Tipo é obrigatório."),
     }),
     onSubmit: async ({ modality, modality_type }) => {
-      const modality_type_id = modalitiesTypes.find(modalityType => modalityType.type === modality_type)?.id;
-      console.log("CREATE MODALITY",  modality, modality_type_id);
-      handleCloseItModal();
+      setLoading(true);
+      
+      try {
+        const modality_type_id = modalitiesTypes.find(modalityType => modalityType.type === modality_type)?.id;
+        if(!modality_type_id) {
+          defaultAlert({ messages: ["Tipo de Modalidade invalido."], type: "error", position: "top" });
+        } else {
+          await handleModalityCreate({ modality, modality_type_id });
+          handleCloseItModal();
+        }
+      } finally {
+        setLoading(false);
+      }
     }
   });
 

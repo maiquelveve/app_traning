@@ -2,7 +2,7 @@ import { createContext, useContext, useRef, useCallback, useState, useEffect } f
 
 import { useAuthUserContext } from "..";
 import { apiService } from "../../services";
-import { catchDefalutAlert } from "../../components";
+import { catchDefalutAlert, defaultAlert } from "../../components";
 // import { LOCALSTORAGE_KEY_TOKEN } from "../../config";
 
 const ModalitiesPageContext = createContext({} as IModalitiesPageContext);
@@ -30,10 +30,38 @@ export const ModalitiesPageProvider: React.FC<IAppProps> = ({ children }) => {
   const handleChangeLoadingModalities = useCallback((boolean: boolean) => setLoadingModalities(boolean), []);
   const handleSetModalities = useCallback((modalities: IModality[]) => setModalities(modalities), []);
  
-  const handleModalityCreate = useCallback((data: IModalityCreateProps) => {
-    console.log(data);
-    const dataReturnMock: IModality = { modality: "", modalityType: { type: "" } };
-    return dataReturnMock;
+  const handleModalityCreate = useCallback(async (data: IModalityCreateProps) => {
+    try {
+      handleChangeLoadingModalities(true);
+      
+      const responseApi = await apiService.post<IReturnedRequest>("/modalities", data, { headers: { Authorization: getToken() }});
+      
+      if(responseApi.data.isSuccess) {
+        defaultAlert({ 
+          messages: ["Modalidade cadastrada com sucesso!"],
+          type: "success",
+          position: "top-right"
+        });
+        await handleSearch({ 
+          filter: filterSearch.current, 
+          modality_type_id: modalityTypeId.current, 
+          pageCurrent, 
+          perPageCurrent 
+        });
+        
+      } else {
+        defaultAlert({ 
+          messages: responseApi.data.errors,
+          type: "error",
+          position: "top-right"
+        });
+      }
+
+    } catch (error) {
+      catchDefalutAlert();  
+    } finally {
+      handleChangeLoadingModalities(false);
+    }
   }, []);
 
   const handleChangePerPageCurrent = useCallback(({ perPageCurrent }: IPerPageCurrentProps) => {

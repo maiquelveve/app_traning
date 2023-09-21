@@ -7,7 +7,7 @@ interface IModalitiesPageContext {
   handleSetModalities: (modalities: IModality[]) => void;
   handleSearch: (data: THandleSerchToolbarDefaultProps) => void;
   handleChangeLoadingModalities: (boolean: boolean) => void;
-  handleModalityCreate: (props: IModalityCreateProps) => IModality;
+  handleModalityCreate: (props: IModalityCreateProps) => Promise<void>;
   modalities: IModality[];
   loadingModalities: boolean;
   totalPage: number;
