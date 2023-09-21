@@ -15,6 +15,7 @@ export const createModality = async (
     const isExistModality = await Modality.findOne({ where: { modality }});
 
     if(isExistModality) {
+      transactionDB.rollback();
       return res.status(400).json(RETURNED_API_ERRORS({ errors: ["Modalidade já existe no sistema."] }));
     }
 
