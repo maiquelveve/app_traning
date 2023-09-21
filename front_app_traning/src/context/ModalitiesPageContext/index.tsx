@@ -48,7 +48,6 @@ export const ModalitiesPageProvider: React.FC<IAppProps> = ({ children }) => {
           pageCurrent, 
           perPageCurrent 
         });
-        
       } else {
         defaultAlert({ 
           messages: responseApi.data.errors,
@@ -62,7 +61,7 @@ export const ModalitiesPageProvider: React.FC<IAppProps> = ({ children }) => {
     } finally {
       handleChangeLoadingModalities(false);
     }
-  }, []);
+  }, [pageCurrent, perPageCurrent]);
 
   const handleChangePerPageCurrent = useCallback(({ perPageCurrent }: IPerPageCurrentProps) => {
     setPageCurrent(1);
