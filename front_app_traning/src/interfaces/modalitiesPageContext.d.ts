@@ -8,6 +8,7 @@ interface IModalitiesPageContext {
   handleSearch: (data: THandleSerchToolbarDefaultProps) => void;
   handleChangeLoadingModalities: (boolean: boolean) => void;
   handleModalityCreate: (props: IModalityCreateProps) => Promise<boolean | undefined>;
+  handleModalityUpdate: (props: IModalityUpdateProps) => Promise<boolean | undefined>;
   handleVerifyModalityType: (props:IVerifyModalityTypeProps) => IReturnVerifyModalityType;
   modalities: IModality[];
   modalitiesTypes: IModalityType[];

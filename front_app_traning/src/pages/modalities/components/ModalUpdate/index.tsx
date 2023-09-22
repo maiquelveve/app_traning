@@ -11,7 +11,7 @@ import { FormModalities, ButtonSaveModalities } from "../FormModalities";
 export const ModalUpdate: React.FC<IModalModality & IUpdateModalModalityProps> = ({ handleClose, open, selectedModality }) => {
   const [loading, setLoading] = useState(false);
 
-  const { handleModalityCreate, modalitiesTypes, handleVerifyModalityType } = useModalitiesPageContext();
+  const { handleModalityUpdate, modalitiesTypes, handleVerifyModalityType } = useModalitiesPageContext();
   
   const handleCloseItModal = useCallback(() => {
     handleClose();
@@ -43,7 +43,8 @@ export const ModalUpdate: React.FC<IModalModality & IUpdateModalModalityProps> =
         if(!modality_type_id) {
           defaultAlert({ messages: ["Tipo de Modalidade invalido."], type: "error", position: "top" });
         } else {
-          const success = await handleModalityCreate({ modality, modality_type_id });
+          const id = selectedModality.id!;
+          const success = await handleModalityUpdate({ id, modality, modality_type_id });
           
           if(success)
             handleCloseItModal();

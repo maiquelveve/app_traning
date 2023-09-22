@@ -74,6 +74,44 @@ export const ModalitiesPageProvider: React.FC<IAppProps> = ({ children }) => {
     } 
   }, [pageCurrent, perPageCurrent]);
 
+  const handleModalityUpdate = useCallback(async (data: IModalityUpdateProps) => {
+    try {
+      handleChangeLoadingModalities(true);
+      
+      const responseApi = await apiService.put<IReturnedRequest>(
+        `/modalities/${data.id}`, 
+        data, 
+        { headers: { Authorization: getToken() }}
+      );
+      
+      if(responseApi.data.isSuccess) {
+        defaultAlert({ 
+          messages: ["Modalidade alterada com sucesso!"],
+          type: "success",
+          position: "top-right"
+        });
+        await handleSearch({ 
+          filter: filterSearch.current, 
+          modality_type_id: modalityTypeId.current, 
+          pageCurrent, 
+          perPageCurrent 
+        });
+      } else {
+        defaultAlert({ 
+          messages: responseApi.data.errors,
+          type: "error",
+          position: "top-right"
+        });
+      }
+
+      handleChangeLoadingModalities(false);
+      return responseApi.data.isSuccess;
+
+    } catch (error) {
+      catchDefalutAlert();  
+    } 
+  }, [pageCurrent, perPageCurrent]);
+
   const handleChangePerPageCurrent = useCallback(({ perPageCurrent }: IPerPageCurrentProps) => {
     setPageCurrent(1);
     setPerPageCurrent(perPageCurrent);
@@ -164,6 +202,7 @@ export const ModalitiesPageProvider: React.FC<IAppProps> = ({ children }) => {
       handleChangeLoadingModalities,
       handleSearch: handleSearchGetFilters,
       handleModalityCreate,
+      handleModalityUpdate,
       handleVerifyModalityType,
       loadingModalities,
       filterSearch,

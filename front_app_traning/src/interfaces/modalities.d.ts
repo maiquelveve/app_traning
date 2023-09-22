@@ -9,12 +9,19 @@ interface IModalityCreateProps {
   modality_type_id: number;
 }
 
+interface IModalityUpdateProps {
+  id: number;
+  modality: string;
+  modality_type_id: number;
+}
+
 type THandleToolbarSelectedProps = {
   modalityCurrent: IModality | null;
 }
 
 interface ITableToolbarSelectedProps {
   selectedData: IModality | null;
+  disableSelectedData: () => void;
 }
 
 interface IModalModality {

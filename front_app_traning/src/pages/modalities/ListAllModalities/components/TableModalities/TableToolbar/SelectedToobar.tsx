@@ -10,7 +10,7 @@ import{ Edit } from "@mui/icons-material";
 import { ModalUpdate } from "../../../../components";
 import { useAuthUserContext } from "../../../../../../context";
 
-export const SelectedToobar: React.FC<ITableToolbarSelectedProps> = ({ selectedData }) => {
+export const SelectedToobar: React.FC<ITableToolbarSelectedProps> = ({ selectedData, disableSelectedData }) => {
   const [open, setOpen] = useState(false);
   
   const { isRootProfiles } = useAuthUserContext();
@@ -18,8 +18,9 @@ export const SelectedToobar: React.FC<ITableToolbarSelectedProps> = ({ selectedD
   const handleOpen = useCallback(() => {
     setOpen(true);
   }, []);
-
+  
   const handleClose = useCallback(() => {
+    disableSelectedData();
     setOpen(false);
   }, []);
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { 
   Table, 
   TableBody,
@@ -29,10 +29,14 @@ export const TableModalities: React.FC = () => {
   const { modalities, loadingModalities } = useModalitiesPageContext();
   const { themeCurrent } = useLayoutContext();
 
+  const handleDisableSelectedData = useCallback(() => {
+    setSelected(null);
+  }, []);
+
   return (
     <Box sx={{ width: "100%" }} component={Paper} elevation={24} borderRadius={5}>
       <Box component={Stack} spacing={5}>
-        <TableToolbar selectedData={selected} />
+        <TableToolbar selectedData={selected} disableSelectedData={handleDisableSelectedData} />
         {loadingModalities ? 
           <Box display="flex" justifyContent="center" alignItems="center" height={350}>
             <LoadingText text="Aguarde! Carregando as modalidades..." size={50} /> 
