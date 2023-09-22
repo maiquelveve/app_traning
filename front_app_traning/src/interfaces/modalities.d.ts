@@ -22,6 +22,17 @@ interface IModalModality {
   open: boolean;
 }
 
+interface IFormModalities {
+  formik: any;
+  loading: boolean
+  modalitiesTypes: IModalityType[]
+}
+
+interface IButtonSaveModalities {
+  loading: boolean;
+  submitForm: () => void;
+}
+
 interface IUpdateModalModalityProps {
   selectedModality: IModality;
 }
