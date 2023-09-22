@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { 
   IconButton, 
   Tooltip, 
@@ -12,19 +12,16 @@ import {
 import{ Add, Search } from "@mui/icons-material";
 
 import { useModalitiesPageContext, useAuthUserContext } from "../../../../../../context";
-import { LoadingSimple, catchDefalutAlert } from "../../../../../../components";
+
+import { LoadingSimple } from "../../../../../../components";
 import { ModalCreate } from "../../../../components";
-import { modalitiesTypesConversion } from "../../../../../../utils";
-import { apiService } from "../../../../../../services";
 
 export const DeafaultToolbar: React.FC = () => {
   const [selectedModalityTypeId, setSelectedModalityTypeId] = useState<number | undefined>(undefined);
-  const [modalitiesTypes, setModalitiesTypes] = useState<IModalityType[]>([]);
   const [searchFiter, setSearchFilter] = useState("");
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
   
-  const { handleSearch } = useModalitiesPageContext();
+  const { handleSearch, modalitiesTypes, loadingModalities } = useModalitiesPageContext();
   const { isRootProfiles } = useAuthUserContext();
   const theme = useTheme();
 
@@ -38,28 +35,6 @@ export const DeafaultToolbar: React.FC = () => {
 
   const handleClose = useCallback(() => {
     setOpen(false);
-  }, []);
-
-  useEffect(() => {
-    try {
-      const fetch = async () => {
-        const response = await apiService.get<IReturnedRequest>("/modalitiesTypes");
-        const data = response.data.data[0].modalitiesTypes.map((modality:  IModalityType): IModalityType => {
-          return {
-            type: modalitiesTypesConversion(modality.type),
-            id: modality.id
-          };
-        }); 
-        setModalitiesTypes(data);
-      };
-      fetch();
-
-    } catch (error) {
-      catchDefalutAlert();
-
-    } finally {
-      setLoading(false);
-    }
   }, []);
 
   return(
@@ -88,7 +63,7 @@ export const DeafaultToolbar: React.FC = () => {
             </IconButton>
           </Tooltip>
         }
-        {loading ? 
+        {loadingModalities ? 
           <Box mr={2} display="flex" alignItems="center" justifyContent="center">
             <LoadingSimple size={25} /> 
           </Box>

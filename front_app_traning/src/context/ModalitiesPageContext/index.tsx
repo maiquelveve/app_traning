@@ -3,6 +3,7 @@ import { createContext, useContext, useRef, useCallback, useState, useEffect } f
 import { useAuthUserContext } from "..";
 import { apiService } from "../../services";
 import { catchDefalutAlert, defaultAlert } from "../../components";
+import { modalitiesTypesConversion } from "../../utils";
 // import { LOCALSTORAGE_KEY_TOKEN } from "../../config";
 
 const ModalitiesPageContext = createContext({} as IModalitiesPageContext);
@@ -17,7 +18,9 @@ export const ModalitiesPageProvider: React.FC<IAppProps> = ({ children }) => {
   const [perPageCurrent, setPerPageCurrent] = useState(5);
   const [totalPage, setTotalPage] = useState(10);
   
+  const [modalitiesTypes, setModalitiesTypes] = useState<IModalityType[]>([]);
   const [modalities, setModalities] = useState<IModality[]>([]);
+
   const { getToken } = useAuthUserContext();
   
   const filterSearch = useRef<string>(""); 
@@ -29,6 +32,13 @@ export const ModalitiesPageProvider: React.FC<IAppProps> = ({ children }) => {
   const handleChangeFilterSearch = useCallback((value: string) => filterSearch.current = value, []);
   const handleChangeLoadingModalities = useCallback((boolean: boolean) => setLoadingModalities(boolean), []);
   const handleSetModalities = useCallback((modalities: IModality[]) => setModalities(modalities), []);
+  
+  const handleVerifyModalityType = useCallback((props: IVerifyModalityTypeProps) => {
+    const { modalitiesTypes, modality_type_text } = props;
+    const modality_type_id = modalitiesTypes.find(modalityType => modalityType.type === modality_type_text)?.id;
+    
+    return { modality_type_id: modality_type_id ? modality_type_id : undefined };
+  }, []);
  
   const handleModalityCreate = useCallback(async (data: IModalityCreateProps) => {
     try {
@@ -79,6 +89,7 @@ export const ModalitiesPageProvider: React.FC<IAppProps> = ({ children }) => {
     pageCurrent, 
     perPageCurrent 
   }: THandleSerchToolbarDefaultContextProps): Promise<void> => { 
+
     handleChangeLoadingModalities(true);
     filterSearch.current = filter;
     modalityTypeId.current = modality_type_id;
@@ -119,6 +130,29 @@ export const ModalitiesPageProvider: React.FC<IAppProps> = ({ children }) => {
     fetch();
   },[pageCurrent, perPageCurrent]);
 
+  useEffect(() => {
+    try {
+      handleChangeLoadingModalities(true);
+      const fetch = async () => {
+        const response = await apiService.get<IReturnedRequest>("/modalitiesTypes");
+        const data = response.data.data[0].modalitiesTypes.map((modality:  IModalityType): IModalityType => {
+          return {
+            type: modalitiesTypesConversion(modality.type),
+            id: modality.id
+          };
+        }); 
+        setModalitiesTypes(data);
+      };
+      fetch();
+
+    } catch (error) {
+      catchDefalutAlert();
+
+    } finally {
+      handleChangeLoadingModalities(false);
+    }
+  }, []);
+
   return (
     <ModalitiesPageContext.Provider value={{
       handleChangePageCurrent,
@@ -130,13 +164,15 @@ export const ModalitiesPageProvider: React.FC<IAppProps> = ({ children }) => {
       handleChangeLoadingModalities,
       handleSearch: handleSearchGetFilters,
       handleModalityCreate,
+      handleVerifyModalityType,
       loadingModalities,
       filterSearch,
       modalityTypeId,
       modalities,
       pageCurrent,
       perPageCurrent,
-      totalPage
+      totalPage,
+      modalitiesTypes
     }}>
       {children}
     </ModalitiesPageContext.Provider>

@@ -1,45 +1,20 @@
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-import { ModalDefault, catchDefalutAlert, defaultAlert } from "../../../../components";
+import { ModalDefault, defaultAlert } from "../../../../components";
 import { useModalitiesPageContext } from "../../../../context/ModalitiesPageContext";
-import { modalitiesTypesConversion } from "../../../../utils";
-import { apiService } from "../../../../services";
 
 import { FormModalities, ButtonSaveModalities } from "../FormModalities";
 
 export const ModalCreate: React.FC<IModalModality> = ({ handleClose, open }) => {
-  const [modalitiesTypes, setModalitiesTypes] = useState<IModalityType[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  const { handleModalityCreate } = useModalitiesPageContext();
+  const { handleModalityCreate, modalitiesTypes, handleVerifyModalityType } = useModalitiesPageContext();
 
   const handleCloseItModal = useCallback(() => {
     formik.resetForm();
     handleClose();
-  }, []);
-
-  useEffect(() => {
-    try {
-      const fetch = async () => {
-        const response = await apiService.get<IReturnedRequest>("/modalitiesTypes");
-        const data = response.data.data[0].modalitiesTypes.map((modality:  IModalityType): IModalityType => {
-          return {
-            type: modalitiesTypesConversion(modality.type),
-            id: modality.id
-          };
-        }); 
-        setModalitiesTypes(data);
-      };
-      fetch();
-
-    } catch (error) {
-      catchDefalutAlert();
-
-    } finally {
-      setLoading(false);
-    }
   }, []);
 
   const formik = useFormik({
@@ -64,7 +39,7 @@ export const ModalCreate: React.FC<IModalModality> = ({ handleClose, open }) => 
       setLoading(true);
       
       try {
-        const modality_type_id = modalitiesTypes.find(modalityType => modalityType.type === modality_type)?.id;
+        const { modality_type_id } = handleVerifyModalityType({ modalitiesTypes, modality_type_text: modality_type });
         if(!modality_type_id) {
           defaultAlert({ messages: ["Tipo de Modalidade invalido."], type: "error", position: "top" });
         } else {
