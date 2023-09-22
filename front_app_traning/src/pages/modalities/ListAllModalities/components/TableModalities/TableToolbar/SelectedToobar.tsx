@@ -1,15 +1,27 @@
+import { useCallback, useState } from "react";
 import { 
   Typography, 
   IconButton, 
   Tooltip, 
   Stack,
 } from "@mui/material";
-import{ Edit, DeleteForever } from "@mui/icons-material";
+import{ Edit } from "@mui/icons-material";
 
+import { ModalUpdate } from "../../../../components";
 import { useAuthUserContext } from "../../../../../../context";
 
 export const SelectedToobar: React.FC<ITableToolbarSelectedProps> = ({ selectedData }) => {
+  const [open, setOpen] = useState(false);
+  
   const { isRootProfiles } = useAuthUserContext();
+
+  const handleOpen = useCallback(() => {
+    setOpen(true);
+  }, []);
+
+  const handleClose = useCallback(() => {
+    setOpen(false);
+  }, []);
 
   return(
     <>
@@ -25,17 +37,15 @@ export const SelectedToobar: React.FC<ITableToolbarSelectedProps> = ({ selectedD
         <Stack display="flex" flexDirection="row">
           <Tooltip title="Editar">
             <IconButton 
-              onClick={() => {}}
+              onClick={handleOpen}
             >
               <Edit />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Desativar">
-            <IconButton onClick={() => {}}>
-              <DeleteForever />
-            </IconButton>
-          </Tooltip>
         </Stack>
+      }
+      {open && 
+        <ModalUpdate handleClose={handleClose} open={open} selectedModality={selectedData!} />
       }
     </>
   );

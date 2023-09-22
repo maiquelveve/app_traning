@@ -22,6 +22,10 @@ interface IModalModality {
   open: boolean;
 }
 
+interface IUpdateModalModalityProps {
+  selectedModality: IModality;
+}
+
 interface ICreateModalityProps {
   modality: string;
   modality_type: string;

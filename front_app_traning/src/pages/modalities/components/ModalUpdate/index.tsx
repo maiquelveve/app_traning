@@ -8,14 +8,13 @@ import { useModalitiesPageContext } from "../../../../context/ModalitiesPageCont
 import { modalitiesTypesConversion } from "../../../../utils";
 import { apiService } from "../../../../services";
 
-export const ModalCreate: React.FC<IModalModality> = ({ handleClose, open }) => {
+export const ModalUpdate: React.FC<IModalModality & IUpdateModalModalityProps> = ({ handleClose, open, selectedModality }) => {
   const [modalitiesTypes, setModalitiesTypes] = useState<IModalityType[]>([]);
   const [loading, setLoading] = useState(true);
 
   const { handleModalityCreate } = useModalitiesPageContext();
-
+  
   const handleCloseItModal = useCallback(() => {
-    formik.resetForm();
     handleClose();
   }, []);
 
@@ -43,8 +42,8 @@ export const ModalCreate: React.FC<IModalModality> = ({ handleClose, open }) => 
 
   const formik = useFormik({
     initialValues: {
-      modality: "",
-      modality_type: "",
+      modality: selectedModality.modality,
+      modality_type: modalitiesTypesConversion(selectedModality.modalityType.type),
       submit: null
     },
     validationSchema: Yup.object({
@@ -138,7 +137,7 @@ export const ModalCreate: React.FC<IModalModality> = ({ handleClose, open }) => 
             disabled={loading}
             onClick={() => formik.submitForm()}
           >
-          SALVAR
+            SALVAR
           </Button>
         }
       </ModalDefault.Footer>
