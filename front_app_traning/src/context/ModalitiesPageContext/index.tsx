@@ -104,12 +104,13 @@ export const ModalitiesPageProvider: React.FC<IAppProps> = ({ children }) => {
         });
       }
 
-      handleChangeLoadingModalities(false);
       return responseApi.data.isSuccess;
 
     } catch (error) {
       catchDefalutAlert();  
-    } 
+    } finally {
+      handleChangeLoadingModalities(false);
+    }
   }, [pageCurrent, perPageCurrent]);
 
   const handleChangePerPageCurrent = useCallback(({ perPageCurrent }: IPerPageCurrentProps) => {
