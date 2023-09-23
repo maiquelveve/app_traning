@@ -3,7 +3,11 @@ interface IModalitiesQueryFilter {
   modality_type_id?: string;
 }
 
-interface IModalityCreate {
+interface IModalityCreateUpdate {
   modality: string;
   modality_type_id: number;
+}
+
+interface IParamsModalityId {
+  id: number;
 }

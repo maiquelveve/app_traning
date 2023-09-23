@@ -4,7 +4,7 @@ import { authSystem, serializeDataBody } from "../middleware";
 import { modalitiesController } from "../controllers";
 
 import { 
-  bodyCreateModalitiesValidation
+  bodyCreateUpdateModalitiesValidation
 } from "../validations";
 
 const modalitiesRoutes = Router();
@@ -19,8 +19,16 @@ modalitiesRoutes.post(
   "/modalities", 
   authSystem({ permissions: ["root"] }),
   serializeDataBody(),
-  bodyCreateModalitiesValidation,
+  bodyCreateUpdateModalitiesValidation,
   modalitiesController.createModality
+);
+
+modalitiesRoutes.put<any>(
+  "/modalities/:id", 
+  authSystem({ permissions: ["root"] }),
+  serializeDataBody(),
+  bodyCreateUpdateModalitiesValidation,
+  modalitiesController.updateModality
 );
 
 

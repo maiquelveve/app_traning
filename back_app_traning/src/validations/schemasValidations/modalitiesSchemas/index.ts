@@ -1,1 +1,1 @@
-export * from "./modalitiesCreateSchemas";
+export * from "./modalitiesCreateUpdateSchemas";

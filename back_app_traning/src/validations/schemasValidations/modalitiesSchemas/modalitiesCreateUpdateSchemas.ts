@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export const modalitiesCreateSchemas: yup.ObjectSchema<IModalityCreate> = yup.object().shape({
+export const modalitiesCreateUpdateSchemas: yup.ObjectSchema<IModalityCreateUpdate> = yup.object().shape({
   modality: yup
     .string()
     .min(3, "Modalidade deve conter 3 caracteres no mínimo.")

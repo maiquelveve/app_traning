@@ -1,1 +1,1 @@
-export * from "./bodyCreateModalitiesValidation";
+export * from "./bodyCreateUpdateModalitiesValidation";

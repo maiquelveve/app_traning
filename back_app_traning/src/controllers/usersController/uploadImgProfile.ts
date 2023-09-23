@@ -45,7 +45,7 @@ export const uploadImgProfile = async (req: Request<object, object, IBodyAuth>, 
     transactionDB.commit();
     return res.status(200).json(RETURNED_API_SUCCESS({ 
       data: [ { user: { name: user?.name, email: user?.email, avatar_url, avatar_filename } } ], 
-      messageSuccess: "" 
+      messageSuccess: "Imagem alterada com sucesso." 
     }));
 
   } catch (error) {

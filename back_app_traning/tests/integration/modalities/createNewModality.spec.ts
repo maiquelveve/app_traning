@@ -1,8 +1,8 @@
-import { Profile, User, UsersProfiles } from "../../../src/models";
+import { Modality, Profile, User, UsersProfiles } from "../../../src/models";
 import { connectionSql } from "../../../src/database/connectionSql";
 
 import { testServer } from "../../jest-setup";
-import { encryptPassword } from "../../../src/helpers";
+import { encryptPassword, operatorsDB } from "../../../src/helpers";
 
 describe("@integration", () => {
   describe("MODALITIES CONTROLLER - Create Modalities", () => {
@@ -17,6 +17,7 @@ describe("@integration", () => {
 
     let tokenRoot: string =  "";
     let tokenNotRoot: string =  "";
+    let lastIdSystemModalities: Modality;
 
     beforeAll(async () => {
       const profileRoot = await Profile.findOne({ where: { profile: "ROOT" } });
@@ -34,6 +35,9 @@ describe("@integration", () => {
            
       await UsersProfiles.create({ profile_id: profileRoot!.id, user_id: newUserRoot.id });
 
+      const modalitiesSystem = await Modality.findAll();
+      lastIdSystemModalities = modalitiesSystem[modalitiesSystem.length - 1];
+
       const responseRoot = await testServer.post("/users/login").send({ email: emailRoot, password: passwordRoot });
       tokenRoot =  responseRoot.body.data[0].token;
 
@@ -48,12 +52,19 @@ describe("@integration", () => {
       await User.destroy({
         where: {},
       });
+      await Modality.destroy({
+        where: {
+          id: {
+            [operatorsDB.gt]: lastIdSystemModalities.id
+          }
+        },
+      });
 
       connectionSql.close();
     });
 
-    it("it should be possible to created modalities by token of ROOT valid",  async () => {      
-      const data: IModalityCreate = { modality: "testeCreate", modality_type_id: 1 };
+    it("it should be possible to create modalities by token of ROOT valid",  async () => {      
+      const data: IModalityCreateUpdate = { modality: "testeCreate", modality_type_id: 1 };
       const newResponse = await testServer.post("/modalities").send(data).set("authorization", tokenRoot);
       
       expect(newResponse.body.isSuccess).toBeTruthy();
@@ -63,24 +74,24 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(200);
     });
 
-    it("it not should be possible to created modalities by token NOT ROOT valid",  async () => {   
-      const data: IModalityCreate = { modality: "testeCreate", modality_type_id: 1 };
+    it("it not should be possible to create modalities by token NOT ROOT valid",  async () => {   
+      const data: IModalityCreateUpdate = { modality: "testeCreate", modality_type_id: 1 };
       const newResponse = await testServer.post("/modalities").send(data).set("authorization", tokenNotRoot);   
       
       expect(newResponse.body.isError).toBeTruthy();
       expect(newResponse.status).toEqual(401);
     });
 
-    it("it not should be possible to created modalities by token invalid",  async () => {      
-      const data: IModalityCreate = { modality: "testeCreate", modality_type_id: 1 };
+    it("it not should be possible to create modalities by token invalid",  async () => {      
+      const data: IModalityCreateUpdate = { modality: "testeCreate", modality_type_id: 1 };
       const newResponse = await testServer.post("/modalities").send(data).set("authorization", "123456789");  
       
       expect(newResponse.body.isError).toBeTruthy();
       expect(newResponse.status).toEqual(401);
     });
 
-    it("it not should be possible to created modalities with prop MODALITY less 3 char",  async () => {      
-      const data: IModalityCreate = { modality: "as", modality_type_id: 1 };
+    it("it not should be possible to create modalities with prop MODALITY less 3 char",  async () => {      
+      const data: IModalityCreateUpdate = { modality: "as", modality_type_id: 1 };
       const newResponse = await testServer.post("/modalities").send(data).set("authorization", tokenRoot);  
       
       expect(newResponse.body.isError).toBeTruthy();
@@ -88,8 +99,8 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to created modalities with prop MODALITY more 50 char",  async () => {      
-      const data: IModalityCreate = { 
+    it("it not should be possible to create modalities with prop MODALITY more 50 char",  async () => {      
+      const data: IModalityCreateUpdate = { 
         modality: "testetestetestetestetestetestetestetestetestetestetestetestetestetestetestetestetestetestetestetestetestetes", 
         modality_type_id: 1 
       };
@@ -100,8 +111,8 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to created modalities with prop MODALITY empty",  async () => {      
-      const data: IModalityCreate = { modality: "", modality_type_id: 1 };
+    it("it not should be possible to create modalities with prop MODALITY empty",  async () => {      
+      const data: IModalityCreateUpdate = { modality: "", modality_type_id: 1 };
       const newResponse = await testServer.post("/modalities").send(data).set("authorization", tokenRoot);  
       
       expect(newResponse.body.isError).toBeTruthy();
@@ -109,7 +120,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to created modalities without prop MODALITY",  async () => {      
+    it("it not should be possible to create modalities without prop MODALITY",  async () => {      
       const newResponse = await testServer.post("/modalities").send({ modality_type_id: 1 }).set("authorization", tokenRoot);  
       
       expect(newResponse.body.isError).toBeTruthy();
@@ -117,7 +128,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to created modalities without prop MODALITY_TYPE_ID",  async () => {      
+    it("it not should be possible to create modalities without prop MODALITY_TYPE_ID",  async () => {      
       const newResponse = await testServer.post("/modalities").send({ modality: "teste" }).set("authorization", tokenRoot);  
       
       expect(newResponse.body.isError).toBeTruthy();
@@ -125,8 +136,8 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to created modalities without prop MODALITY_TYPE_ID invalid",  async () => {     
-      const data: IModalityCreate = { modality: "testemodality", modality_type_id: 1000 }; 
+    it("it not should be possible to create modalities without prop MODALITY_TYPE_ID invalid",  async () => {     
+      const data: IModalityCreateUpdate = { modality: "testemodality", modality_type_id: 1000 }; 
       const newResponse = await testServer.post("/modalities").send(data).set("authorization", tokenRoot);  
       
       expect(newResponse.body.isError).toBeTruthy();
@@ -134,8 +145,8 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(500);
     });
 
-    it("it not should be possible to created modalities with a mesmo MODALITY",  async () => {      
-      const data: IModalityCreate = { modality: "testeCreate", modality_type_id: 1 };
+    it("it not should be possible to create modalities with a mesmo MODALITY",  async () => {      
+      const data: IModalityCreateUpdate = { modality: "testeCreate", modality_type_id: 1 };
       await testServer.post("/modalities").send(data).set("authorization", tokenRoot);
 
       const newResponse = await testServer.post("/modalities").send(data).set("authorization", tokenRoot);
