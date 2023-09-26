@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 
 import { RETURNED_API_ERRORS_500, RETURNED_API_SUCCESS } from "../../returnsRequests";
 import { initialTransactionDB } from "../../helpers";
+import { Training, TrainingDetail } from "../../models";
 
 export const createTraining = async (
   req: Request<object, object, IBodyAuth & ITrainingCreateUpdate>, 
@@ -10,13 +11,25 @@ export const createTraining = async (
   const transactionBD = await initialTransactionDB();
 
   try {
-    const { auth_user_id, modality_id, tag, training, video_url } = req.body;
+    const { auth_user_id, modality_id, tag, training, video_url, details } = req.body;
 
-    console.log(auth_user_id);
-    console.log(modality_id);
-    console.log(tag);
-    console.log(training);
-    console.log(video_url);
+    const newTraining = await Training.create({
+      tag,
+      training,
+      video_url,
+      modality_id,
+      user_trainer_id: auth_user_id
+    }, { transaction: transactionBD });
+
+    if(details.length) {
+      const detailsDB = details.map((detail) => {
+        return {
+          ...detail,
+          training_id: newTraining.id
+        };
+      });
+      await TrainingDetail.bulkCreate(detailsDB, { transaction: transactionBD });
+    }
 
     transactionBD.commit();
     return res.status(200).json(RETURNED_API_SUCCESS({ 
@@ -25,6 +38,7 @@ export const createTraining = async (
     }));
 
   } catch (error) {
+    console.log(error);
     transactionBD.rollback();
     return res.status(500).json(RETURNED_API_ERRORS_500());
   }
