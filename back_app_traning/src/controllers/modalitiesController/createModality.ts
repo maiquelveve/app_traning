@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { Modality, ModalityType } from "../../models";
 
 import { RETURNED_API_ERRORS, RETURNED_API_ERRORS_500, RETURNED_API_SUCCESS } from "../../returnsRequests";
+import { verifyExistingModalityCreate } from "../../validations";
 import { initialTransactionDB } from "../../helpers";
 
 export const createModality = async (
@@ -12,11 +13,11 @@ export const createModality = async (
   const transactionDB = await initialTransactionDB();
   try {
     const { modality, modality_type_id } = req.body;
-    const isExistModality = await Modality.findOne({ where: { modality }});
 
-    if(isExistModality) {
+    const isExistModality = await verifyExistingModalityCreate({ modality });
+    if(isExistModality.error) {
       transactionDB.rollback();
-      return res.status(400).json(RETURNED_API_ERRORS({ errors: ["Modalidade já existe no sistema."] }));
+      return res.status(400).json(RETURNED_API_ERRORS({ errors: [isExistModality.message] }));
     }
 
     const newModality = await Modality.create({ modality, modality_type_id }, { transaction: transactionDB });

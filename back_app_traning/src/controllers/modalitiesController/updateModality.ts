@@ -2,7 +2,8 @@ import { Request, Response } from "express";
 import { Modality, ModalityType } from "../../models";
 
 import { RETURNED_API_ERRORS, RETURNED_API_ERRORS_500, RETURNED_API_SUCCESS } from "../../returnsRequests";
-import { initialTransactionDB, operatorsDB } from "../../helpers";
+import { initialTransactionDB } from "../../helpers";
+import { verifyExistingModalityUpdate } from "../../validations";
 
 export const updateModality = async (
   req: Request<IParamsModalityId, object, IModalityCreateUpdate>, 
@@ -13,18 +14,11 @@ export const updateModality = async (
   try {
     const { id } = req.params;
     const { modality, modality_type_id } = req.body;
-    const isExistModality = await Modality.findOne({ 
-      where: { 
-        modality,
-        [operatorsDB.not]: {
-          id
-        }
-      }
-    });
 
-    if(isExistModality) {
+    const isExistModality = await verifyExistingModalityUpdate({ modality, id });
+    if(isExistModality.error) {
       transactionDB.rollback();
-      return res.status(400).json(RETURNED_API_ERRORS({ errors: ["Modalidade já existe no sistema."] }));
+      return res.status(400).json(RETURNED_API_ERRORS({ errors: [isExistModality.message] }));
     }
 
     await Modality.update({ modality, modality_type_id }, { where: { id }, transaction: transactionDB });

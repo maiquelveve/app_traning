@@ -4,10 +4,10 @@ interface ITrainingCreateUpdate {
   training: string;
   modality_id: number;
   video_url: string;
-  details: ITrainingDetail[]
+  details: ITrainingDetailProps[]
 }
 
-interface ITrainingDetail {
+interface ITrainingDetailProps {
   description: string;
   value: string;
 }

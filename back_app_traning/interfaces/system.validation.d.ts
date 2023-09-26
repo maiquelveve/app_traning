@@ -3,8 +3,31 @@ interface IVerifyEmailExistProps {
   email: string;
   typeOperation: "edit" | "create";
 }
+interface IVerifyExistingModalityCreateProps {
+  modality: string;
+}
 
-interface IVerifyEmailExistReturn {
+interface IVerifyExistingModalityUpdateProps {
+  id: number;
+  modality: string;
+}
+
+interface IVerifyExistingTrainingCreateProps {
+  tag: string;
+  training: string;
+  modality_id: number;
+  user_trainer_id: number
+}
+
+interface IVerifyExistingTrainingUpdateProps {
+  id: number;
+  tag: string;
+  training: string;
+  modality_id: number;
+  user_trainer_id: number
+}
+
+interface IValidationSystemReturn {
   message: string;
   error: boolean;
 }

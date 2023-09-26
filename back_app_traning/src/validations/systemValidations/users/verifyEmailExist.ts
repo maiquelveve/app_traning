@@ -1,6 +1,6 @@
 import { User } from "../../../models";
 
-export const verifyEmailExist = async ({id, email, typeOperation }: IVerifyEmailExistProps): Promise<IVerifyEmailExistReturn> => {
+export const verifyEmailExist = async ({id, email, typeOperation }: IVerifyEmailExistProps): Promise<IValidationSystemReturn> => {
   try {
     const emailExist = await User.findOne({ where: { email } });    
 
