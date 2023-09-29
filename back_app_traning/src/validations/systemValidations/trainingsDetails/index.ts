@@ -1,2 +1,1 @@
-export * from "./verifyTrainingDetailCreate";
-export * from "./verifyTrainingDetailUpdate";
+export * from "./verifyTrainingDetail";

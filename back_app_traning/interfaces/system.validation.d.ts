@@ -27,6 +27,10 @@ interface IVerifyExistingTrainingUpdateProps {
   user_trainer_id: number
 }
 
+interface IVerifyTrainingDetailsProps {
+  details: ITrainingDetail[]
+}
+
 interface IValidationSystemReturn {
   message: string;
   error: boolean;

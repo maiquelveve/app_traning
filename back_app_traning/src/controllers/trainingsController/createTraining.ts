@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import { RETURNED_API_ERRORS, RETURNED_API_ERRORS_500, RETURNED_API_SUCCESS } from "../../returnsRequests";
 
-import { verifyExistingTrainingCreate } from "../../validations";
+import { verifyExistingTrainingCreate, verifyTrainingDetail } from "../../validations";
 import { initialTransactionDB, serializeData } from "../../helpers";
 import { Modality, Training, TrainingDetail, User } from "../../models";
 
@@ -37,6 +37,13 @@ export const createTraining = async (
           training_id: newTraining.id
         };
       });
+
+      const returnValidationsDetailsTraining = await verifyTrainingDetail({ details: detailsDB });
+      if(returnValidationsDetailsTraining.error) {
+        transactionBD.rollback();
+        return res.status(200).json(RETURNED_API_ERRORS({ errors: [returnValidationsDetailsTraining.message] }));
+      }
+
       await TrainingDetail.bulkCreate(detailsDB, { transaction: transactionBD });
     }
 
