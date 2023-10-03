@@ -17,21 +17,23 @@ describe("@dev", () => {
 
     let tokenTrainer: "";
     let tokenNotTrainer: "";
+    let user_trainer_id: number;
 
     beforeAll(async () => {
       const profileTrainer = await Profile.findOne({ where: { profile: "TRAINER" } });
 
-      const newUserTrainer = await User.create({ 
-        name: nameTrainer, 
-        email: emailTrainer, 
-        password: await encryptPassword({ password: passwordTrainer }) 
-      });
       await User.create({ 
         name: nameNotTrainer, 
         email: emailNotTrainer, 
         password: await encryptPassword({ password: passwordNotTrainer }) 
       });
-           
+      const newUserTrainer = await User.create({ 
+        name: nameTrainer, 
+        email: emailTrainer, 
+        password: await encryptPassword({ password: passwordTrainer }) 
+      });
+
+      user_trainer_id = newUserTrainer.id;
       await UsersProfiles.create({ profile_id: profileTrainer!.id, user_id: newUserTrainer.id });
 
       const responseTrainer = await testServer.post("/users/login").send({ email: emailTrainer, password: passwordTrainer });
@@ -101,6 +103,26 @@ describe("@dev", () => {
       expect(newResponse.status).toEqual(401);
     });
 
+    it("It should not be possible to register an existing training",  async () => {   
+      const data: ITrainingCreateUpdate = {
+        tag: "test tag TRAINING EXISTING",
+        training: "test training TRAINING EXISTING",
+        modality_id: 1,
+        video_url: "www.youtube.com/iusyiwehtwjkdnfq123eqw32",
+        details: [
+          { description: "teste01", value: "teste01value" },
+          { description: "teste02", value: "teste01value" },
+        ],
+      };
+
+      await Training.create({ ...data, user_trainer_id });
+      const newResponse = await testServer.post("/trainings").send(data).set("authorization", tokenTrainer);   
+      
+      expect(newResponse.body.isError).toBeTruthy();
+      expect(newResponse.body.errors[0]).toEqual("Treino já cadastrado.");
+      expect(newResponse.status).toEqual(400);
+    });
+    
     it("it not should be possible to create trainings with more than 5 detals",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "test tag MORE THAN 5",
@@ -141,23 +163,5 @@ describe("@dev", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("It should not be possible to register an existing training",  async () => {   
-      const data: ITrainingCreateUpdate = {
-        tag: "test tag TRAINING EXISTING",
-        training: "test training TRAINING EXISTING",
-        modality_id: 1,
-        video_url: "www.youtube.com/iusyiwehtwjkdnfq123eqw32",
-        details: [
-          { description: "teste01", value: "teste01value" },
-          { description: "teste02", value: "teste01value" },
-        ],
-      };
-      await Training.create(data);//ver aqui   
-      const newResponse = await testServer.post("/trainings").send(data).set("authorization", tokenTrainer);   
-      
-      expect(newResponse.body.isError).toBeTruthy();
-      expect(newResponse.body.errors[0]).toEqual("Detalhes dos treinos repitidos. Analise os dados informados.");
-      expect(newResponse.status).toEqual(400);
-    });
   });
 });  
