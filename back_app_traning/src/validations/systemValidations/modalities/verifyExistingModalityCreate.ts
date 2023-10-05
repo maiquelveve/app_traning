@@ -8,7 +8,7 @@ export const verifyExistingModalityCreate = async ({
     const isExistModality = await Modality.findOne({ where: { modality }});
 
     if(isExistModality) {
-      return { error: true, message: "Modalidade já caddastrada."};
+      return { error: true, message: "Modalidade já existe no sistema."};
     }
 
     return { error: false, message: ""};

@@ -41,7 +41,7 @@ export const createTraining = async (
       const returnValidationsDetailsTraining = await verifyTrainingDetail({ details: detailsDB });
       if(returnValidationsDetailsTraining.error) {
         transactionBD.rollback();
-        return res.status(400).json(RETURNED_API_ERRORS({ errors: [returnValidationsDetailsTraining.message] }));
+        return res.status(400).json(RETURNED_API_ERRORS({ errors: returnValidationsDetailsTraining.message }));
       }
 
       await TrainingDetail.bulkCreate(detailsDB, { transaction: transactionBD });

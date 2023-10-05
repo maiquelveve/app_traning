@@ -4,3 +4,8 @@ interface ITrainingDetail {
   value: string;
   training_id: number;
 }
+
+interface ICustomValidationSystemReturnDetailsTraining {
+  error: boolean;
+  message: string[];
+}

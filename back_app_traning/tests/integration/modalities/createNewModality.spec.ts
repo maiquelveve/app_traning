@@ -90,6 +90,18 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(401);
     });
 
+    it("it not should be possible to create a modality with the existing MODALITY prop",  async () => {   
+      const newModality = "modality existing MODALITY";   
+      await Modality.create({ modality: newModality, modality_type_id: 1 });
+
+      const data: IModalityCreateUpdate = { modality: newModality, modality_type_id: 1 };
+      const newResponse = await testServer.post("/modalities").send(data).set("authorization", tokenRoot);   
+      
+      expect(newResponse.body.isError).toBeTruthy();
+      expect(newResponse.body.errors[0]).toEqual("Modalidade já existe no sistema.");
+      expect(newResponse.status).toEqual(400);
+    });
+
     it("it not should be possible to create modalities with prop MODALITY less 3 char",  async () => {      
       const data: IModalityCreateUpdate = { modality: "as", modality_type_id: 1 };
       const newResponse = await testServer.post("/modalities").send(data).set("authorization", tokenRoot);  

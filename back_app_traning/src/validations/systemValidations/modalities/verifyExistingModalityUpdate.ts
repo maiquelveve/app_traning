@@ -17,7 +17,7 @@ export const verifyExistingModalityUpdate = async ({
     });
 
     if(isExistModality) {
-      return { error: true, message: "Modalidade já caddastrada."};
+      return { error: true, message: "Modalidade já existe no sistema."};
     }
 
     return { error: false, message: "" };

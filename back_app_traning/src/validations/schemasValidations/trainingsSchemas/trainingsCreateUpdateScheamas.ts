@@ -1,4 +1,5 @@
 import * as yup from "yup";
+import { serializeData } from "../../../helpers";
 
 export const trainingsCreateUpdateScheamas: yup.ObjectSchema<ITrainingCreateUpdate> = yup.object().shape({
   id: yup
@@ -20,21 +21,21 @@ export const trainingsCreateUpdateScheamas: yup.ObjectSchema<ITrainingCreateUpda
     .string()
     .min(20, "Video URL deve conter 20 caracteres no mínimo.")
     .max(200, "Video URL deve conter 200 caracteres no máximo.")
-    .required("Video URL é obrigatório."),
+    .required("Video URL é obrigatória."),
   details: yup    
     .array().of(
       yup.object({
         description: yup
           .string()
-          .min(5, ({ value }) => `A Descrição dos detalhes '${value}' deve conter 5 caracteres no mínimo.`)
-          .max(50, ({ value }) => `A Descrição dos detalhes '${value}' deve conter 50 caracteres no máximo.`)
+          .min(5, ({ value }) => `A Descrição do detalhe '${serializeData(value)}' deve conter 5 caracteres no mínimo.`)
+          .max(50, ({ value }) => `A Descrição do detalhe '${serializeData(value)}' deve conter 50 caracteres no máximo.`)
           .required(({ path }) => 
             `${+(path.split("[")[1].split("]"))[0] + 1}º Descrição é obrigatória para os detalhes, reveja os dados informados.`
           ),
         value: yup
           .string()
-          .min(1, ({ value }) => `O Valor dos detalhes '${value}' deve conter 1 caracteres no mínimo.`)
-          .max(25, ({ value }) => `O Valor dos detalhes '${value}' deve conter 25 caracteres no máximo.`)
+          .min(1, ({ value }) => `O Valor do detalhe '${serializeData(value)}' deve conter 1 caracteres no mínimo.`)
+          .max(25, ({ value }) => `O Valor do detalhe '${serializeData(value)}' deve conter 25 caracteres no máximo.`)
           .required(({ path }) => 
             `${+(path.split("[")[1].split("]"))[0] + 1}º Valor é obrigatório para os detalhes, reveja os dados informados.`
           ),

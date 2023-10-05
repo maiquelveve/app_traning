@@ -8,7 +8,7 @@ describe("@unit", () => {
         { description: "desc 01", value: "123 reps", training_id: 1 }
       ];
 
-      const verifyDetailsTraining = await verifyTrainingDetail({ details});
+      const verifyDetailsTraining = await verifyTrainingDetail({ details });
       expect(verifyDetailsTraining.error).toBeFalsy();
     });
 
@@ -24,7 +24,7 @@ describe("@unit", () => {
 
       const verifyDetailsTraining = await verifyTrainingDetail({ details});
       expect(verifyDetailsTraining.error).toBeTruthy();
-      expect(verifyDetailsTraining.message).toEqual("Informe no máximo 5 detalhes por treino.");
+      expect(verifyDetailsTraining.message).toEqual(["Informe no máximo 5 detalhes por treino."]);
     });
 
     it("It should not be possible to register training details with repeated descriptions", async () => {
@@ -35,7 +35,7 @@ describe("@unit", () => {
 
       const verifyDetailsTraining = await verifyTrainingDetail({ details});
       expect(verifyDetailsTraining.error).toBeTruthy();
-      expect(verifyDetailsTraining.message).toEqual("Detalhes dos treinos repitidos. Analise os dados informados.");
+      expect(verifyDetailsTraining.message).toEqual(["Detalhes dos treinos repitidos. Analise os dados informados."]);
     });
 
   });
