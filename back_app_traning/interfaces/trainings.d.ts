@@ -11,3 +11,7 @@ interface ITrainingDetailProps {
   description: string;
   value: string;
 }
+
+interface IParamsTrainingId {
+  id: number;
+}

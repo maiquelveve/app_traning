@@ -5,20 +5,21 @@ import { testServer } from "../../jest-setup";
 import { encryptPassword } from "../../../src/helpers";
 
 describe("@integration", () => {
-  describe("TRAINIG CONTROLLER - Create Trainigs", () => {
+  describe("TRAINIG CONTROLLER - Update Trainigs", () => {
 
-    const nameTrainer = "test trainer create";
-    const emailTrainer = "testcreateTrainigTrainer@gmail.com";
+    const nameTrainer = "test trainer update";
+    const emailTrainer = "testupdateTrainigTrainer@gmail.com";
     const passwordTrainer = "123456";
 
-    const nameTrainer2 = "test trainer create";
-    const emailTrainer2 = "testcreateTrainigTrainer@gmail.com";
+    const nameTrainer2 = "test trainer update";
+    const emailTrainer2 = "testupdateTrainigTrainer@gmail.com";
     const passwordTrainer2 = "123456";
 
-    const nameNotTrainer = "test Nottrainer create";
-    const emailNotTrainer = "testcreateTrainigNotTrainer@gmail.com";
+    const nameNotTrainer = "test Nottrainer update";
+    const emailNotTrainer = "testupdateTrainigNotTrainer@gmail.com";
     const passwordNotTrainer = "123456";
 
+    let id: number;
     let tokenTrainer: "";
     let tokenNotTrainer: "";
     let user_trainer_id: number;
@@ -55,6 +56,21 @@ describe("@integration", () => {
 
       const responseNotTrainer = await testServer.post("/users/login").send({ email: emailNotTrainer, password: passwordNotTrainer });
       tokenNotTrainer =  responseNotTrainer.body.data[0].token;
+
+      const newTraining = await Training.create({
+        tag: "test tag UPDATE INIT",
+        training: "test training UPDATE INIT",
+        modality_id: 1,
+        video_url: "www.youtube.com/iusyiwehtwjkdnfq123eqw32INIT",
+        user_trainer_id,
+      });
+      await TrainingDetail.create({
+        description: "teste01 INIT", 
+        value: "teste01value INIT",
+        training_id: newTraining.id
+      });
+
+      id = newTraining.id;
     });
 
     afterAll(async () => {
@@ -74,50 +90,50 @@ describe("@integration", () => {
       connectionSql.close();
     });
 
-    it("it should be possible to create trainings by token of TRAINER valid",  async () => {      
+    it("it should be possible to update trainings by token of TRAINER valid",  async () => {      
       const data: ITrainingCreateUpdate = {
-        tag: "test tag CREATE",
-        training: "test training CREATE",
+        tag: "test tag UPDATE",
+        training: "test training UPDATE",
         modality_id: 1,
         video_url: "www.youtube.com/iusyiwehtwjkdnfq123eqw32",
         details: [
           { description: "teste01", value: "teste01value" }
         ],
       };
-      const newResponse = await testServer.post("/trainings").send(data).set("authorization", tokenTrainer);
+      const newResponse = await testServer.put(`/trainings/${id}`).send(data).set("authorization", tokenTrainer);
 
       expect(newResponse.body.isSuccess).toBeTruthy();
       expect(newResponse.body.data[0]).toHaveProperty("id");
       expect(newResponse.status).toEqual(200);
     });
 
-    it("it should be possible to create the same training, but with different TRAINERS",  async () => {     
+    it("it should be possible to update the same training, but with training data from different TRAINERS",  async () => {     
 
       await Training.create({
-        tag: "test CREATE TRAINING DIFFERENT TRAINERS",
-        training: "test CREATE TRAINING DIFFERENT TRAINERS",
+        tag: "test UPDATE TRAINING DIFFERENT TRAINERS",
+        training: "test UPDATE TRAINING DIFFERENT TRAINERS",
         modality_id: 1,
         video_url: "www.youtube.com/iusyiwehtwjkdnfq123eqw32",
         user_trainer_id: user_trainer_id2
       });
 
       const data: ITrainingCreateUpdate = {
-        tag: "test CREATE TRAINING DIFFERENT TRAINERS",
-        training: "test CREATE TRAINING DIFFERENT TRAINERS",
+        tag: "test UPDATE TRAINING DIFFERENT TRAINERS",
+        training: "test UPDATE TRAINING DIFFERENT TRAINERS",
         modality_id: 1,
         video_url: "www.youtube.com/iusyiwehtwjkdnfq123eqw32",
         details: [
           { description: "teste01", value: "teste01value" }
         ],
       };
-      const newResponse = await testServer.post("/trainings").send(data).set("authorization", tokenTrainer);
+      const newResponse = await testServer.put(`/trainings/${id}`).send(data).set("authorization", tokenTrainer);
 
       expect(newResponse.body.isSuccess).toBeTruthy();
       expect(newResponse.body.data[0]).toHaveProperty("id");
       expect(newResponse.status).toEqual(200);
     });
 
-    it("it not should be possible to create trainings by token NOT TRAINER valid",  async () => {   
+    it("it not should be possible to update trainings by token NOT TRAINER valid",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "test tag NOT TRAINER",
         training: "test training NOT TRAINER",
@@ -127,13 +143,13 @@ describe("@integration", () => {
           { description: "teste01", value: "teste01value" }
         ],
       };
-      const newResponse = await testServer.post("/trainings").send(data).set("authorization", tokenNotTrainer);   
+      const newResponse = await testServer.put(`/trainings/${id}`).send(data).set("authorization", tokenNotTrainer);   
       
       expect(newResponse.body.isError).toBeTruthy();
       expect(newResponse.status).toEqual(401);
     });
 
-    it("it not should be possible to create trainings by token invalid",  async () => {   
+    it("it not should be possible to update trainings by token invalid",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "test tag TOKEN INVALID",
         training: "test training TOKEN INVALID",
@@ -143,7 +159,7 @@ describe("@integration", () => {
           { description: "teste01", value: "teste01value" }
         ],
       };
-      const newResponse = await testServer.post("/trainings").send(data).set("authorization", "123456789");   
+      const newResponse = await testServer.put(`/trainings/${id}`).send(data).set("authorization", "123456789");   
       
       expect(newResponse.body.isError).toBeTruthy();
       expect(newResponse.status).toEqual(401);
@@ -162,14 +178,36 @@ describe("@integration", () => {
       };
 
       await Training.create({ ...data, user_trainer_id });
-      const newResponse = await testServer.post("/trainings").send(data).set("authorization", tokenTrainer);   
+      const newResponse = await testServer.put(`/trainings/${id}`).send(data).set("authorization", tokenTrainer);   
       
       expect(newResponse.body.isError).toBeTruthy();
       expect(newResponse.body.errors[0]).toEqual("Treino já cadastrado.");
       expect(newResponse.status).toEqual(400);
     });
+
+
+
+    it("It should not be possible to updated training other user",  async () => {   
+      const data: ITrainingCreateUpdate = {
+        tag: "test tag TRAINING EXISTING",
+        training: "test training TRAINING EXISTING",
+        modality_id: 1,
+        video_url: "www.youtube.com/iusyiwehtwjkdnfq123eqw32",
+        details: [
+          { description: "teste01", value: "teste01value" },
+          { description: "teste02", value: "teste01value" },
+        ],
+      };
+
+      const training = await Training.create({ ...data, user_trainer_id: user_trainer_id2 });
+      const newResponse = await testServer.put(`/trainings/${training.id}`).send(data).set("authorization", tokenTrainer);   
+      
+      expect(newResponse.body.isError).toBeTruthy();
+      expect(newResponse.body.errors[0]).toEqual("Treino inexistente no sistema.");
+      expect(newResponse.status).toEqual(400);
+    });
     
-    it("it not should be possible to create trainings with more than 5 detals",  async () => {   
+    it("it not should be possible to update trainings with more than 5 detals",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "test tag MORE THAN 5",
         training: "test training MORE THAN 5",
@@ -191,7 +229,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with repeated detals",  async () => {   
+    it("it not should be possible to update trainings with repeated detals",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "test tag REPEATED DETAILS",
         training: "test training REPEATED DETAILS",
@@ -209,7 +247,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with TAG shorter than 3 characters",  async () => {   
+    it("it not should be possible to update trainings with TAG shorter than 3 characters",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "te",
         training: "test training TAG",
@@ -226,7 +264,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with TAG shorter than 3 characters with space",  async () => {   
+    it("it not should be possible to update trainings with TAG shorter than 3 characters with space",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "te   ",
         training: "test training TAG",
@@ -243,7 +281,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with TAG more than 80 characters",  async () => {   
+    it("it not should be possible to update trainings with TAG more than 80 characters",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "testetestetestetestetestetestetestetestetestetestetestetestetestetestetestetesteteste",
         training: "test training TAG",
@@ -260,7 +298,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with an empty TAG",  async () => {   
+    it("it not should be possible to update trainings with an empty TAG",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "",
         training: "test training TAG",
@@ -278,7 +316,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings without TAG",  async () => {   
+    it("it not should be possible to update trainings without TAG",  async () => {   
       const data: Omit<ITrainingCreateUpdate, "tag"> = {
         training: "test training TAG",
         modality_id: 1,
@@ -294,7 +332,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with TRAINING shorter than 3 characters",  async () => {   
+    it("it not should be possible to update trainings with TRAINING shorter than 3 characters",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "teste TRAINING",
         training: "te",
@@ -311,7 +349,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with TRAINING shorter than 3 characters with space",  async () => {   
+    it("it not should be possible to update trainings with TRAINING shorter than 3 characters with space",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "teste TRAINING",
         training: "te        ",
@@ -328,7 +366,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with TRAINING more than 80 characters",  async () => {   
+    it("it not should be possible to update trainings with TRAINING more than 80 characters",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "test TRAINING",
         training: "testetestetestetestetestetestetestetestetestetestetestetestetestetestetestetesteteste",
@@ -345,7 +383,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with an empty TRAINING",  async () => {   
+    it("it not should be possible to update trainings with an empty TRAINING",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "test TRAINING",
         training: "",
@@ -363,7 +401,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings without TRAINING",  async () => {   
+    it("it not should be possible to update trainings without TRAINING",  async () => {   
       const data: Omit<ITrainingCreateUpdate, "training"> = {
         tag: "test TRAINING",
         modality_id: 1,
@@ -379,7 +417,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with VIDEO_URL shorter than 20 characters",  async () => {   
+    it("it not should be possible to update trainings with VIDEO_URL shorter than 20 characters",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "test VIDEO_URL",
         training: "test VIDEO_URL",
@@ -396,7 +434,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with VIDEO_URL shorter than 20 characters with space",  async () => {   
+    it("it not should be possible to update trainings with VIDEO_URL shorter than 20 characters with space",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "teste VIDEO_URL",
         training: "test VIDEO_URL",
@@ -413,7 +451,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with VIDEO_URL more than 200 characters",  async () => {   
+    it("it not should be possible to update trainings with VIDEO_URL more than 200 characters",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "test VIDEO_URL",
         training: "test VIDEO_URL",
@@ -430,7 +468,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with an empty VIDEO_URL",  async () => {   
+    it("it not should be possible to update trainings with an empty VIDEO_URL",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "test VIDEO_URL",
         training: "test VIDEO_URL",
@@ -448,7 +486,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings without VIDEO_URL",  async () => {   
+    it("it not should be possible to update trainings without VIDEO_URL",  async () => {   
       const data: Omit<ITrainingCreateUpdate, "video_url"> = {
         tag: "test VIDEO_URL",
         training: "test VIDEO_URL",
@@ -464,7 +502,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with MODALITY_ID not number",  async () => {   
+    it("it not should be possible to update trainings with MODALITY_ID not number",  async () => {   
       const data: any = {
         tag: "test MODALITY_ID",
         training: "test MODALITY_ID",
@@ -481,7 +519,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings without MODALITY_ID",  async () => {   
+    it("it not should be possible to update trainings without MODALITY_ID",  async () => {   
       const data: Omit<ITrainingCreateUpdate, "modality_id"> = {
         tag: "teste MODALITY_ID",
         training: "test MODALITY_ID",
@@ -497,7 +535,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with MODALITY_ID nonexistent database",  async () => {   
+    it("it not should be possible to update trainings with MODALITY_ID nonexistent database",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "teste MODALITY_ID",
         training: "test MODALITY_ID",
@@ -513,7 +551,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(500);
     });
 
-    it("it not should be possible to create trainings with DESCRIPTION DETAILS shorter than 5 characters",  async () => {   
+    it("it not should be possible to update trainings with DESCRIPTION DETAILS shorter than 5 characters",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "test DESCRIPTION DETAILS",
         training: "test DESCRIPTION DETAILS",
@@ -530,7 +568,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with DESCRIPTION DETAILS shorter than 20 characters with space",  async () => {   
+    it("it not should be possible to update trainings with DESCRIPTION DETAILS shorter than 20 characters with space",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "teste DESCRIPTION DETAILS",
         training: "test DESCRIPTION DETAILS",
@@ -547,7 +585,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with DESCRIPTION DETAILS shorter than 5 characters item 2",  async () => {   
+    it("it not should be possible to update trainings with DESCRIPTION DETAILS shorter than 5 characters item 2",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "test DESCRIPTION DETAILS",
         training: "test DESCRIPTION DETAILS",
@@ -565,7 +603,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with DESCRIPTION DETAILS shorter than 5 characters with space item 2",  async () => {   
+    it("it not should be possible to update trainings with DESCRIPTION DETAILS shorter than 5 characters with space item 2",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "teste DESCRIPTION DETAILS",
         training: "test DESCRIPTION DETAILS",
@@ -583,7 +621,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with DESCRIPTION DETAILS more than 50 characters",  async () => {   
+    it("it not should be possible to update trainings with DESCRIPTION DETAILS more than 50 characters",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "test DESCRIPTION DETAILS",
         training: "test DESCRIPTION DETAILS",
@@ -602,7 +640,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with DESCRIPTION DETAILS more than 50 characters item 2",  async () => {   
+    it("it not should be possible to update trainings with DESCRIPTION DETAILS more than 50 characters item 2",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "test DESCRIPTION DETAILS",
         training: "test DESCRIPTION DETAILS",
@@ -622,7 +660,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with an empty DESCRIPTION DETAILS",  async () => {   
+    it("it not should be possible to update trainings with an empty DESCRIPTION DETAILS",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "test DESCRIPTION DETAILS",
         training: "test DESCRIPTION DETAILS",
@@ -640,7 +678,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings without DESCRIPTION DETAILS",  async () => {  
+    it("it not should be possible to update trainings without DESCRIPTION DETAILS",  async () => {  
       const data: any = {
         tag: "test DESCRIPTION DETAILS",
         training: "test DESCRIPTION DETAILS",
@@ -657,7 +695,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings without DESCRIPTION DETAILS item 2",  async () => {  
+    it("it not should be possible to update trainings without DESCRIPTION DETAILS item 2",  async () => {  
       const data: any = {
         tag: "test DESCRIPTION DETAILS",
         training: "test DESCRIPTION DETAILS",
@@ -675,7 +713,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with VALUE DETAILS shorter than 1 characters",  async () => {   
+    it("it not should be possible to update trainings with VALUE DETAILS shorter than 1 characters",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "test VALUE DETAILS",
         training: "test VALUE DETAILS",
@@ -692,7 +730,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with VALUE DETAILS shorter than 1 characters with space",  async () => {   
+    it("it not should be possible to update trainings with VALUE DETAILS shorter than 1 characters with space",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "teste VALUE DETAILS",
         training: "test VALUE DETAILS",
@@ -709,7 +747,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with VALUE DETAILS shorter than 1 characters item 2",  async () => {   
+    it("it not should be possible to update trainings with VALUE DETAILS shorter than 1 characters item 2",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "test VALUE DETAILS",
         training: "test VALUE DETAILS",
@@ -727,7 +765,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with VALUE DETAILS shorter than 1 characters with space item 2",  async () => {   
+    it("it not should be possible to update trainings with VALUE DETAILS shorter than 1 characters with space item 2",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "teste VALUE DETAILS",
         training: "test VALUE DETAILS",
@@ -745,7 +783,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with VALUE DETAILS more than 25 characters",  async () => {   
+    it("it not should be possible to update trainings with VALUE DETAILS more than 25 characters",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "test VALUE DETAILS",
         training: "test VALUE DETAILS",
@@ -764,7 +802,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with VALUE DETAILS more than 25 characters item 2",  async () => {   
+    it("it not should be possible to update trainings with VALUE DETAILS more than 25 characters item 2",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "test VALUE DETAILS",
         training: "test VALUE DETAILS",
@@ -784,7 +822,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings with an empty VALUE DETAILS",  async () => {   
+    it("it not should be possible to update trainings with an empty VALUE DETAILS",  async () => {   
       const data: ITrainingCreateUpdate = {
         tag: "test VALUE DETAILS",
         training: "test VALUE DETAILS",
@@ -802,7 +840,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings without VALUE DETAILS",  async () => {  
+    it("it not should be possible to update trainings without VALUE DETAILS",  async () => {  
       const data: any = {
         tag: "test VALUE DETAILS",
         training: "test VALUE DETAILS",
@@ -819,7 +857,7 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(400);
     });
 
-    it("it not should be possible to create trainings without VALUE DETAILS item 2",  async () => {  
+    it("it not should be possible to update trainings without VALUE DETAILS item 2",  async () => {  
       const data: any = {
         tag: "test VALUE DETAILS",
         training: "test VALUE DETAILS",

@@ -12,6 +12,10 @@ interface IVerifyExistingModalityUpdateProps {
   modality: string;
 }
 
+interface IVerifyTrainingIsTrainerProps {
+  training_id: number;
+  user_trainer_id: number
+}
 interface IVerifyExistingTrainingCreateProps {
   tag: string;
   training: string;

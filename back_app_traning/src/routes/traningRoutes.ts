@@ -17,4 +17,12 @@ trainingsRoutes.post(
   trainingsController.createTraining
 );
 
+trainingsRoutes.put<any>(
+  "/trainings/:id", 
+  authSystem({ permissions: ["trainer"] }),
+  serializeDataBody(),
+  bodyCreateUpdateTrainingsValidation,
+  trainingsController.updateTraining
+);
+
 export { trainingsRoutes };
