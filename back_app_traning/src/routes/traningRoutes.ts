@@ -25,4 +25,10 @@ trainingsRoutes.put<any>(
   trainingsController.updateTraining
 );
 
+trainingsRoutes.get<any>(
+  "/trainings/:id", 
+  authSystem({ permissions: ["trainer"] }),
+  trainingsController.viewTraining
+);
+
 export { trainingsRoutes };
