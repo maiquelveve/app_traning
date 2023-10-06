@@ -15,3 +15,9 @@ interface ITrainingDetailProps {
 interface IParamsTrainingId {
   id: number;
 }
+
+interface ITrainingsQueryFilter {
+  trainingSearch?: string;
+  tagSearch?: string;
+  modality_id?: string;
+}

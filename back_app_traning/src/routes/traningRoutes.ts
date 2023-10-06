@@ -31,4 +31,11 @@ trainingsRoutes.get<any>(
   trainingsController.viewTraining
 );
 
+trainingsRoutes.get(
+  "/trainings", 
+  authSystem({ permissions: ["trainer"] }),
+  trainingsController.getTrainings
+);
+
+
 export { trainingsRoutes };
