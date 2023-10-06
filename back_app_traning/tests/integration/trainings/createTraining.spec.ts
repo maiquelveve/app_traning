@@ -5,7 +5,7 @@ import { testServer } from "../../jest-setup";
 import { encryptPassword } from "../../../src/helpers";
 
 describe("@integration", () => {
-  describe("TRAINIG CONTROLLER - Create Trainigs", () => {
+  describe("TRAINIG CONTROLLER - Create Trainings", () => {
 
     const nameTrainer = "test trainer create";
     const emailTrainer = "testcreateTrainigTrainer@gmail.com";
