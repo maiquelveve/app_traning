@@ -1,12 +1,10 @@
-import { Box, Button, CardContent, Typography } from "@mui/material";
+import { Box } from "@mui/material";
+import { TableTrainings } from "./components";
 
-export const Training: React.FC<ITrainingCalssProps> = ({ handleGoBack }) => {
+export const Training: React.FC = () => {
   return(
-    <CardContent>
-      <Button variant="text" onClick={handleGoBack}>{"<-"}</Button>
-      <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column">
-        <Typography>TRAINING</Typography>
-      </Box>
-    </CardContent>
+    <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column">
+      <TableTrainings />
+    </Box>
   );
 };

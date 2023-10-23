@@ -11,6 +11,14 @@ interface ITrainingSelectorProps {
   handleClickTraining: () => void;
 }
 
-interface ITrainingCalssProps {
-  handleGoBack: () => void;
+interface ITrainingListData {
+  id: number;
+  traning: string;
+  tag: string;
+  modality: string;
+}
+
+interface ITableToolbarSelectedTrainingProps {
+  selectedData: ITrainingListData | null;
+  disableSelectedData: () => void;
 }

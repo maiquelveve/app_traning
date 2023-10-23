@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
-import { Box, Zoom } from "@mui/material";
+import { Zoom, IconButton, CardContent } from "@mui/material";
+import { SwapHoriz } from "@mui/icons-material/";
 
 import { CardComponent, Page } from "../../../components";
 
@@ -34,25 +35,30 @@ export const RootTraining: React.FC = () => {
   return(
     <Page title={showTraining ? "Treinos" : showClass ? "Aulas" : "Treinamentos"}>
       <CardComponent>
+        {!showSelector &&
+          <IconButton onClick={handleGoBack}>
+            <SwapHoriz />
+          </IconButton>
+        }
         {showSelector && 
           <Zoom in={showSelector} timeout={{ enter: 1000, exit: 3000  }} >
-            <Box>
+            <CardContent>
               <Selector handleClickClass={handleClickClass} handleClickTraining={handleClickTraining} />
-            </Box>
+            </CardContent>
           </Zoom>
         }
         {showTraining && 
           <Zoom in={showTraining} timeout={{ enter: 1000, exit: 3000 }} >
-            <Box>
-              <Training handleGoBack={handleGoBack} />
-            </Box>
+            <CardContent>
+              <Training />
+            </CardContent>
           </Zoom>
         }
         {showClass && 
           <Zoom in={showClass} timeout={{ enter: 1000, exit: 3000  }} >
-            <Box>
-              <Class handleGoBack={handleGoBack} />
-            </Box>
+            <CardContent>
+              <Class />
+            </CardContent>
           </Zoom>
         }
       </CardComponent>   
