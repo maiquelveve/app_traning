@@ -14,7 +14,7 @@ import {
 import { alpha } from "@mui/material/styles";
 import { green } from "@mui/material/colors";
 
-import { useLayoutContext } from "../../../../../context";
+import { useLayoutContext, useTrainingPageContext } from "../../../../../context";
 import { LoadingText } from "../../../../../components";
 
 import { TableEmpty } from "./TableEmpty";
@@ -29,17 +29,7 @@ export const TableTrainings: React.FC = () => {
     setSelected(null);
   }, []);
 
-
-
-  //MOCKS
-  const loadingTrainings = false;
-  const trainings: ITrainingListData[] = [
-    { id: 1, traning: "SUPINO RETO", tag: "PEITORAL", modality: "MUSCULAÇÃO" },
-    { id: 2, traning: "ROSCA DIRETA", tag: "BISCEPS", modality: "MUSCULAÇÃO" },
-    { id: 3, traning: "CORRIDA 12 MINUTOS", tag: "RESISTENCIA", modality: "CORRIDA" },
-    { id: 4, traning: "CORRE E PARA", tag: "GÁS", modality: "CORRIDA" },
-  ];
-
+  const { trainingsListData, loadingTrainings } = useTrainingPageContext();
 
   return (
     <Box sx={{ width: "100%" }} component={Paper} elevation={24} borderRadius={5}>
@@ -51,7 +41,7 @@ export const TableTrainings: React.FC = () => {
           </Box>
           : 
           <Box>
-            {!trainings.length ? <TableEmpty /> :
+            {!trainingsListData.length ? <TableEmpty /> :
               <>
                 <TableContainer sx={{ mb: 1 }}>
                   <Table sx={{ minWidth: 350 }} aria-labelledby="tableModalities">
@@ -79,7 +69,7 @@ export const TableTrainings: React.FC = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {trainings.map((training) => (
+                      {trainingsListData.map((training) => (
                         <TableRow
                           hover
                           onClick={() => training.id !== selected?.id ? setSelected(training) : setSelected(null)}

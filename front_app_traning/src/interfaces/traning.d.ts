@@ -11,6 +11,11 @@ interface ITrainingSelectorProps {
   handleClickTraining: () => void;
 }
 
+interface ISearchTrainingFiltersProps {
+  searchTraining?: string;
+  modality_id?: number;
+}
+
 interface ITrainingListData {
   id: number;
   traning: string;

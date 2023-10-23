@@ -3,6 +3,7 @@ import { Zoom, IconButton, CardContent } from "@mui/material";
 import { SwapHoriz } from "@mui/icons-material/";
 
 import { CardComponent, Page } from "../../../components";
+import { TrainingPageProvider } from "../../../context";
 
 import { Selector } from "../Selector";
 import { Training } from "../Training";
@@ -50,7 +51,9 @@ export const RootTraining: React.FC = () => {
         {showTraining && 
           <Zoom in={showTraining} timeout={{ enter: 1000, exit: 3000 }} >
             <CardContent>
-              <Training />
+              <TrainingPageProvider>
+                <Training />
+              </TrainingPageProvider>
             </CardContent>
           </Zoom>
         }
