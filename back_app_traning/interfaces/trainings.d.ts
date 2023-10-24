@@ -18,6 +18,5 @@ interface IParamsTrainingId {
 
 interface ITrainingsQueryFilter {
   trainingSearch?: string;
-  tagSearch?: string;
   modality_id?: string;
 }

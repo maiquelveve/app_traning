@@ -86,9 +86,9 @@ export const TableTrainings: React.FC = () => {
                           <TableCell padding="checkbox">
                             <Checkbox color="primary" checked={selected?.id === training.id ? true : false} />
                           </TableCell>
-                          <TableCell align="left">{training.traning}</TableCell>
+                          <TableCell align="left">{training.training}</TableCell>
                           <TableCell align="left">{training.tag}</TableCell>
-                          <TableCell align="left">{training.modality}</TableCell>
+                          <TableCell align="left">{training.modality.modality}</TableCell>
                         </TableRow> 
                       ))}
                     </TableBody>          

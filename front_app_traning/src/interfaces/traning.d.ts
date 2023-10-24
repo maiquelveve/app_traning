@@ -1,3 +1,14 @@
+
+interface ITraining {
+  id?: number;
+  tag: string;
+  training: string;
+  video_url: string;
+  trainer: IUser;
+  modality: IModality;
+  trainingDetails: ITrainingDetails[];
+}
+
 interface ICardTrainingProps {
   title: string;
   subTitle?: string;
@@ -14,13 +25,15 @@ interface ITrainingSelectorProps {
 interface ISearchTrainingFiltersProps {
   searchTraining?: string;
   modality_id?: number;
+  page: number;
+  perPage: number;
 }
 
 interface ITrainingListData {
   id: number;
-  traning: string;
+  training: string;
   tag: string;
-  modality: string;
+  modality: Omit<IModality, "id" | "modalityType">;
 }
 
 interface ITableToolbarSelectedTrainingProps {

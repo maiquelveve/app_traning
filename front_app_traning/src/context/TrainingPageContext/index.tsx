@@ -1,5 +1,9 @@
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
+
+import { useAuthUserContext } from "../AuthUserContext";
+
 import { catchDefalutAlert } from "../../components";
+import { apiService } from "../../services";
 
 const TrainingPageContext = createContext({} as ITrainingPageContext);
 
@@ -13,9 +17,11 @@ export const TrainingPageProvider: React.FC<IAppProps> = ({ children }) => {
   const [trainingsListData, setTrainingsListData] = useState<ITrainingListData[]>([]);
   const [modalitiesTrainings, setModalitiesTrainings] = useState<IModality[]>([]);
 
+  const { getToken } = useAuthUserContext();
+
   useEffect(() => {
     const fetch = async () => {
-      await handleSearchTraining({});
+      await handleSearchTraining({ page: 1, perPage: 10 });
       await handleGetModalitiesTraining();
     };
     fetch();
@@ -24,11 +30,14 @@ export const TrainingPageProvider: React.FC<IAppProps> = ({ children }) => {
   const handleGetModalitiesTraining = useCallback(async () => {
     try {
       setLoadingModalitiesTrainings(true);
-      setModalitiesTrainings([
-        { id: 1, modality: "MUSCULAÇÃO", modalityType: { id: 1, type: "TRAINING" } },
-        { id: 2, modality: "CORRIDA", modalityType: { id: 1, type: "TRAINING" } },
-      ]); 
-      await handleSearchTraining({});
+      
+      const responseApi = await apiService.get<IReturnedRequest>(
+        "/modalitiesTraining", 
+        { 
+          headers: { Authorization: getToken() }
+        }
+      );      
+      setModalitiesTrainings(responseApi.data.data[0].modalities); 
 
     } catch (error) {
       catchDefalutAlert();  
@@ -37,16 +46,29 @@ export const TrainingPageProvider: React.FC<IAppProps> = ({ children }) => {
     }
   }, []);
 
-  const handleSearchTraining = useCallback(async ({ modality_id, searchTraining  }: ISearchTrainingFiltersProps) => {
+  const handleSearchTraining = useCallback(async ({ 
+    modality_id, 
+    searchTraining, 
+    page=1, 
+    perPage=10  
+  }: ISearchTrainingFiltersProps) => {
     try {
       setLoadingTrainings(true);
-      setTrainingsListData([
-        { id: 1, traning: "SUPINO RETO", tag: "PEITORAL", modality: "MUSCULAÇÃO" },
-        { id: 2, traning: "ROSCA DIRETA", tag: "BISCEPS", modality: "MUSCULAÇÃO" },
-        { id: 3, traning: "CORRIDA 12 MINUTOS", tag: "RESISTENCIA", modality: "CORRIDA" },
-        { id: 4, traning: "CORRE E PARA", tag: "GÁS", modality: "CORRIDA" },
-      ]);
-      console.log(modality_id, searchTraining);
+
+      const responseApi = await apiService.get<IReturnedRequest>(
+        "/trainings", 
+        { 
+          headers: { Authorization: getToken() },
+          params: {
+            page: page,
+            perPage: perPage,
+            trainingSearch: searchTraining,
+            modality_id: modality_id
+          }
+        }
+      ); 
+
+      setTrainingsListData(responseApi.data.data[0].trainings);
 
     } catch (error) {
       catchDefalutAlert();  

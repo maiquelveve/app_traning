@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Modality, Training, TrainingDetail, User } from "../../models";
+import { Modality, Training } from "../../models";
 import { operatorsDB } from "../../helpers";
 
 import { RETURNED_API_ERRORS_500, RETURNED_API_SUCCESS, RETURNED_API_ERRORS } from "../../returnsRequests";
@@ -21,11 +21,13 @@ export const getTrainings = async (
     }
 
     if(req.query.trainingSearch) {
-      where = { ...where,  training: { [operatorsDB.substring]: req.query.trainingSearch } };
-    }
-
-    if(req.query.tagSearch) {
-      where = { ...where,  tag: { [operatorsDB.substring]: req.query.tagSearch } };
+      where = { 
+        ...where,  
+        [operatorsDB.or]: {
+          training: { [operatorsDB.substring]: req.query.trainingSearch },
+          tag: { [operatorsDB.substring]: req.query.trainingSearch }
+        }
+      };
     }
 
     if(page === 0 || perPage === 0) {
@@ -35,10 +37,9 @@ export const getTrainings = async (
     const { count, rows } = await Training.findAndCountAll({
       where,
       include: [
-        {model: User, as: "trainer"},
-        {model: Modality, as: "modality"},
-        {model: TrainingDetail, as: "trainingDetails"},
+        { model: Modality, as: "modality", attributes: { exclude: ["id", "modality_type_id"] } },
       ],
+      attributes: { exclude: ["video_url", "modality_id", "user_trainer_id"] },
       offset: (page - 1) * perPage,
       limit: perPage
     });

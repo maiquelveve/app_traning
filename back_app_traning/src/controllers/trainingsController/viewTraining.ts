@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Modality, Training, TrainingDetail, User } from "../../models";
+import { Modality, ModalityType, Training, TrainingDetail, User } from "../../models";
 import { verifyTrainingIsTrainer } from "../../validations";
 
 import { RETURNED_API_ERRORS, RETURNED_API_ERRORS_500, RETURNED_API_SUCCESS } from "../../returnsRequests";
@@ -21,7 +21,7 @@ export const viewTraining = async (
     const returnTraining = await Training.findByPk(id, {
       include: [
         {model: User, as: "trainer"},
-        {model: Modality, as: "modality"},
+        {model: Modality, as: "modality", include: [{ as: "modalityType", model: ModalityType }] },
         {model: TrainingDetail, as: "trainingDetails"},
       ],
     });

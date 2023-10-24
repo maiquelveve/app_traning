@@ -177,7 +177,7 @@ describe("@integration", () => {
     });
 
     it("it should be possible to get trainings with all filters",  async () => {  
-      const route = "/trainings?tagSearch=test tag&trainingSearch=test training&modality_id=1";   
+      const route = "/trainings?trainingSearch=test training&modality_id=1";   
       const newResponse = await testServer.get(route).set("authorization", tokenTrainer);
 
       expect(newResponse.body.isSuccess).toBeTruthy();
@@ -186,47 +186,11 @@ describe("@integration", () => {
     });
 
     it("it should not be possible to get trainings with filters from another trainer",  async () => {  
-      const route = "/trainings?tagSearch=INIT2&trainingSearch=test training GET INIT2&modality_id=1";   
+      const route = "/trainings?trainingSearch=test training GET INIT2&modality_id=1";   
       const newResponse = await testServer.get(route).set("authorization", tokenTrainer);
 
       expect(newResponse.body.isSuccess).toBeTruthy();
       expect(newResponse.body.data[0].trainings.length === 0).toBeTruthy();
-      expect(newResponse.status).toEqual(200);
-    });
-
-    it("it should be possible to get trainings with filters TAG full",  async () => {  
-      const route = "/trainings?tagSearch=test tag GET INIT";   
-      const newResponse = await testServer.get(route).set("authorization", tokenTrainer);
-
-      expect(newResponse.body.isSuccess).toBeTruthy();
-      expect(newResponse.body.data[0].trainings.length > 0).toBeTruthy();
-      expect(newResponse.status).toEqual(200);
-    });
-
-    it("it should be possible to get trainings with filters TAG",  async () => {  
-      const route = "/trainings?tagSearch=GET INIT";   
-      const newResponse = await testServer.get(route).set("authorization", tokenTrainer);
-
-      expect(newResponse.body.isSuccess).toBeTruthy();
-      expect(newResponse.body.data[0].trainings.length > 0).toBeTruthy();
-      expect(newResponse.status).toEqual(200);
-    });
-    
-    it("it should not be possible to get trainings with filters TAG incorrect",  async () => {  
-      const route = "/trainings?tagSearch=123";   
-      const newResponse = await testServer.get(route).set("authorization", tokenTrainer);
-
-      expect(newResponse.body.isSuccess).toBeTruthy();
-      expect(newResponse.body.data[0].trainings.length === 0).toBeTruthy();
-      expect(newResponse.status).toEqual(200);
-    });
-
-    it("it should be possible to get trainings with filters TAG empty",  async () => {  
-      const route = "/trainings?tagSearch=";   
-      const newResponse = await testServer.get(route).set("authorization", tokenTrainer);
-
-      expect(newResponse.body.isSuccess).toBeTruthy();
-      expect(newResponse.body.data[0].trainings.length > 0).toBeTruthy();
       expect(newResponse.status).toEqual(200);
     });
 
@@ -266,6 +230,15 @@ describe("@integration", () => {
       expect(newResponse.status).toEqual(200);
     });
 
+    it("it should be possible to get trainings with filters TRAINING for TAG",  async () => {  
+      const route = "/trainings?trainingSearch=test tag GET INIT";   
+      const newResponse = await testServer.get(route).set("authorization", tokenTrainer);
+
+      expect(newResponse.body.isSuccess).toBeTruthy();
+      expect(newResponse.body.data[0].trainings.length > 0).toBeTruthy();
+      expect(newResponse.status).toEqual(200);
+    });
+
     it("it should be possible to get trainings with filters MODALITY_ID",  async () => {  
       const route = "/trainings?modality_id=1";   
       const newResponse = await testServer.get(route).set("authorization", tokenTrainer);
@@ -294,8 +267,8 @@ describe("@integration", () => {
     });
 
     it("it should be possible to get trainings with all filters and pagination",  async () => {  
-      const route = "/trainings?page=1&perPage=2&tagSearch=test tag&trainingSearch=test training&modality_id=1";   
-      const route2 = "/trainings?page=2&perPage=2&tagSearch=test tag&trainingSearch=test training&modality_id=1";   
+      const route = "/trainings?page=1&perPage=2&trainingSearch=test training&modality_id=1";   
+      const route2 = "/trainings?page=2&perPage=2&trainingSearch=test training&modality_id=1";   
       const newResponse = await testServer.get(route).set("authorization", tokenTrainer);
       const newResponse2 = await testServer.get(route2).set("authorization", tokenTrainer);
 
@@ -309,7 +282,7 @@ describe("@integration", () => {
     });
 
     it("it should be possible to get trainings with all filters and pagination empty",  async () => {  
-      const route = "/trainings?page=&perPage=&tagSearch=test tag&trainingSearch=test training&modality_id=1";   
+      const route = "/trainings?page=&perPage=&trainingSearch=test training&modality_id=1";   
       const newResponse = await testServer.get(route).set("authorization", tokenTrainer);
 
       expect(newResponse.body.isSuccess).toBeTruthy();
@@ -318,7 +291,7 @@ describe("@integration", () => {
     });
 
     it("it should not be possible to get trainings with all filters and pagination 0",  async () => {  
-      const route = "/trainings?page=0&perPage=0&tagSearch=test tag&trainingSearch=test training&modality_id=1";   
+      const route = "/trainings?page=0&perPage=0&trainingSearch=test training&modality_id=1";   
       const newResponse = await testServer.get(route).set("authorization", tokenTrainer);
 
       expect(newResponse.body.isError).toBeTruthy();

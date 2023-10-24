@@ -15,6 +15,18 @@ modalitiesRoutes.get(
   modalitiesController.getModelities
 );
 
+modalitiesRoutes.get(
+  "/modalitiesTraining", 
+  authSystem({ permissions: ["root", "trainer"] }),
+  modalitiesController.getModelitiesTraining
+);
+
+modalitiesRoutes.get(
+  "/modalitiesClass", 
+  authSystem({ permissions: ["root", "trainer"] }),
+  modalitiesController.getModelitiesClass
+);
+
 modalitiesRoutes.post(
   "/modalities", 
   authSystem({ permissions: ["root"] }),
