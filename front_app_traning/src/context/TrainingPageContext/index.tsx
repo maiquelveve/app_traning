@@ -17,7 +17,7 @@ export const TrainingPageProvider: React.FC<IAppProps> = ({ children }) => {
   const [trainingsListData, setTrainingsListData] = useState<ITrainingListData[]>([]);
   const [modalitiesTrainings, setModalitiesTrainings] = useState<IModality[]>([]);
   const [pageCurrent, setPageCurrent] = useState(1);
-  const [perPageCurrent, setPerPageCurrent] = useState(1);
+  const [perPageCurrent, setPerPageCurrent] = useState(5);
 
   const { getToken } = useAuthUserContext();
 
