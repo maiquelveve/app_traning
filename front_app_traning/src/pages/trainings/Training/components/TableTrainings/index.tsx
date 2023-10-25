@@ -19,6 +19,7 @@ import { LoadingText } from "../../../../../components";
 
 import { TableEmpty } from "./TableEmpty";
 import { TableToolbar } from "./TableToolbar";
+import { TableFooter } from "./TableFooter";
 
 export const TableTrainings: React.FC = () => {
   const [selected, setSelected] = useState<ITrainingListData | null>(null);
@@ -94,7 +95,7 @@ export const TableTrainings: React.FC = () => {
                     </TableBody>          
                   </Table>
                 </TableContainer>
-                {/* <TableFooter /> */}
+                <TableFooter />
               </>
             }
           </Box>

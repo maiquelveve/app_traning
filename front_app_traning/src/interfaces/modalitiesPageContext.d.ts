@@ -1,7 +1,6 @@
 interface IModalitiesPageContext {
   handleChangePerPageCurrent: (props: IPerPageCurrentProps) => void;
   handleChangePageCurrent: (props: IPageCurrentProps) => void;
-  handleSetTotalPage: (value: number) => void;
   handleChangeFilterSearch: (value: string) => void;
   handleChangeModalityTypeId: (value: number) => void;
   handleSetModalities: (modalities: IModality[]) => void;

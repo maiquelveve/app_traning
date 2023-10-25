@@ -25,6 +25,11 @@ interface ITrainingSelectorProps {
 interface ISearchTrainingFiltersProps {
   searchTraining?: string;
   modality_id?: number;
+}
+
+interface ISearchTrainingProps {
+  searchTraining?: string;
+  modality_id?: number;
   page: number;
   perPage: number;
 }

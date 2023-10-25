@@ -27,7 +27,6 @@ export const ModalitiesPageProvider: React.FC<IAppProps> = ({ children }) => {
   const modalityTypeId = useRef<number | undefined>(undefined);
   
   const handleChangePageCurrent = useCallback(({ pageCurrent }: IPageCurrentProps) => setPageCurrent(pageCurrent), []);
-  const handleSetTotalPage = useCallback((value: number) => setTotalPage(value), []);
   const handleChangeModalityTypeId = useCallback((value: number) => modalityTypeId.current = value, []);
   const handleChangeFilterSearch = useCallback((value: string) => filterSearch.current = value, []);
   const handleChangeLoadingModalities = useCallback((boolean: boolean) => setLoadingModalities(boolean), []);
@@ -197,7 +196,6 @@ export const ModalitiesPageProvider: React.FC<IAppProps> = ({ children }) => {
       handleChangePageCurrent,
       handleChangePerPageCurrent,
       handleSetModalities,
-      handleSetTotalPage,
       handleChangeFilterSearch,
       handleChangeModalityTypeId,
       handleChangeLoadingModalities,

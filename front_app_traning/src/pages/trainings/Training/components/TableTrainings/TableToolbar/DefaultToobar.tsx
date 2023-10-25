@@ -22,7 +22,7 @@ export const DeafaultToolbar: React.FC = () => {
   const [trainingSearchFiter, setTrainingSearchFiter] = useState("");
   const [open, setOpen] = useState(false);
   
-  const { modalitiesTrainings, loadingModalitiesTrainings, handleSearchTraining } = useTrainingPageContext();
+  const { modalitiesTrainings, loadingModalitiesTrainings, handleSearchFilterTraining   } = useTrainingPageContext();
   const theme = useTheme();
 
   const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
@@ -97,9 +97,9 @@ export const DeafaultToolbar: React.FC = () => {
         <Tooltip title="Pesquisar" placement="top">
           <IconButton 
             onClick={() => 
-              handleSearchTraining({  
+              handleSearchFilterTraining({  
                 searchTraining: trainingSearchFiter, 
-                modality_id: selectedModalityId 
+                modality_id: selectedModalityId,
               }) 
             }
           >
