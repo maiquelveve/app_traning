@@ -14,7 +14,8 @@ import{ Add, Search } from "@mui/icons-material";
 import { useTrainingPageContext } from "../../../../../../context";
 import { LoadingSimple } from "../../../../../../components";
 
-// import { ModalCreate } from "../../../../components";
+import { ModalCreate } from "../..";
+
 
 export const DeafaultToolbar: React.FC = () => {
   const [selectedModalityId, setSelectedModalityId] = useState<number | undefined>(undefined);
@@ -31,12 +32,11 @@ export const DeafaultToolbar: React.FC = () => {
 
   const handleOpen = useCallback(() => {
     setOpen(true);
-    console.log(open);
   }, []);
 
-  // const handleClose = useCallback(() => {
-  //   setOpen(false);
-  // }, []);
+  const handleClose = useCallback(() => {
+    setOpen(false);
+  }, []);
 
   return(
     <Box display="flex" flexDirection="row" sx={{ flex: "1 1 100%" }}>
@@ -108,7 +108,7 @@ export const DeafaultToolbar: React.FC = () => {
         </Tooltip>
       </Box>
       
-      {/* <ModalCreate handleClose={handleClose} open={open} /> */}
+      <ModalCreate handleClose={handleClose} open={open} />
     </Box>
   );
 };
