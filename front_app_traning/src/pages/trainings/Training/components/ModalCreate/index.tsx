@@ -2,23 +2,15 @@ import { useCallback, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-import Box from "@mui/material/Box";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+import { Box, Typography, Button, Stepper, Step, StepLabel } from "@mui/material";
+import {
+  AddTask,
+  DisplaySettings,
+  FitnessCenter
+} from "@mui/icons-material/";
 
-import { styled } from "@mui/material/styles";
-import SettingsIcon from "@mui/icons-material/Settings";
-import GroupAddIcon from "@mui/icons-material/GroupAdd";
-import VideoLabelIcon from "@mui/icons-material/VideoLabel";
-import StepConnector, { stepConnectorClasses } from "@mui/material/StepConnector";
-
-const steps = ["Select campaign settings", "Create an ad group", "Create an ad"];
-
-import { ModalDefault, catchDefalutAlert } from "../../../../../components";
-import { FormTrainingData, FormTrainingDetails } from "..";
+import { ColorStepperConnector, ColorStepperIconRoot, ModalDefault, catchDefalutAlert } from "../../../../../components";
+import { FormTrainingData, FormTrainingDetails, stepsTraining, StepIconTraining } from "..";
 
 export const ModalCreate: React.FC<IModalModality> = ({ handleClose, open }) => {
 
@@ -102,81 +94,29 @@ export const ModalCreate: React.FC<IModalModality> = ({ handleClose, open }) => 
     setActiveStep(0);
   };
 
-  const ColorlibStepIconRoot = styled("div")<{
-    ownerState: { completed?: boolean; active?: boolean };
-  }>(({ theme, ownerState }) => ({
-    backgroundColor: theme.palette.mode === "dark" ? theme.palette.grey[700] : "#ccc",
-    zIndex: 1,
-    color: "#fff",
-    width: 50,
-    height: 50,
-    display: "flex",
-    borderRadius: "50%",
-    justifyContent: "center",
-    alignItems: "center",
-    ...(ownerState.active && {
-      backgroundImage:
-        "linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)",
-      boxShadow: "0 4px 10px 0 rgba(0,0,0,.25)",
-    }),
-    ...(ownerState.completed && {
-      backgroundImage:
-        "linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)",
-    }),
-  }));
-
-  function ColorlibStepIcon(props: { icon: number; active: boolean; completed: boolean; }) {
-    const { active, completed, icon } = props;
-  
-    return (
-      <ColorlibStepIconRoot ownerState={{ completed, active }} >
-        {icon === 1 && 
-          <SettingsIcon />
-        }
-        {icon === 2 && 
-          <GroupAddIcon />
-        }
-        {icon === 3 && 
-          <VideoLabelIcon />
-        }
-      </ColorlibStepIconRoot>
-    );
-  }
-
-  const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
-    [`&.${stepConnectorClasses.alternativeLabel}`]: {
-      top: 22,
-    },
-    [`&.${stepConnectorClasses.active}`]: {
-      [`& .${stepConnectorClasses.line}`]: {
-        backgroundImage:
-          "linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)",
-      },
-    },
-    [`&.${stepConnectorClasses.completed}`]: {
-      [`& .${stepConnectorClasses.line}`]: {
-        backgroundImage:
-          "linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)",
-      },
-    },
-    [`& .${stepConnectorClasses.line}`]: {
-      height: 3,
-      border: 0,
-      backgroundColor:
-        theme.palette.mode === "dark" ? theme.palette.grey[800] : "#eaeaf0",
-      borderRadius: 1,
-    },
-  }));
-
   return (
     <ModalDefault.Root handleClose={handleCloseItModal} open={open} maxWidth="lg">
       <ModalDefault.Header title="Treinos" handleClose={handleCloseItModal} />
+      <Box mb={3}>
+        <Stepper alternativeLabel activeStep={activeStep} connector={<ColorStepperConnector />} >
+          {
+            ["Treino", "Dados", "Concluido"].map((label) => {
+              const stepProps: { completed?: boolean } = {};
+              return (
+                <Step key={label} {...stepProps} >
+                  <StepLabel StepIconComponent={StepIconTraining}>{label}</StepLabel>
+                </Step>
+              );
+            })
+          }
+        </Stepper>
+      </Box>
       <ModalDefault.Container>
         <Box sx={{ width: "100%" }}>
-          <Box my={3} mb={5}>
+          {/* <Box my={3} mb={5}>
             <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />} >
               {
-                steps.map((label) => {
+                stepsTraining.map((label) => {
                   const stepProps: { completed?: boolean } = {};
                   return (
                     <Step key={label} {...stepProps} >
@@ -186,7 +126,7 @@ export const ModalCreate: React.FC<IModalModality> = ({ handleClose, open }) => 
                 })
               }
             </Stepper>
-          </Box>
+          </Box> */}
           <Box my={3}>
             {activeStep === 0 &&
               <FormTrainingData />
@@ -213,7 +153,7 @@ export const ModalCreate: React.FC<IModalModality> = ({ handleClose, open }) => 
             Voltar
           </Button>
           <Box sx={{ flex: "1 1 auto" }} />
-          {activeStep === steps.length - 1 ?
+          {activeStep === stepsTraining.length - 1 ?
             <Button type="submit" onClick={() => formik.submitForm()}>
               SALVAR
             </Button>
