@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
@@ -17,7 +17,6 @@ export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
       training: "",
       modality_id: "",
       video_url: "",
-      details: [],
       submit: null
     },
     validationSchema: yup.object({
@@ -39,26 +38,6 @@ export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
         .min(20, "Video URL deve conter 20 caracteres no mínimo.")
         .max(200, "Video URL deve conter 200 caracteres no máximo.")
         .required("Video URL é obrigatória."),
-      details: yup    
-        .array().of(
-          yup.object({
-            description: yup
-              .string()
-              .min(5, ({ value }) => `A Descrição do detalhe '${value}' deve conter 5 caracteres no mínimo.`)
-              .max(50, ({ value }) => `A Descrição do detalhe '${value}' deve conter 50 caracteres no máximo.`)
-              .required(({ path }) => 
-                `${+(path.split("[")[1].split("]"))[0] + 1}º Descrição é obrigatória para os detalhes, reveja os dados informados.`
-              ),
-            value: yup
-              .string()
-              .min(1, ({ value }) => `O Valor do detalhe '${value}' deve conter 1 caracteres no mínimo.`)
-              .max(25, ({ value }) => `O Valor do detalhe '${value}' deve conter 25 caracteres no máximo.`)
-              .required(({ path }) => 
-                `${+(path.split("[")[1].split("]"))[0] + 1}º Valor é obrigatório para os detalhes, reveja os dados informados.`
-              ),
-          })
-        )
-        .required("Detalhes do Treino são obrigatórios."),
     }),
     onSubmit: async (data) => {
       try {
@@ -72,6 +51,18 @@ export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
       }
     }
   });
+
+  const formDataValid = useMemo(() => {
+    return formik.errors.tag ||
+    formik.errors.training ||
+    formik.errors.modality_id ||
+    formik.errors.video_url ? true : false;
+  }, [
+    formik.errors.tag,
+    formik.errors.training,
+    formik.errors.modality_id,
+    formik.errors.video_url
+  ]);
 
   const handleCloseItModal = useCallback(() => {
     formik.resetForm();
@@ -111,7 +102,7 @@ export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
       <ModalDefault.Container>
         <Box sx={{ width: "100%" }}>
           <Box my={3}>
-            {activeStep === 0 && <FormTrainingData />}
+            {activeStep === 0 && <FormTrainingData formik={formik} loading={loading} />}
             {activeStep === 1 && <FormTrainingDetails />}
             {activeStep > 1 && <Typography sx={{ mt: 2, mb: 1 }}>TUDO OK</Typography>}
           </Box>
@@ -119,11 +110,12 @@ export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
       </ModalDefault.Container>
       <ModalDefault.Footer>
         <FormButton 
+          formDataValid={formDataValid}
+          loading={loading} 
           activeStep={activeStep} 
           handleBack={handleBack} 
           handleNext={handleNext} 
           submitForm={formik.submitForm}
-          loading={loading} 
         />
       </ModalDefault.Footer>
     </ModalDefault.Root>

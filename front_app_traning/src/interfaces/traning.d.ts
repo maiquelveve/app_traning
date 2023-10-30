@@ -48,5 +48,11 @@ interface ITableToolbarSelectedTrainingProps {
 
 interface IButtonActionTraining {
   loading: boolean;
+  formDataValid: boolean;
   submitForm: () => void;
+}
+
+interface IFormTrainings {
+  formik: any;
+  loading: boolean;
 }

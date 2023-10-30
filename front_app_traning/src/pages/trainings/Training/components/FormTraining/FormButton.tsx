@@ -4,10 +4,11 @@ import { LoadingSimple } from "../../../../../components";
 
 export const FormButton: React.FC<IButtonSteppersProps & IButtonActionTraining> = ({ 
   activeStep, 
+  loading,
+  formDataValid, 
   handleBack, 
   handleNext, 
   submitForm,
-  loading 
 }) => {
   return(
     <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
@@ -31,7 +32,7 @@ export const FormButton: React.FC<IButtonSteppersProps & IButtonActionTraining> 
               SALVAR
             </Button>
             :
-            <Button onClick={handleNext}>
+            <Button onClick={handleNext} disabled={!formDataValid}>
               PRÓXIMO
             </Button>
           }
