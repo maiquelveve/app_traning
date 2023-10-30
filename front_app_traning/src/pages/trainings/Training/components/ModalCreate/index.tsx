@@ -3,13 +3,8 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 
 import { Box, Typography, Button, Stepper, Step, StepLabel } from "@mui/material";
-import {
-  AddTask,
-  DisplaySettings,
-  FitnessCenter
-} from "@mui/icons-material/";
 
-import { ColorStepperConnector, ColorStepperIconRoot, ModalDefault, catchDefalutAlert } from "../../../../../components";
+import { ColorStepperConnector, ModalDefault, catchDefalutAlert } from "../../../../../components";
 import { FormTrainingData, FormTrainingDetails, stepsTraining, StepIconTraining } from "..";
 
 export const ModalCreate: React.FC<IModalModality> = ({ handleClose, open }) => {
@@ -100,7 +95,7 @@ export const ModalCreate: React.FC<IModalModality> = ({ handleClose, open }) => 
       <Box mb={3}>
         <Stepper alternativeLabel activeStep={activeStep} connector={<ColorStepperConnector />} >
           {
-            ["Treino", "Dados", "Concluido"].map((label) => {
+            stepsTraining.map((label) => {
               const stepProps: { completed?: boolean } = {};
               return (
                 <Step key={label} {...stepProps} >
@@ -113,25 +108,10 @@ export const ModalCreate: React.FC<IModalModality> = ({ handleClose, open }) => 
       </Box>
       <ModalDefault.Container>
         <Box sx={{ width: "100%" }}>
-          {/* <Box my={3} mb={5}>
-            <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />} >
-              {
-                stepsTraining.map((label) => {
-                  const stepProps: { completed?: boolean } = {};
-                  return (
-                    <Step key={label} {...stepProps} >
-                      <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
-                    </Step>
-                  );
-                })
-              }
-            </Stepper>
-          </Box> */}
           <Box my={3}>
             {activeStep === 0 &&
               <FormTrainingData />
             }
-
             {activeStep === 1 &&
               <FormTrainingDetails />
             }
