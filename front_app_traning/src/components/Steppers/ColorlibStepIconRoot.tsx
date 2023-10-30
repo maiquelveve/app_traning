@@ -1,7 +1,7 @@
 import { styled } from "@mui/material/styles";
 
 export const ColorStepperIconRoot = styled("div")<{
-  ownerState: { completed?: boolean; active?: boolean };
+  ownerState: IColorStepperIconRoot;
 }>(({ theme, ownerState }) => ({
   backgroundColor: theme.palette.mode === "dark" ? theme.palette.grey[700] : "#ccc",
   zIndex: 1,

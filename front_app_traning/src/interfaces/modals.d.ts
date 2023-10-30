@@ -9,4 +9,9 @@ interface IRootModalDefaultProps extends IAppProps {
   maxWidth?: TMaxWhidthModal
 }
 
+interface IModalProps {
+  handleClose: () => void;
+  open: boolean;
+}
+
 type TMaxWhidthModal = "xs" | "sm" | "md" | "lg" | "xl";

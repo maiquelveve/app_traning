@@ -45,3 +45,8 @@ interface ITableToolbarSelectedTrainingProps {
   selectedData: ITrainingListData | null;
   disableSelectedData: () => void;
 }
+
+interface IButtonActionTraining {
+  loading: boolean;
+  submitForm: () => void;
+}

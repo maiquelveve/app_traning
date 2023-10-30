@@ -2,12 +2,14 @@ import { useCallback, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-import { Box, Typography, Button, Stepper, Step, StepLabel } from "@mui/material";
+import { Box, Typography, Stepper, Step, StepLabel } from "@mui/material";
 
 import { ColorStepperConnector, ModalDefault, catchDefalutAlert } from "../../../../../components";
-import { FormTrainingData, FormTrainingDetails, stepsTraining, StepIconTraining } from "..";
+import { FormTrainingData, FormTrainingDetails, stepsTraining, StepIconTraining, FormButton } from "..";
 
-export const ModalCreate: React.FC<IModalModality> = ({ handleClose, open }) => {
+export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
+  const [activeStep, setActiveStep] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -60,34 +62,34 @@ export const ModalCreate: React.FC<IModalModality> = ({ handleClose, open }) => 
     }),
     onSubmit: async (data) => {
       try {
+        setLoading(true);
         console.log("aquiiii", data);
         handleCloseItModal();
       } catch (error) {
         catchDefalutAlert();
+      } finally {
+        setLoading(false);
       }
     }
   });
 
-
-  const [activeStep, setActiveStep] = useState(0);
-  
   const handleCloseItModal = useCallback(() => {
     formik.resetForm();
     handleReset();
     handleClose();
   }, []);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
+  }, []);
 
-  const handleBack = () => {
+  const handleBack = useCallback(() => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
+  }, []);
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     setActiveStep(0);
-  };
+  }, []);
 
   return (
     <ModalDefault.Root handleClose={handleCloseItModal} open={open} maxWidth="lg">
@@ -109,40 +111,20 @@ export const ModalCreate: React.FC<IModalModality> = ({ handleClose, open }) => 
       <ModalDefault.Container>
         <Box sx={{ width: "100%" }}>
           <Box my={3}>
-            {activeStep === 0 &&
-              <FormTrainingData />
-            }
-            {activeStep === 1 &&
-              <FormTrainingDetails />
-            }
-            {activeStep > 1 &&
-              <Typography sx={{ mt: 2, mb: 1 }}>TUDO OK</Typography>
-            }
+            {activeStep === 0 && <FormTrainingData />}
+            {activeStep === 1 && <FormTrainingDetails />}
+            {activeStep > 1 && <Typography sx={{ mt: 2, mb: 1 }}>TUDO OK</Typography>}
           </Box>
         </Box>
       </ModalDefault.Container>
       <ModalDefault.Footer>
-        {/* <FormButton /> */}
-        <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-          <Button
-            color="inherit"
-            disabled={activeStep === 0}
-            onClick={handleBack}
-            sx={{ mr: 1 }}
-          >
-            Voltar
-          </Button>
-          <Box sx={{ flex: "1 1 auto" }} />
-          {activeStep === stepsTraining.length - 1 ?
-            <Button type="submit" onClick={() => formik.submitForm()}>
-              SALVAR
-            </Button>
-            :
-            <Button onClick={handleNext}>
-              PRÓXIMO
-            </Button>
-          }
-        </Box>
+        <FormButton 
+          activeStep={activeStep} 
+          handleBack={handleBack} 
+          handleNext={handleNext} 
+          submitForm={formik.submitForm}
+          loading={loading} 
+        />
       </ModalDefault.Footer>
     </ModalDefault.Root>
   );
