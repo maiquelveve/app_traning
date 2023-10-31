@@ -2,10 +2,10 @@ import { useCallback, useMemo, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-import { Box, Typography, Stepper, Step, StepLabel } from "@mui/material";
+import { Box, Stepper, Step, StepLabel } from "@mui/material";
 
 import { ColorStepperConnector, ModalDefault, catchDefalutAlert } from "../../../../../components";
-import { FormTrainingData, FormTrainingDetails, stepsTraining, StepIconTraining, FormButton } from "..";
+import { FormTrainingData, FormTrainingDetails, stepsTraining, StepIconTraining, FormButton, FormView } from "..";
 
 export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
   const [activeStep, setActiveStep] = useState(0);
@@ -51,13 +51,8 @@ export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
       }
     }
   });
-
-  const formDataValid = useMemo(() => {
-    return formik.errors.tag ||
-    formik.errors.training ||
-    formik.errors.modality_id ||
-    formik.errors.video_url ? true : false;
-  }, [
+  
+  const formDataValid = useMemo(() => !!Object.keys(formik.errors).length, [
     formik.errors.tag,
     formik.errors.training,
     formik.errors.modality_id,
@@ -92,7 +87,7 @@ export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
               const stepProps: { completed?: boolean } = {};
               return (
                 <Step key={label} {...stepProps} >
-                  <StepLabel StepIconComponent={StepIconTraining}>{label}</StepLabel>
+                  <StepLabel error={formDataValid} StepIconComponent={StepIconTraining}>{label}</StepLabel>
                 </Step>
               );
             })
@@ -104,7 +99,7 @@ export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
           <Box my={3}>
             {activeStep === 0 && <FormTrainingData formik={formik} loading={loading} />}
             {activeStep === 1 && <FormTrainingDetails />}
-            {activeStep > 1 && <Typography sx={{ mt: 2, mb: 1 }}>TUDO OK</Typography>}
+            {activeStep > 1 && <FormView formik={formik} loading={loading} />}
           </Box>
         </Box>
       </ModalDefault.Container>

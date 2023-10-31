@@ -59,7 +59,7 @@ export const DeafaultToolbar: React.FC = () => {
       >
         {lgDown &&
           <Tooltip title="Cadastrar novo Treino" placement="top" >
-            <IconButton sx={{ mr: 1 }}>
+            <IconButton sx={{ mr: 1 }} onClick={handleOpen}>
               <Add color="primary" />
             </IconButton>
           </Tooltip>

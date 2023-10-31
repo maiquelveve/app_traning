@@ -1,15 +1,17 @@
 import { Box, Button } from "@mui/material";
+
 import { stepsTraining } from "..";
 import { LoadingSimple } from "../../../../../components";
 
 export const FormButton: React.FC<IButtonSteppersProps & IButtonActionTraining> = ({ 
+  formDataValid, 
   activeStep, 
   loading,
-  formDataValid, 
+  submitForm,
   handleBack, 
   handleNext, 
-  submitForm,
 }) => {
+
   return(
     <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
       {loading ? 
@@ -32,7 +34,7 @@ export const FormButton: React.FC<IButtonSteppersProps & IButtonActionTraining> 
               SALVAR
             </Button>
             :
-            <Button onClick={handleNext} disabled={!formDataValid}>
+            <Button onClick={handleNext} disabled={formDataValid}>
               PRÓXIMO
             </Button>
           }
