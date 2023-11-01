@@ -5,7 +5,7 @@ import * as yup from "yup";
 import { Box, Stepper, Step, StepLabel } from "@mui/material";
 
 import { ColorStepperConnector, ModalDefault, catchDefalutAlert } from "../../../../../components";
-import { FormTrainingData, FormTrainingDetails, stepsTraining, StepIconTraining, FormButton, FormView } from "..";
+import { FormTrainingData, FormTrainingDetails, stepsTraining, StepIconTraining, FormButton, FormCheck } from "..";
 
 export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
   const [activeStep, setActiveStep] = useState(0);
@@ -99,7 +99,14 @@ export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
           <Box my={3}>
             {activeStep === 0 && <FormTrainingData formik={formik} loading={loading} />}
             {activeStep === 1 && <FormTrainingDetails />}
-            {activeStep > 1 && <FormView formik={formik} loading={loading} />}
+            {activeStep > 1 && 
+              <FormCheck 
+                isFormInInitial={isFormInInitialState} 
+                isValid={formDataValid}
+                dataView={formik.values}
+                errors={formik.errors}
+              />
+            }
           </Box>
         </Box>
       </ModalDefault.Container>

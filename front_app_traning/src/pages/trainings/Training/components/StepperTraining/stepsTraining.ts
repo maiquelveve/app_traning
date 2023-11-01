@@ -1,1 +1,1 @@
-export const stepsTraining = ["Treino", "Dados", "Concluido"];
+export const stepsTraining = ["Treino", "Detalhes", "Concluido"];

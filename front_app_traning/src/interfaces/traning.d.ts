@@ -57,6 +57,21 @@ interface IFormTrainings {
   loading: boolean;
 }
 
+interface IFormCheckProps {
+  isValid: boolean;
+  isFormInInitial: boolean;
+  dataView: FormikValuesTraining
+  errors: FormikErrors<FormikValuesTraining>
+}
+
+interface IFormDataErrorsProps {
+  errors: FormikErrors<FormikValuesTraining>
+}
+
+interface IFormViewProps {
+  data: FormikValuesTraining;
+}
+
 interface FormikValuesTraining {
   tag: string;
   training: string;
