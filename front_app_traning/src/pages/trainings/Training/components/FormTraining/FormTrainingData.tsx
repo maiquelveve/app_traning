@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Stack, TextField, Tooltip, Grid  } from "@mui/material";
+import { Autocomplete, Box, Stack, TextField, Tooltip, Grid } from "@mui/material";
 
 import { useTrainingPageContext } from "../../../../../context";
 import { LoadingSimple } from "../../../../../components";
@@ -55,9 +55,9 @@ export const FormTrainingData: React.FC<IFormTrainings> = ({ formik, loading }) 
                 <Tooltip title="Informe o Tipo da Modalidade" placement="top">
                   <Autocomplete
                     id="combo-box-type"
-                    disablePortal
                     freeSolo
                     fullWidth
+                    value={modalitiesTrainings.find(modality => modality.id === formik.values.modality_id)?.modality}
                     options={modalitiesTrainings.map(modality => ({ label: modality.modality }) )}
                     onInputChange={(_, newInputValue) => {
                       const modality_id = modalitiesTrainings.find(modality => modality.modality === newInputValue)?.id;

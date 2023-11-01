@@ -11,7 +11,7 @@ export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  const formik = useFormik({
+  const formik = useFormik<FormikValuesTraining>({
     initialValues: {
       tag: "",
       training: "",
@@ -51,13 +51,6 @@ export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
       }
     }
   });
-  
-  const formDataValid = useMemo(() => !!Object.keys(formik.errors).length, [
-    formik.errors.tag,
-    formik.errors.training,
-    formik.errors.modality_id,
-    formik.errors.video_url
-  ]);
 
   const handleCloseItModal = useCallback(() => {
     formik.resetForm();
@@ -77,6 +70,13 @@ export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
     setActiveStep(0);
   }, []);
 
+  const formDataValid = useMemo(() => !Object.keys(formik.errors).length, [formik.errors]);
+  const isFormInInitialState = useMemo(() => (
+    Object.keys(formik.values).every(
+      key => formik.values[key as keyof FormikValuesTraining] === formik.initialValues[key as keyof FormikValuesTraining]
+    )
+  ), [formik.values]);
+  
   return (
     <ModalDefault.Root handleClose={handleCloseItModal} open={open} maxWidth="lg">
       <ModalDefault.Header title="Treinos" handleClose={handleCloseItModal} />
@@ -87,7 +87,7 @@ export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
               const stepProps: { completed?: boolean } = {};
               return (
                 <Step key={label} {...stepProps} >
-                  <StepLabel error={formDataValid} StepIconComponent={StepIconTraining}>{label}</StepLabel>
+                  <StepLabel StepIconComponent={StepIconTraining}>{label}</StepLabel>
                 </Step>
               );
             })
@@ -105,7 +105,7 @@ export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
       </ModalDefault.Container>
       <ModalDefault.Footer>
         <FormButton 
-          formDataValid={formDataValid}
+          isValid={!isFormInInitialState && formDataValid}
           loading={loading} 
           activeStep={activeStep} 
           handleBack={handleBack} 

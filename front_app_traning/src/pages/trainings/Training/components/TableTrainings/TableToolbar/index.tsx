@@ -9,7 +9,7 @@ export const TableToolbar: React.FC<ITableToolbarSelectedTrainingProps> = ({ sel
       sx={{
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
-        ...((selectedData?.modality !== "" && selectedData) && {
+        ...((selectedData?.training !== "" && selectedData) && {
           bgcolor: (theme) => theme.palette.primary.main,
         }),
         borderTopLeftRadius: 5,
@@ -17,7 +17,7 @@ export const TableToolbar: React.FC<ITableToolbarSelectedTrainingProps> = ({ sel
         mb: 1,
       }}
     >
-      {(selectedData?.modality !== "" && selectedData) ? (
+      {(selectedData?.training !== "" && selectedData) ? (
         <SelectedToobar selectedData={selectedData} disableSelectedData={disableSelectedData} />
       ) : (
         <DeafaultToolbar />

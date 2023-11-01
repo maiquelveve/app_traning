@@ -34,7 +34,7 @@ export const SelectedToobar: React.FC<ITableToolbarSelectedTrainingProps> = ({ s
         variant="subtitle1"
         component="div"
       >
-        {selectedData!.traning}
+        {selectedData!.training}
       </Typography>
       {isRootProfiles &&
         <Stack display="flex" flexDirection="row">

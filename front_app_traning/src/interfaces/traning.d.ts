@@ -48,11 +48,19 @@ interface ITableToolbarSelectedTrainingProps {
 
 interface IButtonActionTraining {
   loading: boolean;
-  formDataValid: boolean;
+  isValid: boolean;
   submitForm: () => void;
 }
 
 interface IFormTrainings {
   formik: any;
   loading: boolean;
+}
+
+interface FormikValuesTraining {
+  tag: string;
+  training: string;
+  modality_id: string;
+  video_url: string;
+  submit: null;
 }
