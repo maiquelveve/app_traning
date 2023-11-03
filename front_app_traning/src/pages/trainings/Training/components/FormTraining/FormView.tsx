@@ -2,8 +2,9 @@ import { Box, Stack, TextField, Tooltip, Grid  } from "@mui/material";
 
 import { useTrainingPageContext } from "../../../../../context";
 
-export const FormView: React.FC<IFormViewProps> = ({ data }) => {
+export const FormView: React.FC<IFormViewProps> = ({ data, dataDetails }) => {
   const { modalitiesTrainings } = useTrainingPageContext();
+  console.log(dataDetails);
   
   return(
     <Box component={Stack} spacing={5} py={5} height={"auto"} justifyContent="center">

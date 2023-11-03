@@ -8,6 +8,7 @@ import { ColorStepperConnector, ModalDefault, catchDefalutAlert } from "../../..
 import { FormTrainingData, FormTrainingDetails, stepsTraining, StepIconTraining, FormButton, FormCheck } from "..";
 
 export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
+  const [trainingDetails, setTrainingDetails] = useState<ITrainingDetailsCreateProps[]>([]);
   const [activeStep, setActiveStep] = useState(0);
   const [loading, setLoading] = useState(false);
 
@@ -70,6 +71,14 @@ export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
     setActiveStep(0);
   }, []);
 
+  const handleSaveDetails = useCallback((data: ITrainingDetailsCreateProps) => {
+    setTrainingDetails((prevData) => [...prevData, data]);
+  }, []);
+
+  const handleDeleteDetail = useCallback(({ index }: { index: number }) => {
+    setTrainingDetails((prevData) => prevData.filter((_, indexCurrent) => indexCurrent !== index ));
+  }, []);
+
   const formDataValid = useMemo(() => !Object.keys(formik.errors).length, [formik.errors]);
   const isFormInInitialState = useMemo(() => (
     Object.keys(formik.values).every(
@@ -97,13 +106,24 @@ export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
       <ModalDefault.Container>
         <Box sx={{ width: "100%" }}>
           <Box my={3}>
-            {activeStep === 0 && <FormTrainingData formik={formik} loading={loading} />}
-            {activeStep === 1 && <FormTrainingDetails />}
+            {activeStep === 0 && 
+              <FormTrainingData 
+                formik={formik} 
+                loading={loading} 
+              />
+            }
+            {activeStep === 1 && 
+              <FormTrainingDetails 
+                handleDeleteDetail={handleDeleteDetail} 
+                handleSaveDetails={handleSaveDetails} 
+                trainingDetails={trainingDetails} 
+              />}
             {activeStep > 1 && 
               <FormCheck 
                 isFormInInitial={isFormInInitialState} 
                 isValid={formDataValid}
                 dataView={formik.values}
+                dataDetails={trainingDetails}
                 errors={formik.errors}
               />
             }

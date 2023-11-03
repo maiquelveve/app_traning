@@ -60,8 +60,9 @@ interface IFormTrainings {
 interface IFormCheckProps {
   isValid: boolean;
   isFormInInitial: boolean;
-  dataView: FormikValuesTraining
-  errors: FormikErrors<FormikValuesTraining>
+  dataView: FormikValuesTraining;
+  dataDetails: ITrainingDetailsCreateProps[];
+  errors: FormikErrors<FormikValuesTraining>;
 }
 
 interface IFormDataErrorsProps {
@@ -70,6 +71,7 @@ interface IFormDataErrorsProps {
 
 interface IFormViewProps {
   data: FormikValuesTraining;
+  dataDetails: ITrainingDetailsCreateProps[];
 }
 
 interface FormikValuesTraining {
