@@ -19,11 +19,10 @@ import { ModalCreate } from "../..";
 
 export const DeafaultToolbar: React.FC = () => {
   const [selectedModalityId, setSelectedModalityId] = useState<number | undefined>(undefined);
-
   const [trainingSearchFiter, setTrainingSearchFiter] = useState("");
   const [open, setOpen] = useState(false);
   
-  const { modalitiesTrainings, loadingModalitiesTrainings, handleSearchFilterTraining   } = useTrainingPageContext();
+  const { modalitiesTrainings, loadingModalitiesTrainings, handleSearchFilterTraining } = useTrainingPageContext();
   const theme = useTheme();
 
   const lgDown = useMediaQuery(theme.breakpoints.down("lg"));
@@ -35,6 +34,10 @@ export const DeafaultToolbar: React.FC = () => {
   }, []);
 
   const handleClose = useCallback(() => {
+    handleSearchFilterTraining({  
+      searchTraining: trainingSearchFiter, 
+      modality_id: selectedModalityId,
+    });
     setOpen(false);
   }, []);
 
@@ -108,7 +111,9 @@ export const DeafaultToolbar: React.FC = () => {
         </Tooltip>
       </Box>
       
-      <ModalCreate handleClose={handleClose} open={open} />
+      {open &&
+        <ModalCreate handleClose={handleClose} open={open} />
+      }
     </Box>
   );
 };

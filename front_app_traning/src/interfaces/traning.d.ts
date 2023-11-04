@@ -81,3 +81,11 @@ interface FormikValuesTraining {
   video_url: string;
   submit: null;
 }
+
+interface ICreateTrainingProps {
+  tag: string;
+  training: string;
+  modality_id: string;
+  video_url: string;
+  details: ITrainingDetailsCreateProps[];
+}

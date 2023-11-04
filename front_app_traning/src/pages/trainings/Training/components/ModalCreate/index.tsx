@@ -1,8 +1,9 @@
 import { useCallback, useMemo, useState } from "react";
+import { Box, Stepper, Step, StepLabel } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-import { Box, Stepper, Step, StepLabel } from "@mui/material";
+import { useTrainingPageContext } from "../../../../../context";
 
 import { ColorStepperConnector, ModalDefault, catchDefalutAlert } from "../../../../../components";
 import { FormTrainingData, FormTrainingDetails, stepsTraining, StepIconTraining, FormButton, FormCheck } from "..";
@@ -10,7 +11,8 @@ import { FormTrainingData, FormTrainingDetails, stepsTraining, StepIconTraining,
 export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
   const [trainingDetails, setTrainingDetails] = useState<ITrainingDetailsCreateProps[]>([]);
   const [activeStep, setActiveStep] = useState(0);
-  const [loading, setLoading] = useState(false);
+
+  const { handleCreateTraining, loadingTrainings } = useTrainingPageContext();
 
   const formik = useFormik<FormikValuesTraining>({
     initialValues: {
@@ -42,18 +44,18 @@ export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
     }),
     onSubmit: async (data) => {
       try {
-        setLoading(true);
-        console.log("submit", data, trainingDetails);
-        handleCloseItModal();
+        const success = await handleCreateTraining({ ...data, details: trainingDetails });
+        if(success)
+          handleCloseItModal();
+
       } catch (error) {
         catchDefalutAlert();
-      } finally {
-        setLoading(false);
-      }
+      } 
     }
   });
 
   const handleCloseItModal = useCallback(() => {
+    setTrainingDetails([]);
     formik.resetForm();
     handleReset();
     handleClose();
@@ -113,7 +115,7 @@ export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
             {activeStep === 0 && 
               <FormTrainingData 
                 formik={formik} 
-                loading={loading} 
+                loading={loadingTrainings} 
               />
             }
             {activeStep === 1 && 
@@ -137,7 +139,7 @@ export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
       <ModalDefault.Footer>
         <FormButton 
           isValid={!isFormInInitialState && formDataValid}
-          loading={loading} 
+          loading={loadingTrainings} 
           activeStep={activeStep} 
           handleBack={handleBack} 
           handleNext={handleNext} 

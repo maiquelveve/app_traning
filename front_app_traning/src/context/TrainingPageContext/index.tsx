@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect, useCallback, useRef } f
 
 import { useAuthUserContext } from "../AuthUserContext";
 
-import { catchDefalutAlert } from "../../components";
+import { catchDefalutAlert, defaultAlert } from "../../components";
 import { apiService } from "../../services";
 
 const TrainingPageContext = createContext({} as ITrainingPageContext);
@@ -106,12 +106,47 @@ export const TrainingPageProvider: React.FC<IAppProps> = ({ children }) => {
     }
   }, []);
 
+  const handleCreateTraining = useCallback(async ({ details, modality_id, tag, training, video_url }: ICreateTrainingProps) => {
+    try {
+      setLoadingTrainings(true);
+
+      const responseApi = await apiService.post<IReturnedRequest>(
+        "/trainings", 
+        { training, tag, video_url, modality_id, details }, 
+        { headers: { Authorization: getToken() }}
+      );
+
+      if(responseApi.data.isSuccess) {
+        defaultAlert({ 
+          messages: ["Modalidade cadastrada com sucesso!"],
+          type: "success",
+          position: "top-right"
+        });
+
+      } else {
+        defaultAlert({ 
+          messages: responseApi.data.errors,
+          type: "error",
+          position: "top-right"
+        });
+      }
+
+      return responseApi.data.isSuccess;
+
+    } catch (error) {
+      catchDefalutAlert();  
+    } finally {
+      setLoadingTrainings(false);
+    }
+  }, []);
+
   return (
     <TrainingPageContext.Provider
       value={{
         handleSearchFilterTraining,
         handleChangePageCurrent,
         handleChangePerPageCurrent,
+        handleCreateTraining,
         trainingsListData,
         loadingTrainings,
         loadingModalitiesTrainings,
