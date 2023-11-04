@@ -1,6 +1,6 @@
-import { Tooltip, Table, TableBody, TableContainer, TableHead, TableRow, Paper, IconButton, Box, Grid } from "@mui/material";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import { Tooltip,Table,TableBody,TableContainer,TableHead,TableRow,Paper,IconButton,Box,Grid,Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -38,10 +38,24 @@ export const TableListTrainingDetails: React.FC<ITableListTrainingDetailsProps> 
               </TableHead>
               <TableBody>
                 <StyledTableRow key={index}>
-                  <StyledTableCell component="th" scope="row">
-                    {row.description}
+                  <StyledTableCell sx={{ maxWidth: 140 }} component="th" scope="row">
+                    <Typography 
+                      variant="body2" 
+                      textTransform="uppercase" 
+                      sx={{ whiteSpace: "pre-line",  wordWrap: "break-word" }} 
+                    >
+                      {row.description}
+                    </Typography>
                   </StyledTableCell>
-                  <StyledTableCell align="center">{row.value}</StyledTableCell>
+                  <StyledTableCell sx={{ maxWidth: 140 }} align="center">
+                    <Typography 
+                      variant="body2" 
+                      textTransform="uppercase" 
+                      sx={{ whiteSpace: "pre-line",  wordWrap: "break-word" }} 
+                    >
+                      {row.value}
+                    </Typography>
+                  </StyledTableCell>
                   <StyledTableCell align="right">
                     <Tooltip title="CANCELAR" placement="top">
                       <IconButton aria-label="delete" onClick={ () => handleDeleteDetail({ index }) }>

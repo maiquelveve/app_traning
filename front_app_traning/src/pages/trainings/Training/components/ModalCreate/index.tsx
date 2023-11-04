@@ -43,7 +43,7 @@ export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
     onSubmit: async (data) => {
       try {
         setLoading(true);
-        console.log("aquiiii", data);
+        console.log("submit", data, trainingDetails);
         handleCloseItModal();
       } catch (error) {
         catchDefalutAlert();

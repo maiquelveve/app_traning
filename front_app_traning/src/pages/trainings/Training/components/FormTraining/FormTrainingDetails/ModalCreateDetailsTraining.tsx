@@ -79,7 +79,7 @@ export const ModalCreateDetailsTraining: React.FC<IModalProps & ITrainingDetails
                       onBlur={formik.handleBlur}
                       onChange={formik.handleChange}
                       value={formik.values.value}
-                      label="Video"
+                      label="Valor"
                       name="value"
                       fullWidth
                     />
