@@ -63,6 +63,10 @@ export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   }, []);
 
+  const handleNextDefinition = useCallback((index: number) => {
+    setActiveStep(index);
+  }, []);
+
   const handleBack = useCallback(() => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   }, []);
@@ -92,11 +96,11 @@ export const ModalCreate: React.FC<IModalProps> = ({ handleClose, open }) => {
       <Box mb={3}>
         <Stepper alternativeLabel activeStep={activeStep} connector={<ColorStepperConnector />} >
           {
-            stepsTraining.map((label) => {
+            stepsTraining.map((label, index) => {
               const stepProps: { completed?: boolean } = {};
               return (
                 <Step key={label} {...stepProps} >
-                  <StepLabel StepIconComponent={StepIconTraining}>{label}</StepLabel>
+                  <StepLabel onClick={() => handleNextDefinition(index)} StepIconComponent={StepIconTraining}>{label}</StepLabel>
                 </Step>
               );
             })

@@ -19,6 +19,14 @@ interface ITableListTrainingDetailsProps {
   handleDeleteDetail: ({ index: number }) => void;
 }
 
+interface ITableListTrainingDetailsViewProps {
+  trainingDetails: ITrainingDetailsCreateProps[];
+}
+
+interface IFormDataViewProps {
+  data: FormikValuesTraining;
+}
+
 interface IFormTrainingDetailsProps {
   trainingDetails: ITrainingDetailsCreateProps[];
   handleSaveDetails: (props: ITrainingDetailsCreateProps) => void;
