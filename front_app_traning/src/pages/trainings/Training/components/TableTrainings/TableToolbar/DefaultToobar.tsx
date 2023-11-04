@@ -16,7 +16,6 @@ import { LoadingSimple } from "../../../../../../components";
 
 import { ModalCreate } from "../..";
 
-
 export const DeafaultToolbar: React.FC = () => {
   const [selectedModalityId, setSelectedModalityId] = useState<number | undefined>(undefined);
   const [trainingSearchFiter, setTrainingSearchFiter] = useState("");
@@ -34,10 +33,6 @@ export const DeafaultToolbar: React.FC = () => {
   }, []);
 
   const handleClose = useCallback(() => {
-    handleSearchFilterTraining({  
-      searchTraining: trainingSearchFiter, 
-      modality_id: selectedModalityId,
-    });
     setOpen(false);
   }, []);
 

@@ -35,19 +35,21 @@ export const TrainingPageProvider: React.FC<IAppProps> = ({ children }) => {
 
   useEffect(() => { 
     async function fetch() {
-      await handleSearchFilterTraining({ 
+      await handleSearchTraining({ 
         modality_id: modalityIdRef.current,
-        searchTraining: searchTrainingRef.current
+        searchTraining: searchTrainingRef.current,
+        page: pageCurrent,
+        perPage: perPageCurrent
       });
     }
     fetch();
   },[pageCurrent, perPageCurrent]);
 
-  const handleChangePageCurrent = ({ pageCurrent }: IPageCurrentProps) =>  setPageCurrent(pageCurrent) ; 
-  const handleChangePerPageCurrent = ({ perPageCurrent }: IPerPageCurrentProps) =>  {
+  const handleChangePageCurrent = useCallback(({ pageCurrent }: IPageCurrentProps) =>  setPageCurrent(pageCurrent), []); 
+  const handleChangePerPageCurrent = useCallback(({ perPageCurrent }: IPerPageCurrentProps) =>  {
     setPageCurrent(1);
     setPerPageCurrent(perPageCurrent);
-  };
+  }, []);
 
   const handleGetModalitiesTraining = useCallback(async () => {
     try {
@@ -70,7 +72,7 @@ export const TrainingPageProvider: React.FC<IAppProps> = ({ children }) => {
 
   const handleSearchFilterTraining = useCallback(async ({ modality_id, searchTraining }: ISearchTrainingFiltersProps) => {
     await handleSearchTraining({ page: pageCurrent, perPage: perPageCurrent, modality_id, searchTraining });
-  }, [perPageCurrent, pageCurrent]);
+  }, []);
   const handleSearchTraining = useCallback(async ({ 
     modality_id, 
     searchTraining, 
@@ -121,6 +123,12 @@ export const TrainingPageProvider: React.FC<IAppProps> = ({ children }) => {
           messages: ["Modalidade cadastrada com sucesso!"],
           type: "success",
           position: "top-right"
+        });
+        await handleSearchTraining({ 
+          modality_id: modalityIdRef.current,
+          searchTraining: searchTrainingRef.current,
+          page: pageCurrent,
+          perPage: perPageCurrent
         });
 
       } else {
