@@ -4,6 +4,7 @@ interface ITrainingPageContext {
   handleChangePerPageCurrent: (props: IPerPageCurrentProps) => void;
   handleSearchFilterTraining: (props: ISearchTrainingFiltersProps) => void;
   handleCreateTraining:(props: ICreateTrainingProps) => Promise<boolean | undefined>;
+  handleGetTrainingById: (props: ITraningViewUpdateProps) => Promise<ITraining | null | undefined>;
   trainingsListData: ITrainingListData[];
   modalitiesTrainings: IModality[];
   loadingTrainings: boolean;

@@ -5,26 +5,24 @@ import {
   Tooltip, 
   Stack,
 } from "@mui/material";
-import{ Edit } from "@mui/icons-material";
+import{ Edit, Visibility } from "@mui/icons-material";
 
-// import { ModalUpdate } from "../../../../components";
+import { ModalView } from "../../ModalView";
 import { useAuthUserContext } from "../../../../../../context";
 
 export const SelectedToobar: React.FC<ITableToolbarSelectedTrainingProps> = ({ selectedData, disableSelectedData }) => {
-  const [open, setOpen] = useState(false);
+  const [openView, setOpenView] = useState(false);
   
-  const { isRootProfiles } = useAuthUserContext();
+  const { isTrainerProfiles } = useAuthUserContext();
 
   const handleOpen = useCallback(() => {
-    setOpen(true);
-    console.log(open);
-    console.log(disableSelectedData);
+    setOpenView(true);
   }, []);
   
-  // const handleClose = useCallback(() => {
-  //   disableSelectedData();
-  //   setOpen(false);
-  // }, []);
+  const handleCloseView = useCallback(() => {
+    disableSelectedData();
+    setOpenView(false);
+  }, []);
 
   return(
     <>
@@ -36,7 +34,7 @@ export const SelectedToobar: React.FC<ITableToolbarSelectedTrainingProps> = ({ s
       >
         {selectedData!.training}
       </Typography>
-      {isRootProfiles &&
+      {isTrainerProfiles &&
         <Stack display="flex" flexDirection="row">
           <Tooltip title="Editar">
             <IconButton 
@@ -45,11 +43,18 @@ export const SelectedToobar: React.FC<ITableToolbarSelectedTrainingProps> = ({ s
               <Edit />
             </IconButton>
           </Tooltip>
+          <Tooltip title="Visualizar">
+            <IconButton 
+              onClick={handleOpen}
+            >
+              <Visibility />
+            </IconButton>
+          </Tooltip>
         </Stack>
       }
-      {/* {open && 
-        <ModalUpdate handleClose={handleClose} open={open} selectedModality={selectedData!} />
-      } */}
+      {openView && 
+        <ModalView handleClose={handleCloseView} open={openView} id={selectedData!.id} />
+      }
     </>
   );
 };

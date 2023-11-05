@@ -148,6 +148,26 @@ export const TrainingPageProvider: React.FC<IAppProps> = ({ children }) => {
     }
   }, []);
 
+  const handleGetTrainingById = useCallback(async ({ id }: ITraningViewUpdateProps): Promise<ITraining | null | undefined> => {
+    try {
+      const responseApi = await apiService.get<IReturnedRequest>(`/trainings/${id}`, { headers: { Authorization: getToken() }});
+
+      if(responseApi.data.isError) {
+        defaultAlert({ 
+          messages: responseApi.data.errors,
+          type: "error",
+          position: "top-right"
+        });
+        return;
+      }  
+      
+      return responseApi.data.data[0];
+
+    } catch (error) {
+      catchDefalutAlert();  
+    }
+  }, []);
+
   return (
     <TrainingPageContext.Provider
       value={{
@@ -155,6 +175,7 @@ export const TrainingPageProvider: React.FC<IAppProps> = ({ children }) => {
         handleChangePageCurrent,
         handleChangePerPageCurrent,
         handleCreateTraining,
+        handleGetTrainingById,
         trainingsListData,
         loadingTrainings,
         loadingModalitiesTrainings,

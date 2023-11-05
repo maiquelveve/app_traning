@@ -89,3 +89,7 @@ interface ICreateTrainingProps {
   video_url: string;
   details: ITrainingDetailsCreateProps[];
 }
+
+interface ITraningViewUpdateProps {
+  id: number;
+}
