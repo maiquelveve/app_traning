@@ -108,7 +108,13 @@ export const TrainingPageProvider: React.FC<IAppProps> = ({ children }) => {
     }
   }, []);
 
-  const handleCreateTraining = useCallback(async ({ details, modality_id, tag, training, video_url }: ICreateTrainingProps) => {
+  const handleCreateTraining = useCallback(async ({ 
+    details, 
+    modality_id, 
+    tag, 
+    training, 
+    video_url 
+  }: ICreateTrainingProps): Promise<boolean | undefined> => {
     try {
       setLoadingTrainings(true);
 
@@ -121,6 +127,53 @@ export const TrainingPageProvider: React.FC<IAppProps> = ({ children }) => {
       if(responseApi.data.isSuccess) {
         defaultAlert({ 
           messages: ["Modalidade cadastrada com sucesso!"],
+          type: "success",
+          position: "top-right"
+        });
+        await handleSearchTraining({ 
+          modality_id: modalityIdRef.current,
+          searchTraining: searchTrainingRef.current,
+          page: pageCurrent,
+          perPage: perPageCurrent
+        });
+
+      } else {
+        defaultAlert({ 
+          messages: responseApi.data.errors,
+          type: "error",
+          position: "top-right"
+        });
+      }
+
+      return responseApi.data.isSuccess;
+
+    } catch (error) {
+      catchDefalutAlert();  
+    } finally {
+      setLoadingTrainings(false);
+    }
+  }, []);
+
+  const handleUpdadeTraining = useCallback(async ({ 
+    id,
+    details, 
+    modality_id, 
+    tag, 
+    training, 
+    video_url
+  }: ICreateTrainingProps & ITraningViewUpdateProps): Promise<boolean | undefined> => {
+    try {
+      setLoadingTrainings(true);
+
+      const responseApi = await apiService.put<IReturnedRequest>(
+        `/trainings/${id}`, 
+        { training, tag, video_url, modality_id, details }, 
+        { headers: { Authorization: getToken() }}
+      );
+
+      if(responseApi.data.isSuccess) {
+        defaultAlert({ 
+          messages: ["Modalidade alterada com sucesso!"],
           type: "success",
           position: "top-right"
         });
@@ -175,6 +228,7 @@ export const TrainingPageProvider: React.FC<IAppProps> = ({ children }) => {
         handleChangePageCurrent,
         handleChangePerPageCurrent,
         handleCreateTraining,
+        handleUpdadeTraining,
         handleGetTrainingById,
         trainingsListData,
         loadingTrainings,

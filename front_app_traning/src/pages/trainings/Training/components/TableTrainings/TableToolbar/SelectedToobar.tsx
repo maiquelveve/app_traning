@@ -7,21 +7,30 @@ import {
 } from "@mui/material";
 import{ Edit, Visibility } from "@mui/icons-material";
 
-import { ModalView } from "../../ModalView";
+import { ModalView, ModalUpdate } from "../../";
 import { useAuthUserContext } from "../../../../../../context";
 
 export const SelectedToobar: React.FC<ITableToolbarSelectedTrainingProps> = ({ selectedData, disableSelectedData }) => {
   const [openView, setOpenView] = useState(false);
+  const [openUpdate, setOpenUpdate] = useState(false);
   
   const { isTrainerProfiles } = useAuthUserContext();
 
-  const handleOpen = useCallback(() => {
+  const handleOpenView = useCallback(() => {
     setOpenView(true);
   }, []);
   
   const handleCloseView = useCallback(() => {
-    disableSelectedData();
     setOpenView(false);
+  }, []);
+
+  const handleOpenUpdate = useCallback(() => {
+    setOpenUpdate(true);
+  }, []);
+  
+  const handleCloseUpdate = useCallback(() => {
+    disableSelectedData();
+    setOpenUpdate(false);
   }, []);
 
   return(
@@ -38,14 +47,14 @@ export const SelectedToobar: React.FC<ITableToolbarSelectedTrainingProps> = ({ s
         <Stack display="flex" flexDirection="row">
           <Tooltip title="Editar">
             <IconButton 
-              onClick={handleOpen}
+              onClick={handleOpenUpdate}
             >
               <Edit />
             </IconButton>
           </Tooltip>
           <Tooltip title="Visualizar">
             <IconButton 
-              onClick={handleOpen}
+              onClick={handleOpenView}
             >
               <Visibility />
             </IconButton>
@@ -54,6 +63,9 @@ export const SelectedToobar: React.FC<ITableToolbarSelectedTrainingProps> = ({ s
       }
       {openView && 
         <ModalView handleClose={handleCloseView} open={openView} id={selectedData!.id} />
+      }
+      {openUpdate && 
+        <ModalUpdate handleClose={handleCloseUpdate} open={openUpdate} id={selectedData!.id} />
       }
     </>
   );

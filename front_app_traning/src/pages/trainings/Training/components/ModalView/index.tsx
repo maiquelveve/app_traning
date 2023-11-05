@@ -49,7 +49,7 @@ export const ModalView: React.FC<IModalProps & ITraningViewUpdateProps> = ({ han
   
   return (
     <ModalDefault.Root handleClose={handleCloseItModal} open={open} maxWidth="lg">
-      <ModalDefault.Header title="Treinos" handleClose={handleCloseItModal} />
+      <ModalDefault.Header title="Visualizar Treino" handleClose={handleCloseItModal} />
       <ModalDefault.Container>
         <Box sx={{ width: "100%" }}>
           <Box my={3}>
