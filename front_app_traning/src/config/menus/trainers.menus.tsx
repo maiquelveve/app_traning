@@ -1,7 +1,7 @@
-import { Group, ManageAccounts } from "@mui/icons-material";
+import { Groups3, Analytics, MonitorHeart } from "@mui/icons-material";
 
 export const menusTrainer: ISidebarMenus[] = [
-  { name: "Meus Alunos", to: "/meus_alunos", Icon: <Group />  },
-  { name: "Modalidades", to: "/modalidades", Icon: <ManageAccounts />  },
-  { name: "Treinamentos", to: "/treinamentos", Icon: <ManageAccounts />  }
+  { name: "Meus Alunos", to: "/meus_alunos", Icon: <Groups3 />  },
+  { name: "Modalidades", to: "/modalidades", Icon: <Analytics />  },
+  { name: "Treinamentos", to: "/treinamentos", Icon: <MonitorHeart />  }
 ];
