@@ -19,6 +19,6 @@ const menusTabIsNotAuth: ITabBarMenu[] = [
 ];
 
 export const getTabMenus = () => {
-  const userAuth = true;
+  const userAuth = false;
   return userAuth ? menusTabDefault : menusTabIsNotAuth;
 };

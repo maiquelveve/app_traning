@@ -26,6 +26,9 @@ export const TabRoutes = () => {
           borderTopRightRadius: 5
         },
         tabBarActiveTintColor: "#FFF",
+        tabBarItemStyle: {
+          padding:2
+        }
       }}
     >
       {menus.map((item, index) => (
@@ -51,14 +54,14 @@ export const TabRoutes = () => {
                     >
                       <Icon color={color} size={size } />
                       {label.trim() !== "" && 
-                          <Text isTruncated maxW="300" fontSize="xs" color={"#FFF"}>{label}</Text>
+                        <Text isTruncated maxW="300" mt={2} fontSize="xs" color={"#FFF"}>{label}</Text>
                       }
                     </Box>
                     :
                     <Box display="flex" alignItems="center" justifyContent="center">
                       <Icon color={color} size={size } />
                       {label.trim() !== "" && 
-                          <Text isTruncated maxW="300" w="100%" fontSize="xs" color={"#FFF"}>{label}</Text>
+                        <Text isTruncated maxW="300" w="100%" mt={2} fontSize="xs" color={"#FFF"}>{label}</Text>
                       }
                     </Box>
                   }

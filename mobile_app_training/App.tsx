@@ -1,13 +1,12 @@
 import "react-native-gesture-handler";
-import { NativeBaseProvider } from "native-base";
-import { StatusBar } from "expo-status-bar";
+import { NativeBaseProvider, StatusBar } from "native-base";
 
-import Routes from "./src/routes";
+import { Routes } from "@routes/index";
 
 export default function App() {
   return (
     <NativeBaseProvider>
-      <StatusBar style="auto" />
+      <StatusBar backgroundColor="#121212"  barStyle={"light-content"} />
       <Routes />
     </NativeBaseProvider>
   );
