@@ -1,20 +1,9 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Feather, Entypo } from "@expo/vector-icons";
 import { Box, Text } from "native-base";
 
-import Feed from "@screens/Feed";
-import New from "@screens/New";
-import Profile from "@screens/Profile";
+import menus from "./menus";
 
 const Tab = createBottomTabNavigator();
-
-const menus: ITabBarMenu[] = [
-  { route: "feed", label: "INICIO", Icon: (props: any) => <Entypo name="home" {...props} />, component: Feed },
-  { route: "search", label: "PROCURAR", Icon: (props: any) => <Feather name="search" {...props} />, component: New },
-  { route: "new", label: "NOVO", Icon: (props: any) => <Entypo name="plus" {...props} />, component: Feed },
-  { route: "notification", label: "NOTIFICAÇÕES", Icon: (props: any) => <Entypo name="notification" {...props} />, component: New },
-  { route: "profile", label: "PERFIL", Icon: (props: any) => <Feather name="user" {...props} />, component: Profile },
-];
 
 export default function TabRoutes() {
   return(
@@ -59,12 +48,16 @@ export default function TabRoutes() {
                       marginBottom={45}
                     >
                       <Icon color={color} size={size } />
-                      <Text isTruncated maxW="300" fontSize="xs" color={"#FFF"}>{label}</Text>
+                      {label.trim() !== "" && 
+                        <Text isTruncated maxW="300" fontSize="xs" color={"#FFF"}>{label}</Text>
+                      }
                     </Box>
                     :
                     <Box display="flex" alignItems="center" justifyContent="center">
                       <Icon color={color} size={size } />
-                      <Text isTruncated maxW="300" w="100%" fontSize="xs" color={"#FFF"}>{label}</Text>
+                      {label.trim() !== "" && 
+                        <Text isTruncated maxW="300" w="100%" fontSize="xs" color={"#FFF"}>{label}</Text>
+                      }
                     </Box>
                   }
                 </Box>
