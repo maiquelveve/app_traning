@@ -2,9 +2,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Feather, Entypo } from "@expo/vector-icons";
 import { Box, Text } from "native-base";
 
-import Feed from "../screens/Feed";
-import New from "../screens/New";
-import Profile from "../screens/Profile";
+import Feed from "@screens/Feed";
+import New from "@screens/New";
+import Profile from "@screens/Profile";
 
 const Tab = createBottomTabNavigator();
 
