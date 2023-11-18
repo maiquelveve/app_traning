@@ -1,11 +1,13 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Box, Text } from "native-base";
 
-import menus from "./menus";
+import { getTabMenus } from "./menus";
 
 const Tab = createBottomTabNavigator();
 
-export default function TabRoutes() {
+export const TabRoutes = () => {
+  const menus = getTabMenus();
+
   return(
     <Tab.Navigator 
       screenOptions={{ 
@@ -49,14 +51,14 @@ export default function TabRoutes() {
                     >
                       <Icon color={color} size={size } />
                       {label.trim() !== "" && 
-                        <Text isTruncated maxW="300" fontSize="xs" color={"#FFF"}>{label}</Text>
+                          <Text isTruncated maxW="300" fontSize="xs" color={"#FFF"}>{label}</Text>
                       }
                     </Box>
                     :
                     <Box display="flex" alignItems="center" justifyContent="center">
                       <Icon color={color} size={size } />
                       {label.trim() !== "" && 
-                        <Text isTruncated maxW="300" w="100%" fontSize="xs" color={"#FFF"}>{label}</Text>
+                          <Text isTruncated maxW="300" w="100%" fontSize="xs" color={"#FFF"}>{label}</Text>
                       }
                     </Box>
                   }
@@ -68,4 +70,4 @@ export default function TabRoutes() {
       ))}
     </Tab.Navigator>
   );
-}
+};

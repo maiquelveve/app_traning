@@ -1,15 +1,24 @@
-import { Feather, Entypo } from "@expo/vector-icons";
+import { Entypo, MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
 
-import Feed from "@screens/Feed";
-import New from "@screens/New";
-import Profile from "@screens/Profile";
+import { SignIn } from "@screens/users/SignIn";
+import { SignUp } from "@screens/users/SignUp";
 
-const menus: ITabBarMenu[] = [
-  { route: "feed", label: "INICIO", Icon: (props: any) => <Entypo name="home" {...props} />, component: Feed },
-  { route: "search", label: "PROCURAR", Icon: (props: any) => <Feather name="search" {...props} />, component: New },
-  { route: "new", label: "NOVO", Icon: (props: any) => <Entypo name="plus" {...props} />, component: Feed },
-  { route: "notification", label: "NOTIFICAÇÕES", Icon: (props: any) => <Entypo name="notification" {...props} />, component: New },
-  { route: "profile", label: "PERFIL", Icon: (props: any) => <Feather name="user" {...props} />, component: Profile },
+import { Home } from "@screens/dashboard/Home";
+import { Profile } from "@screens/users/Profile";
+import { MyTrainings } from "@screens/trainings/MyTrainings";
+
+const menusTabDefault: ITabBarMenu[] = [
+  { route: "home", label: "INICIO", Icon: (props: any) => <Entypo name="home" {...props} />, component: Home },
+  { route: "my_trainings", label: "TREINO", Icon: (props: any) => <MaterialIcons name="fitness-center" {...props} />, component: MyTrainings },
+  { route: "profile", label: "PERFIL", Icon: (props: any) => <FontAwesome5 name="user-cog" {...props} />, component: Profile },
 ];
 
-export default menus;
+const menusTabIsNotAuth: ITabBarMenu[] = [
+  { route: "signIn", label: "ENTRAR", Icon: (props: any) => <Entypo name="lock-open" {...props} />, component: SignIn },
+  { route: "signUp", label: "CRIAR", Icon: (props: any) => <FontAwesome5 name="user-edit" {...props} />, component: SignUp },
+];
+
+export const getTabMenus = () => {
+  const userAuth = true;
+  return userAuth ? menusTabDefault : menusTabIsNotAuth;
+};

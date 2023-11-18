@@ -1,11 +1,11 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import Profile from "@screens/Profile";
-import TabRoutes from "@routes/tabsRoutes/tab.routes";
+import { Profile } from "@screens/users/Profile";
+import { TabRoutes } from "@routes/tabsRoutes/tab.routes";
 
 const Stack = createNativeStackNavigator();
 
-export default function StackRoutes() {
+export const StackRoutes = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen 
@@ -19,4 +19,4 @@ export default function StackRoutes() {
       />
     </Stack.Navigator>
   );
-}
+};
