@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Box, Text, useTheme } from "native-base";
 
-import { getTabMenus } from "./menus";
+import { getTabMenus } from "@src/routes/tabsRoutes/menus";
 
 const Tab = createBottomTabNavigator();
 

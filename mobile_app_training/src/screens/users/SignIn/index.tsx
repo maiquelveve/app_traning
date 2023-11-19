@@ -1,13 +1,13 @@
 import { Box, Text } from "native-base";
 
-import { Page } from "@src/components/layout";
+import { Layout } from "@src/components/Layout";
 
 export const SignIn = () => {
   return (
-    <Page>
+    <Layout>
       <Box>
         <Text>SIGN IN</Text>
       </Box>
-    </Page>
+    </Layout>
   );
 };

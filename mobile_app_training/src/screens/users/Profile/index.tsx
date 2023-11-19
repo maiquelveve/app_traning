@@ -1,13 +1,13 @@
 import { Box, Text } from "native-base";
 
-import { Page } from "@src/components/layout";
+import { Layout } from "@src/components/Layout";
 
 export const Profile = () => {
   return (
-    <Page>
+    <Layout>
       <Box>
         <Text>Profile</Text>
       </Box>
-    </Page>
+    </Layout>
   );
 };

@@ -1,7 +1,7 @@
 import { Box, Button, Text } from "native-base";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 
-import { Page } from "@src/components/layout";
+import { Layout } from "@src/components/Layout";
 
 type RootStackParamList = {
   profile: undefined;
@@ -14,11 +14,11 @@ export const MyTrainings = () => {
   const navigation = useNavigation<TRoutes>();
 
   return (
-    <Page>
+    <Layout>
       <Box>
         <Text>MY TRAININGS</Text>
         <Button onPress={() => navigation.navigate("profile") }>PERFIL</Button>
       </Box>
-    </Page>
+    </Layout>
   );
 };
