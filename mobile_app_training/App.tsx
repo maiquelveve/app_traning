@@ -2,7 +2,7 @@ import "react-native-gesture-handler";
 import { NativeBaseProvider, StatusBar } from "native-base";
 
 import { themeSystem } from "@src/theme";
-import { Routes } from "@routes/index";
+import { Routes } from "@src/routes/index";
 
 export default function App() {
   return (

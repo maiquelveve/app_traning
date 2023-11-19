@@ -1,9 +1,13 @@
 import { Box, Text } from "native-base";
 
+import { Page } from "@src/components/layout";
+
 export const SignIn = () => {
   return (
-    <Box display="flex" flex={1} alignItems="center" justifyContent="center">
-      <Text>SIGN IN</Text>
-    </Box>
+    <Page>
+      <Box>
+        <Text>SIGN IN</Text>
+      </Box>
+    </Page>
   );
 };

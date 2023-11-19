@@ -1,11 +1,11 @@
 import { Entypo, MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
 
-import { SignIn } from "@screens/users/SignIn";
-import { SignUp } from "@screens/users/SignUp";
+import { SignIn } from "@src/screens/users/SignIn";
+import { SignUp } from "@src/screens/users/SignUp";
 
-import { Home } from "@screens/dashboard/Home";
-import { Profile } from "@screens/users/Profile";
-import { MyTrainings } from "@screens/trainings/MyTrainings";
+import { Home } from "@src/screens/dashboard/Home";
+import { Profile } from "@src/screens/users/Profile";
+import { MyTrainings } from "@src/screens/trainings/MyTrainings";
 
 const menusTabDefault: ITabBarMenu[] = [
   { route: "home", label: "INICIO", Icon: (props: any) => <Entypo name="home" {...props} />, component: Home },
@@ -19,6 +19,6 @@ const menusTabIsNotAuth: ITabBarMenu[] = [
 ];
 
 export const getTabMenus = () => {
-  const userAuth = false;
+  const userAuth = true;
   return userAuth ? menusTabDefault : menusTabIsNotAuth;
 };

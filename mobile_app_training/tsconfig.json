@@ -5,9 +5,6 @@
     "baseUrl": "./",
     "paths": {
       "@src/*": ["./src/*"],
-      "@screens/*": ["./src/screens/*"],
-      "@component/*": ["./src/components/*"],
-      "@routes/*": ["./src/routes/*"]
     }
   }
 }

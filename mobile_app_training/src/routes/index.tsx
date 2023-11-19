@@ -1,5 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { StackRoutes } from "@routes/stacksRoutes/stack.routes";
+import { StackRoutes } from "@src/routes/stacksRoutes/stack.routes";
 
 export const Routes = () => {
   return(
