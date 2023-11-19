@@ -1,21 +1,22 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Box, Text } from "native-base";
+import { Box, Text, useTheme } from "native-base";
 
 import { getTabMenus } from "./menus";
 
 const Tab = createBottomTabNavigator();
 
 export const TabRoutes = () => {
+  const { colors } = useTheme();
   const menus = getTabMenus();
-
+  
   return(
     <Tab.Navigator 
       screenOptions={{ 
         tabBarShowLabel: false,
         headerShown: false, 
         tabBarStyle: {
-          backgroundColor: "#121212",
-          borderColor: "#000",
+          backgroundColor: colors.backgroundApp.dark,
+          borderColor: colors.backgroundApp.black,
           borderWidth: 0,
           height: 65,
           padding: 5,
@@ -25,7 +26,7 @@ export const TabRoutes = () => {
           borderTopLeftRadius: 5,
           borderTopRightRadius: 5
         },
-        tabBarActiveTintColor: "#FFF",
+        tabBarActiveTintColor: colors.backgroundApp.paper,
         tabBarItemStyle: {
           padding:2
         }
@@ -49,19 +50,19 @@ export const TabRoutes = () => {
                       width={60} 
                       height={60} 
                       borderRadius={15} 
-                      backgroundColor={"#0abf04"} 
+                      backgroundColor={colors.primaryApp.light}
                       marginBottom={45}
                     >
-                      <Icon color={color} size={size } />
+                      <Icon color={color} size={size} />
                       {label.trim() !== "" && 
-                        <Text isTruncated maxW="300" mt={2} fontSize="xs" color={"#FFF"}>{label}</Text>
+                        <Text isTruncated maxW="300" mt={2} fontSize="xs" color={colors.white}>{label}</Text>
                       }
                     </Box>
                     :
                     <Box display="flex" alignItems="center" justifyContent="center">
-                      <Icon color={color} size={size } />
+                      <Icon color={color} size={size} />
                       {label.trim() !== "" && 
-                        <Text isTruncated maxW="300" w="100%" mt={2} fontSize="xs" color={"#FFF"}>{label}</Text>
+                        <Text isTruncated maxW="300" w="100%" mt={2} fontSize="xs" color={colors.white}>{label}</Text>
                       }
                     </Box>
                   }
