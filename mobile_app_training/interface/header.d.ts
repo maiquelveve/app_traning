@@ -1,3 +1,9 @@
 interface IHeaderProps {
-  title?: string;
+  headerType?: THeaderTypes
 }
+
+interface IHeaderStackProps {
+  title: string;
+}
+
+type THeaderTypes = "TAB" | "STACK";
