@@ -1,5 +1,5 @@
 type TPagePosition = "center" | "flex-start" | "flex-end";
 
-interface IPageProps extends IAppProps {
+interface ILayoutProps extends IAppProps, IHeaderProps {
   pagePosition?: TPagePosition;
 }

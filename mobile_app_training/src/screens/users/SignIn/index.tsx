@@ -4,7 +4,7 @@ import { Layout } from "@src/components/Layout";
 
 export const SignIn = () => {
   return (
-    <Layout>
+    <Layout headerType={"TAB"}>
       <Box>
         <Text>SIGN IN</Text>
       </Box>

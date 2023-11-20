@@ -4,7 +4,7 @@ import { GoBackArrow } from "@src/components/Header/components/GoBackArrow";
 import { SettingAuth } from "@src/components/Header/components/SettingAuth";
 
 export const HeaderStack: React.FC<IHeaderStackProps> = ({ title="" }) => {
-  const isAuth = true;
+  const isAuth = false;
   return (
     <>
       <HStack>

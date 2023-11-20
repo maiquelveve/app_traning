@@ -1,5 +1,6 @@
 interface IHeaderProps {
-  headerType?: THeaderTypes
+  headerType?: THeaderTypes;
+  title?: string;
 }
 
 interface IHeaderStackProps {

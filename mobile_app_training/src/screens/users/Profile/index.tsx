@@ -4,7 +4,7 @@ import { Layout } from "@src/components/Layout";
 
 export const Profile = () => {
   return (
-    <Layout>
+    <Layout headerType={"STACK"}>
       <Box>
         <Text>Profile</Text>
       </Box>

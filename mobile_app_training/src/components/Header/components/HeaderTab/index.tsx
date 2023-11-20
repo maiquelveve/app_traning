@@ -4,7 +4,7 @@ import { Logo } from "@src/components/Logo";
 import { SettingAuth } from "@src/components/Header/components/SettingAuth";
 
 export const HeaderTab = () => {
-  const isAuth = true;
+  const isAuth = false;
   return (
     <>
       {!isAuth && <Box /> }
