@@ -1,7 +1,7 @@
 import { HStack, useTheme, Divider } from "native-base";
 
-import { HeaderStack } from "./components/HeaderStack";
-import { HeaderTab } from "./components/HeaderTab";
+import { HeaderStack } from "@src/components/Header/components/HeaderStack";
+import { HeaderTab } from "@src/components/Header/components/HeaderTab";
 
 export const Header: React.FC<IHeaderProps> = ({ headerType="STACK" }) => {
   const { colors } = useTheme();
