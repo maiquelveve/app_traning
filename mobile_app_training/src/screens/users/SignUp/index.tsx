@@ -1,9 +1,8 @@
-import { Box, Heading, VStack, FormControl, Input, Button, ScrollView, useTheme, Text } from "native-base";
+import { Box, Heading, VStack, FormControl, Input, Button, ScrollView, Text } from "native-base";
 
 import { Layout } from "@src/components/Layout";
 
 export const SignUp = () => {
-  const { colors } = useTheme();
   return (
     <Layout headerType={"TAB"}>
       <ScrollView w={"full"}>
@@ -19,18 +18,12 @@ export const SignUp = () => {
               <FormControl.Label>Nome</FormControl.Label>
               <Input 
                 placeholder="Informe o Nome"
-                h={50}
-                fontSize="md"
-                rounded={10}
               />
             </FormControl>
             <FormControl>
               <FormControl.Label>Email</FormControl.Label>
               <Input 
                 placeholder="Informe o Email"
-                h={50}
-                fontSize="md"
-                rounded={10}
               />
             </FormControl>
             <FormControl>
@@ -38,34 +31,20 @@ export const SignUp = () => {
               <Input 
                 type="password" 
                 placeholder="Informe a Senha" 
-                h={50}
-                fontSize="md"
-                rounded={10}
               />
             </FormControl>
             <FormControl>
               <FormControl.Label>Retipa Senha</FormControl.Label>
               <Input 
                 type="password" 
-                variant="outline"
                 placeholder="Confirme a Senha"
-                h={50}
-                fontSize="md"
-                rounded={10}
-                cursorColor={colors.primaryApp.dark}
-                _focus={{
-                  bgColor: "teal.50",
-                  borderColor: colors.primaryApp.light,
-                  borderWidth: 2,
-                }}
               />
             </FormControl>
             <Button 
               mt="2" 
               size="lg" 
-              rounded={25} 
-              bgColor={colors.primaryApp.main} 
               onPress={() => console.log("aquiiii")} 
+              variant="solid"
             >
               <Text fontSize="lg" fontWeight="semibold" color="white">CADASTRAR</Text>
             </Button>
