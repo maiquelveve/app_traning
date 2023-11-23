@@ -1,7 +1,7 @@
 import { Box, Heading, VStack, ScrollView } from "native-base";
 
 import { Layout } from "@src/components/Layout";
-import { FormCreateUser } from "./components/FormCreateUser";
+import { FormCreateUser } from "@src/screens/users/SignUp/components/FormCreateUser";
 
 export const SignUp = () => {
   return (
@@ -14,7 +14,7 @@ export const SignUp = () => {
           <Heading mt="1" color="coolGray.600" _dark={{ color: "warmGray.200" }} fontWeight="medium" size="xs" textAlign="center">
             Crie um conta!
           </Heading>
-          <VStack space={3} mt="5">            
+          <VStack mt="5">            
             <FormCreateUser />
           </VStack>
         </Box>
