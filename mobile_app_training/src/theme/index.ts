@@ -47,7 +47,7 @@ const themeSystem = extendTheme({
           rounded: 25,
           _pressed: {
             background: COLOR_PRIMARY_APP_DARK,
-          }
+          },
         },
       },
     },
