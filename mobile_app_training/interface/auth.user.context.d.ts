@@ -1,3 +1,3 @@
 interface IAuthUserContext {
-  createUser: (props: IUserCreateProps) => Promise<IReturnedRequest> 
+  createUser: (props: IUserCreateProps) => Promise<boolean | undefined> 
 }

@@ -1,6 +1,7 @@
 import { FormControl, Input, Button, Text, WarningOutlineIcon, Stack } from "native-base";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+
 import { useAuthUserContext } from "@src/context/AuthUserContext";
 
 export const FormCreateUser = () => {
@@ -31,10 +32,7 @@ export const FormCreateUser = () => {
       //   .required("Senha é obrigatória.")
     }),
     onSubmit: async (values) => {
-    
-
       await createUser(values);
-      // alert();
     },
   });
 

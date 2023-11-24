@@ -8,22 +8,24 @@ export const useAuthUserContext = () => {
 };
 
 export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
-  const { alertCatch } = useAlertContext();
+  const { alertCatch, alertResponse } = useAlertContext();
   
-  const createUser = async (user: IUserCreateProps): Promise<IReturnedRequest> => {
+  const createUser = async (user: IUserCreateProps): Promise<boolean | undefined> => {
     try {
       console.log(user);
-      alertCatch();
-      return {
-        data: [],
-        errors: [""],
-        success: [""],
-        isError: true,
-        isSuccess: false,
-      };
+      alertResponse({
+        isSuccess: true,
+        title: "Sucesso!",
+        message: ["Usuário cadastrado com sucesso."],
+        variant: "left-accent",
+        duration: 1000,
+        placement: "top"
+      });
+      
+      return true;
   
     } catch (error: any) {
-      throw Error(error);
+      alertCatch();
     }
   };
 

@@ -1,0 +1,26 @@
+interface IAlertProps {
+  id: string | number;
+  toast: TToast;
+}
+
+interface ISettingAlertResponseSystemProps {
+  isSuccess: boolean;
+  duration: number;
+  title: string;
+  message: string[];
+  variant: TVariantAlertSystem;
+  placement: TPlacement;
+}
+
+interface IAlertResponseSystemProps extends IAlertProps {
+  settings: ISettingAlertResponseSystemProps;
+}
+
+type TVariantAlertSystem = "outline" | "solid" | "subtle" | "left-accent" | "top-accent" | "outline-light";
+type TPlacement = "top" | "bottom" | "top-right" | "top-left" | "bottom-left" | "bottom-right";
+type TToast = {
+  show: (props: IToastProps) => any;
+  close: (id: any) => void;
+  closeAll: () => void;
+  isActive: (id: any) => boolean;
+}
