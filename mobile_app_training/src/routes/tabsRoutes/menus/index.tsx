@@ -14,8 +14,8 @@ const menusTabDefault: ITabBarMenu[] = [
 ];
 
 const menusTabIsNotAuth: ITabBarMenu[] = [
-  { route: "signIn", label: "ENTRAR", Icon: (props: any) => <Entypo name="lock-open" {...props} />, component: SignIn },
   { route: "signUp", label: "CRIAR", Icon: (props: any) => <FontAwesome5 name="user-edit" {...props} />, component: SignUp },
+  { route: "signIn", label: "ENTRAR", Icon: (props: any) => <Entypo name="lock-open" {...props} />, component: SignIn },
 ];
 
 export const getTabMenus = () => {
