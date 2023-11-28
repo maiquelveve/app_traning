@@ -1,5 +1,7 @@
 import { createContext, useContext } from "react";
-import { useAlertContext } from "../AlertContext";
+
+import { useAlertContext } from "@src/context/AlertContext";
+import { apiService } from "@src/services/api";
 
 const AuthUserContext = createContext({} as IAuthUserContext);
 
@@ -12,19 +14,33 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
   
   const createUser = async (user: IUserCreateProps): Promise<boolean | undefined> => {
     try {
-      console.log(user);
-      alertResponse({
-        isSuccess: true,
-        title: "Sucesso!",
-        message: ["Usuário cadastrado com sucesso."],
-        variant: "left-accent",
-        duration: 1000,
-        placement: "top"
-      });
+      const { name, email, password } = user;
+      const responseApi = await apiService.post<IReturnedRequest>("/users", { name, email, password });
+
+      if(responseApi.data.isSuccess) {
+        alertResponse({
+          isSuccess: true,
+          title: "Sucesso!",
+          message: ["Usuário cadastrado com sucesso."],
+          variant: "left-accent",
+          duration: 3000,
+          placement: "top"
+        });
+      } else {
+        alertResponse({
+          isSuccess: false,
+          title: "Erro!",
+          message: responseApi.data.errors,
+          variant: "left-accent",
+          duration: 3000,
+          placement: "top"
+        });
+      }
       
-      return true;
+      return responseApi.data.isSuccess;
   
     } catch (error: any) {
+      console.log(error);
       alertCatch();
     }
   };

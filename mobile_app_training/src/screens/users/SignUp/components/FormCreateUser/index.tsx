@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { FormControl, Input, Button, Text, WarningOutlineIcon, Stack } from "native-base";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -5,7 +6,7 @@ import * as Yup from "yup";
 import { useAuthUserContext } from "@src/context/AuthUserContext";
 
 export const FormCreateUser = () => {
-
+  const [loading, setLoading] = useState(false);
   const { createUser } = useAuthUserContext();
 
   const formik = useFormik({
@@ -32,7 +33,11 @@ export const FormCreateUser = () => {
       //   .required("Senha é obrigatória.")
     }),
     onSubmit: async (values) => {
-      await createUser(values);
+      setLoading(true);
+      if(await createUser(values)) {
+        formik.resetForm();
+      }
+      setLoading(false);
     },
   });
 
@@ -82,6 +87,7 @@ export const FormCreateUser = () => {
         size="lg" 
         onPress={formik.submitForm} 
         variant="solid"
+        isLoading={loading}
       >
         <Text fontSize="lg" fontWeight="semibold" color="white">CADASTRAR</Text>
       </Button>
