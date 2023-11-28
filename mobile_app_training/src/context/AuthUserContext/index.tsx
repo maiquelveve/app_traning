@@ -19,28 +19,21 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
 
       if(responseApi.data.isSuccess) {
         alertResponse({
+          message: ["Usuário cadastrado com sucesso."],
           isSuccess: true,
           title: "Sucesso!",
-          message: ["Usuário cadastrado com sucesso."],
-          variant: "left-accent",
-          duration: 3000,
-          placement: "top"
         });
       } else {
         alertResponse({
+          message: responseApi.data.errors,
           isSuccess: false,
           title: "Erro!",
-          message: responseApi.data.errors,
-          variant: "left-accent",
-          duration: 3000,
-          placement: "top"
         });
       }
       
       return responseApi.data.isSuccess;
   
     } catch (error: any) {
-      console.log(error);
       alertCatch();
     }
   };

@@ -5,11 +5,11 @@ interface IAlertProps {
 
 interface ISettingAlertResponseSystemProps {
   isSuccess: boolean;
-  duration: number;
   title: string;
   message: string[];
-  variant: TVariantAlertSystem;
-  placement: TPlacement;
+  placement?: TPlacement;
+  duration?: number;
+  variant?: TVariantAlertSystem;
 }
 
 interface IAlertResponseSystemProps extends IAlertProps {

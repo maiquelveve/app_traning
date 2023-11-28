@@ -16,21 +16,21 @@ export const FormCreateUser = () => {
       password: "",
     },
     validationSchema: Yup.object({
-      // name: Yup
-      //   .string()
-      //   .min(3, "Nome deve conter 3 caracteres no mínimo.")
-      //   .max(50, "Nome deve conter 50 caracteres no máximo.")
-      //   .required("Nome é obrigatório."),
-      // email: Yup
-      //   .string()
-      //   .email("Email Invalido.")
-      //   .max(255)
-      //   .required("Email é obrigatório."),
-      // password: Yup
-      //   .string()
-      //   .min(5, "Senha não pode ser menor que 5 caracteres.")
-      //   .max(255, "Senha não pode ser maior que 255 caracteres.")
-      //   .required("Senha é obrigatória.")
+      name: Yup
+        .string()
+        .min(3, "Nome deve conter 3 caracteres no mínimo.")
+        .max(50, "Nome deve conter 50 caracteres no máximo.")
+        .required("Nome é obrigatório."),
+      email: Yup
+        .string()
+        .email("Email Invalido.")
+        .max(255)
+        .required("Email é obrigatório."),
+      password: Yup
+        .string()
+        .min(5, "Senha não pode ser menor que 5 caracteres.")
+        .max(255, "Senha não pode ser maior que 255 caracteres.")
+        .required("Senha é obrigatória.")
     }),
     onSubmit: async (values) => {
       setLoading(true);
