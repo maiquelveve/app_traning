@@ -6,7 +6,7 @@ import { getTabMenus } from "@src/routes/tabsRoutes/menus";
 const Tab = createBottomTabNavigator();
 
 export const TabRoutes = () => {
-  const { colors } = useTheme();
+  const { colors } = useTheme();  
   const menus = getTabMenus();
   
   return(

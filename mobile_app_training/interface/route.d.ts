@@ -1,5 +1,5 @@
 type RootStackParamList = {
-  profile: undefined;
+  home: undefined;
   // Adicione outras rotas conforme necessário
 };
 

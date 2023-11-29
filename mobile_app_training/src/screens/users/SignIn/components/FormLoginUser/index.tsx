@@ -6,6 +6,7 @@ import * as Yup from "yup";
 
 import { useAuthUserContext } from "@src/context/AuthUserContext";
 
+
 export const FormLoginUser = () => {
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<TRoutes>();
@@ -32,7 +33,7 @@ export const FormLoginUser = () => {
     onSubmit: async (values) => {
       setLoading(true);
       if(await loginUser(values)) {
-        navigation.navigate("profile");
+        navigation.navigate("home");
       }
       setLoading(false);
     },
