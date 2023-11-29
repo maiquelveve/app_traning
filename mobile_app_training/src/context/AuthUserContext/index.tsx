@@ -1,6 +1,7 @@
 import { createContext, useContext } from "react";
 
 import { useAlertContext } from "@src/context/AlertContext";
+import { getTokenUserLocalStorage, saveUserDataLocalStorage } from "@src/context/AuthUserContext/helpers";
 import { apiService } from "@src/services/api";
 
 const AuthUserContext = createContext({} as IAuthUserContext);
@@ -44,8 +45,8 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
       const responseApi = await apiService.post<IReturnedRequest>("/users/login", { email, password });
 
       if(responseApi.data.isSuccess) {
-        console.log(responseApi.data.data[0].token);//salvar aqui o token no local storarge
-        
+        await saveUserDataLocalStorage({ token: responseApi.data.data[0].token });
+
       } else {
         alertResponse({
           message: responseApi.data.errors,
@@ -65,6 +66,7 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
     <AuthUserContext.Provider value={{
       createUser,
       loginUser,
+      getToken: getTokenUserLocalStorage,
     }} >
       {children}
     </AuthUserContext.Provider>
