@@ -33,7 +33,7 @@ export const FormLoginUser = () => {
     onSubmit: async (values) => {
       setLoading(true);
       if(await loginUser(values)) {
-        navigation.navigate("home_auth");
+        navigation.navigate("init_auth");
       }
       setLoading(false);
     },

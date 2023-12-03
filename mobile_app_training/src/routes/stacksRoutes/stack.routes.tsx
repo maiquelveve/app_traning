@@ -11,7 +11,7 @@ export const StackRoutes = () => {
         component={TabRoutes}
       />
       <Stack.Screen 
-        name="home_auth"
+        name="init_auth"
         component={TabRoutes}
       />
     </Stack.Navigator>
