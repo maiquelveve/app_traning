@@ -21,7 +21,7 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
       const { name, email, password } = user;
       const responseApi = await apiService.post<IReturnedRequest>("/users", { name, email, password });
 
-      if(responseApi.data.isError) {
+      if(responseApi.data.isSuccess) {
         alertResponse({
           message: ["Usuário cadastrado com sucesso."],
           isSuccess: true,

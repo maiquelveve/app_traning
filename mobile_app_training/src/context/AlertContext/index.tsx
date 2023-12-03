@@ -13,8 +13,17 @@ export const useAlertContext = () => {
 export const AlertProvider: React.FC<IAppProps> = ({ children }) => {
   const toast = useToast();
 
-  const alertResponse = ({ duration=5000, placement="top", variant="left-accent", ...rest }: ISettingAlertResponseSystemProps) => {
-    alertResponseSystem({ id: `alert_response_${uuid.v4()}`, toast: toast, settings: { duration, placement, variant, ...rest }  });
+  const alertResponse = ({ 
+    duration=5000, 
+    placement="top", 
+    variant="left-accent", 
+    ...rest 
+  }: ISettingAlertResponseSystemProps) => {
+    alertResponseSystem({ 
+      id: `alert_response_${uuid.v4()}`, 
+      toast: toast, 
+      settings: { duration, placement, variant, ...rest }  
+    });
   };
 
   const alertCatch = () => {
