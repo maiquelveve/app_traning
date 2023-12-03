@@ -1,8 +1,9 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useRef } from "react";
+
+import { apiService } from "@src/services/api";
 
 import { useAlertContext } from "@src/context/AlertContext";
 import { getTokenUserLocalStorage, saveUserDataLocalStorage } from "@src/context/AuthUserContext/helpers";
-import { apiService } from "@src/services/api";
 
 const AuthUserContext = createContext({} as IAuthUserContext);
 
@@ -12,6 +13,8 @@ export const useAuthUserContext = () => {
 
 export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
   const { alertCatch, alertResponse } = useAlertContext();
+
+  const tokenRef = useRef<string | null>("");
   
   const createUser = async (user: IUserCreateProps): Promise<boolean | undefined> => {
     try {
@@ -45,7 +48,8 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
       const responseApi = await apiService.post<IReturnedRequest>("/users/login", { email, password });
 
       if(responseApi.data.isSuccess) {
-        await saveUserDataLocalStorage({ token: responseApi.data.data[0].token });
+        await saveUserDataLocalStorage({ user: { ...responseApi.data.data[0].user, token: responseApi.data.data[0].token } });
+        await setUserDataRefLocal();
 
       } else {
         alertResponse({
@@ -62,11 +66,16 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
     }
   };
 
+  const setUserDataRefLocal = async () => {
+    const token = await getTokenUserLocalStorage();
+    tokenRef.current = token;
+  };
+
   return(
     <AuthUserContext.Provider value={{
       createUser,
       loginUser,
-      getToken: getTokenUserLocalStorage,
+      getToken: () => tokenRef.current,
     }} >
       {children}
     </AuthUserContext.Provider>

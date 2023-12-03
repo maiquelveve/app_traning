@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const saveUserDataLocalStorage = async (user: ISaveUserAuthLocalStorageProps): Promise<void> => {
+export const saveUserDataLocalStorage = async ({ user }: ISaveUserAuthLocalStorageProps): Promise<void> => {
+  console.log("save local storage", user);
   await AsyncStorage.setItem("token_user", user.token);
 };
 

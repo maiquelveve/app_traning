@@ -1,0 +1,3 @@
+interface IGetTabMenuProps {
+  userAuth: boolean;
+}

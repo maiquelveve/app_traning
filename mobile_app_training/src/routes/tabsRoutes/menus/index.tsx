@@ -18,7 +18,6 @@ const menusTabIsNotAuth: ITabBarMenu[] = [
   { route: "signUp", label: "CRIAR", Icon: (props: any) => <FontAwesome5 name="user-edit" {...props} />, component: SignUp },
 ];
 
-export const getTabMenus = () => {
-  const userAuth = false;
+export const getTabMenus = ({ userAuth }: IGetTabMenuProps) => {
   return userAuth ? menusTabDefault : menusTabIsNotAuth;
 };
