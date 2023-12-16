@@ -4,7 +4,6 @@ import { LOCAL_STORAGE_TOKEN_NAME } from "@src/config/constants";
 export const saveUserDataLocalStorage = async ({ user }: ISaveUserAuthLocalStorageProps): Promise<void> => {
   console.log("save local storage", JSON.stringify(user));
 
-  await AsyncStorage.setItem("teste", `TESTES_${user.token}`);
   await AsyncStorage.setItem(LOCAL_STORAGE_TOKEN_NAME, user.token);
 };
 
