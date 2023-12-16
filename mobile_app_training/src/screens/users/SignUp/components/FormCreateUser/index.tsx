@@ -76,6 +76,7 @@ export const FormCreateUser = () => {
           onChangeText={formik.handleChange("password")}
           onBlur={formik.handleBlur("password")}
           value={formik.values.password}
+          type="password"
         />
         <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
           {formik.touched.password && formik.errors.password}

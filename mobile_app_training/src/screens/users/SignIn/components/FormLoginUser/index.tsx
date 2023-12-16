@@ -1,15 +1,12 @@
 import { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
 import { FormControl, Input, Button, Text, WarningOutlineIcon, Stack } from "native-base";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import { useAuthUserContext } from "@src/context/AuthUserContext";
 
-
 export const FormLoginUser = () => {
   const [loading, setLoading] = useState(false);
-  const navigation = useNavigation<TRoutes>();
   
   const { loginUser } = useAuthUserContext();
 
@@ -32,9 +29,7 @@ export const FormLoginUser = () => {
     }),
     onSubmit: async (values) => {
       setLoading(true);
-      if(await loginUser(values)) {
-        navigation.navigate("init_auth");
-      }
+      await loginUser(values);
       setLoading(false);
     },
   });
@@ -61,6 +56,7 @@ export const FormLoginUser = () => {
           onChangeText={formik.handleChange("password")}
           onBlur={formik.handleBlur("password")}
           value={formik.values.password}
+          type="password"
         />
         <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
           {formik.touched.password && formik.errors.password}

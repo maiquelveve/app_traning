@@ -1,6 +1,8 @@
+import { NavigationProp } from "@react-navigation/native";
+
 type RootStackParamList = {
-  home: undefined;
-  // Adicione outras rotas conforme necessário
+  init: undefined;
+  init_auth: undefined;
 };
 
-type TRoutes = NavigationProp<RootStackParamList>
+type TRoutesStacks = NavigationProp<RootStackParamList>
