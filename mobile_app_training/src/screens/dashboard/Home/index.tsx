@@ -6,7 +6,10 @@ import { useState } from "react";
 
 export const Home = () => {
   const [loading, setLoading] = useState(false);
-  const { logout } = useAuthUserContext();
+  const { logout, getToken, getUserAuth } = useAuthUserContext();
+
+  console.log("HOME USER AUTH", getUserAuth());
+  console.log("HOME TOKEN", getToken());
 
   const handleLogout = () => {
     setLoading(true);

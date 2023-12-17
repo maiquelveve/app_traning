@@ -1,5 +1,7 @@
 const LOCAL_STORAGE_TOKEN_NAME = "token_user";
+const LOCAL_STORAGE_USER_AUTH_NAME = "auth_user";
 
 export {
   LOCAL_STORAGE_TOKEN_NAME,
+  LOCAL_STORAGE_USER_AUTH_NAME,
 };

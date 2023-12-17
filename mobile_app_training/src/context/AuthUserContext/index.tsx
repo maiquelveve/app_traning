@@ -7,7 +7,8 @@ import { apiService } from "@src/services/api";
 import { useAlertContext } from "@src/context/AlertContext";
 import { 
   clearUserDataLocalStorage, 
-  getTokenUserLocalStorage, 
+  getTokenUserLocalStorage,
+  getUserAuthLocalStorage, 
   saveUserDataLocalStorage 
 } from "@src/context/AuthUserContext/helpers";
 
@@ -21,7 +22,9 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
   const { alertCatch, alertResponse } = useAlertContext();
   
   const navigation = useNavigation<TRoutesStacks>();
-  const tokenRef = useRef<string | null>("");
+
+  const userAuthRef = useRef<IUserAuthLocalStorageData | null>(null);
+  const tokenRef = useRef<string | null>(null);
 
   useEffect(() => {
     setUserDataRefLocal();
@@ -76,19 +79,21 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
     }
   };
 
-  const setUserDataRefLocal = async () => {
-    tokenRef.current = await getTokenUserLocalStorage();
-  };
-
   const logout = async (): Promise<void> => {
     try {
       await clearUserDataLocalStorage();
-      tokenRef.current = "";
+      tokenRef.current = null;
+      userAuthRef.current = null;
       navigation.navigate("init");
 
     } catch (error) {
       alertCatch();
     }
+  };
+
+  const setUserDataRefLocal = async () => {
+    tokenRef.current = await getTokenUserLocalStorage();
+    userAuthRef.current = await getUserAuthLocalStorage();
   };
 
   return(
@@ -97,6 +102,7 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
       loginUser,
       logout,
       getToken: () => tokenRef.current,
+      getUserAuth: () => userAuthRef.current,
     }} >
       {children}
     </AuthUserContext.Provider>
