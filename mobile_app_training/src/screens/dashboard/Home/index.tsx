@@ -6,8 +6,9 @@ import { useState } from "react";
 
 export const Home = () => {
   const [loading, setLoading] = useState(false);
-  const { logout, getToken, getUserAuth } = useAuthUserContext();
+  const { logout, getToken, getUserAuth, getProfilesUserAuth } = useAuthUserContext();
 
+  console.log("HOME USER PROFILES", getProfilesUserAuth());
   console.log("HOME USER AUTH", getUserAuth());
   console.log("HOME TOKEN", getToken());
 

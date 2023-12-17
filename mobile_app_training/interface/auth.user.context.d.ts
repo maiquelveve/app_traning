@@ -4,6 +4,7 @@ interface IAuthUserContext {
   logout: () => Promise<void>;
   getToken: () => string | null;
   getUserAuth: () => IUserAuthLocalStorageData | null;
+  getProfilesUserAuth: () => IProfilesLocalStorageData;
 }
 
 interface ISaveUserAuthLocalStorageProps {
@@ -15,4 +16,10 @@ interface IUserAuthLocalStorageData {
   email: string;
   avatar_url: string | null;
   avatar_filename: string | null;
+}
+
+interface IProfilesLocalStorageData {
+  isUserProfiles: boolean;
+  isTrainerProfiles: boolean;
+  isRootProfiles: boolean;
 }
