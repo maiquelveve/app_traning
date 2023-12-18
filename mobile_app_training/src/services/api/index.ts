@@ -1,7 +1,7 @@
 import axios from "axios";
+import { API_BASE_URL } from "@src/config/constants";
 
 export const apiService = axios.create({
-  // baseURL: "http://10.76.64.205:3333",
-  baseURL: "http://192.168.15.10:3333",
+  baseURL: API_BASE_URL,
   validateStatus: status => status < 500,
 });
