@@ -2,6 +2,7 @@ import { Pressable, Text, Box, HStack, Badge, Spacer } from "native-base";
 
 export const AcessMenusGenerator: React.FC<IMenusGeneratorProps> = (menu) => {
   const { Icon, handleNavigate, description, tag, title } = menu;
+  
   return(
     <Box width="full" my={2} >
       <Pressable onPress={handleNavigate}>
