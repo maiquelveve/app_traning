@@ -4,6 +4,9 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 
 import { Layout } from "@src/components/Layout";
 import { useAuthUserContext } from "@src/context/AuthUserContext";
+import { AcessMenusGenerator } from "@src/components/AcessMenusGenerator";
+
+import { accountMenus } from "@src/screens/account/menus";
 
 export const SettingAccount = () => {
   const [loading, setLoading] = useState(false);
@@ -21,7 +24,7 @@ export const SettingAccount = () => {
     <Layout headerType={"TAB"} pagePosition="flex-start">
       <VStack display="flex" width="full" height="full" justifyContent="space-between">
         <Box >
-          <Button onPress={() => {}} isLoading={loading} >MENUS</Button>
+          <AcessMenusGenerator menus={accountMenus} />
         </Box>
         <Box>
           <Button 
