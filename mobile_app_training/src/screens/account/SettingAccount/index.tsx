@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Button, HStack, Text, VStack, useTheme } from "native-base";
+import { Avatar, Box, Button, HStack, ScrollView, Text, VStack, useTheme } from "native-base";
 import { SimpleLineIcons } from "@expo/vector-icons";
 
 import { Layout } from "@src/components/Layout";
@@ -23,10 +23,37 @@ export const SettingAccount = () => {
   return (
     <Layout headerType={"TAB"} pagePosition="flex-start">
       <VStack display="flex" width="full" height="full" justifyContent="space-between">
-        <Box >
+        <VStack my={2} alignItems="center" justifyContent="center" space={1}>
+          <Avatar 
+            bg="green.500" 
+            alignSelf="center" 
+            size="lg" 
+            source={{
+              uri: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
+            }} 
+          />
+          <Text 
+            fontSize="lg" 
+            letterSpacing="lg" 
+            fontWeight="semibold" 
+            textTransform="uppercase" 
+            noOfLines={1}
+          >
+            Maiquel Santos Leites
+          </Text>
+          <Text 
+            fontSize="xs" 
+            textTransform="uppercase" 
+            color="blueGray.400"
+            italic
+          >
+            ADMINISTRADOR
+          </Text>
+        </VStack>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <AcessMenusGenerator menus={accountMenus} />
-        </Box>
-        <Box>
+        </ScrollView>
+        <Box mt={4} mb={1}>
           <Button 
             onPress={handleLogout} 
             isLoading={loading} 
