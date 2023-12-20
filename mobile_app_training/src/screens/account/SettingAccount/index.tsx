@@ -7,12 +7,15 @@ import { useAuthUserContext } from "@src/context/AuthUserContext";
 import { AcessMenusGenerator } from "@src/components/AcessMenusGenerator";
 
 import { accountMenus } from "@src/screens/account/menus";
+import { API_BASE_URL } from "@src/config/constants";
 
 export const SettingAccount = () => {
   const [loading, setLoading] = useState(false);
 
-  const { logout } = useAuthUserContext();
+  const { logout, getUserAuth } = useAuthUserContext();
   const { colors } = useTheme();
+
+  const { avatar_filename, name } = getUserAuth()!;
 
   const handleLogout = () => {
     setLoading(true);
@@ -29,9 +32,11 @@ export const SettingAccount = () => {
             alignSelf="center" 
             size="lg" 
             source={{
-              uri: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
+              uri: avatar_filename ? `${API_BASE_URL}/${avatar_filename}` : ""
             }} 
-          />
+          >
+            ML
+          </Avatar>
           <Text 
             fontSize="lg" 
             letterSpacing="lg" 
@@ -39,7 +44,7 @@ export const SettingAccount = () => {
             textTransform="uppercase" 
             noOfLines={1}
           >
-            Maiquel Santos Leites
+            {name}
           </Text>
           <Text 
             fontSize="xs" 
