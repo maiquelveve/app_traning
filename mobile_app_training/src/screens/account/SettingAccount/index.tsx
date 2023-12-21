@@ -15,7 +15,7 @@ export const SettingAccount = () => {
   const { logout, getUserAuth } = useAuthUserContext();
   const { colors } = useTheme();
 
-  const { avatar_filename, name } = getUserAuth()!;
+  const userAuth = getUserAuth();
 
   const handleLogout = async () => {
     setLoading(true);
@@ -32,7 +32,7 @@ export const SettingAccount = () => {
             alignSelf="center" 
             size="lg" 
             source={{
-              uri: avatar_filename ? `${API_BASE_URL}/files/${avatar_filename}` : ""
+              uri: userAuth?.avatar_filename ? `${API_BASE_URL}/files/${userAuth.avatar_filename}` : undefined
             }} 
           >
             ML
@@ -44,7 +44,7 @@ export const SettingAccount = () => {
             textTransform="uppercase" 
             noOfLines={1}
           >
-            {name}
+            {userAuth?.name}
           </Text>
           <Text 
             fontSize="xs" 

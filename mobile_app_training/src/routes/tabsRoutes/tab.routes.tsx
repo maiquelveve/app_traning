@@ -1,17 +1,10 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Box, Text, useTheme } from "native-base";
 
-import { getTabMenus } from "@src/routes/tabsRoutes/menus";
-import { useAuthUserContext } from "@src/context/AuthUserContext";
-
 const Tab = createBottomTabNavigator();
 
-export const TabRoutes = () => {
-
+export const TabRoutes: React.FC<ITabRoutesProps> = ({ menus }) => {
   const { colors } = useTheme(); 
-  const { getToken } = useAuthUserContext();
-
-  const menus = getTabMenus({ userAuth: !!getToken() });
   
   return(
     <Tab.Navigator 
