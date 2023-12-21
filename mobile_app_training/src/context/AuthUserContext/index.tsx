@@ -24,7 +24,7 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
   
   const { alertCatch, alertResponse } = useAlertContext();
   
-  const navigation = useNavigation<TRoutesStacks>();
+  const navigation = useNavigation<TRoutesStacks>();  
 
   const userAuthRef = useRef<IUserAuthLocalStorageData | null>(null);
   const isTrainerProfilesRef = useRef<boolean>(false);

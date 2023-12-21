@@ -2,7 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { TabRoutes } from "@src/routes/tabsRoutes/tab.routes";
 
 import { useAuthUserContext } from "@src/context/AuthUserContext";
-import { menusTabDefault, menusTabIsNotAuth } from "@src/routes/tabsRoutes/menus";
+import { menusTabDefault, menusTabIsNotAuth, menusTabTrainer } from "@src/routes/tabsRoutes/menus";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +17,10 @@ export const StackRoutes = () => {
       </Stack.Screen>
       <Stack.Screen name="init_auth">
         {(props: any) => <TabRoutes {...props} menus={menusTabDefault} />}
+      </Stack.Screen>
+
+      <Stack.Screen name="trainers">
+        {(props: any) => <TabRoutes {...props} menus={menusTabTrainer} />}
       </Stack.Screen>
     </Stack.Navigator>
   );

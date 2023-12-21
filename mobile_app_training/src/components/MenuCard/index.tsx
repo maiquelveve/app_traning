@@ -1,11 +1,15 @@
 import { Pressable, Text, Box, HStack, Badge, Spacer } from "native-base";
+import { useNavigation } from "@react-navigation/native";
+import { TRoutesStacks } from "interface/route";
 
 export const MenuCard: React.FC<IMenusGeneratorProps> = (menuData) => {
-  const { Icon, handleNavigate, description, tag, title } = menuData;
+  
+  const navigation = useNavigation<TRoutesStacks>();
+  const { Icon, navigationRoute, description, tag, title } = menuData;
 
   return(
     <Box width="full" my={2} >
-      <Pressable onPress={handleNavigate}>
+      <Pressable onPress={() => navigation.navigate(navigationRoute)}>
         {({ isPressed }) => {
           return (
             <Box 
