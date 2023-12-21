@@ -17,9 +17,9 @@ export const SettingAccount = () => {
 
   const { avatar_filename, name } = getUserAuth()!;
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     setLoading(true);
-    logout();    
+    await logout();    
     setLoading(false);
   };
 

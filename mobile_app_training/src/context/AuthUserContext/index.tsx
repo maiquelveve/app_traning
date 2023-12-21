@@ -21,6 +21,7 @@ export const useAuthUserContext = () => {
 
 export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
   const [loadingAuthContext, setLoadingAuthContext] = useState(true);
+  
   const { alertCatch, alertResponse } = useAlertContext();
   
   const navigation = useNavigation<TRoutesStacks>();
@@ -32,14 +33,11 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
   const tokenRef = useRef<string | null>(null);
 
   useEffect(() => {
-    setLoadingAuthContext(true);
-
     const onLoad = async () => {
       await setUserDataRefLocal();
+      setLoadingAuthContext(false);
     };
     onLoad();
-    setLoadingAuthContext(false);
-
   }, []);
   
   const createUser = async (user: IUserCreateProps): Promise<boolean | undefined> => {
@@ -104,7 +102,7 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
 
     } catch (error) {
       alertCatch();
-    }
+    } 
   };
 
   const setUserDataRefLocal = async () => {
