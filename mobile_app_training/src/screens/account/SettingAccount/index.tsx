@@ -32,7 +32,7 @@ export const SettingAccount = () => {
             alignSelf="center" 
             size="lg" 
             source={{
-              uri: avatar_filename ? `${API_BASE_URL}/${avatar_filename}` : ""
+              uri: avatar_filename ? `${API_BASE_URL}/files/${avatar_filename}` : ""
             }} 
           >
             ML

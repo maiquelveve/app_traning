@@ -5,6 +5,7 @@ interface IAuthUserContext {
   getToken: () => string | null;
   getUserAuth: () => IUserAuthLocalStorageData | null;
   getProfilesUserAuth: () => IProfilesLocalStorageData;
+  loadingAuthContext: boolean;
 }
 
 interface ISaveUserAuthLocalStorageProps {

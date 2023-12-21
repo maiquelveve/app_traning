@@ -7,6 +7,7 @@ import { useAuthUserContext } from "@src/context/AuthUserContext";
 const Tab = createBottomTabNavigator();
 
 export const TabRoutes = () => {
+
   const { colors } = useTheme(); 
   const { getToken } = useAuthUserContext();
 

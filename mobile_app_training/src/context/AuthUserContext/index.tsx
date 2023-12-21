@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useRef } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { TRoutesStacks } from "interface/route";
 
@@ -20,6 +20,7 @@ export const useAuthUserContext = () => {
 };
 
 export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
+  const [loadingAuthContext, setLoadingAuthContext] = useState(true);
   const { alertCatch, alertResponse } = useAlertContext();
   
   const navigation = useNavigation<TRoutesStacks>();
@@ -31,7 +32,14 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
   const tokenRef = useRef<string | null>(null);
 
   useEffect(() => {
-    setUserDataRefLocal();
+    setLoadingAuthContext(true);
+
+    const onLoad = async () => {
+      await setUserDataRefLocal();
+    };
+    onLoad();
+    setLoadingAuthContext(false);
+
   }, []);
   
   const createUser = async (user: IUserCreateProps): Promise<boolean | undefined> => {
@@ -107,7 +115,6 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
     isRootProfilesRef.current = profiles ? profiles.isRootProfiles : false ;
     isTrainerProfilesRef.current = profiles ? profiles.isTrainerProfiles : false ;
     isUserProfilesRef.current = profiles ? profiles.isUserProfiles : false ;
-    
   };
 
   return(
@@ -122,6 +129,7 @@ export const AuthUserProvider: React.FC<IAppProps> = ({ children }) => {
         isTrainerProfiles: isTrainerProfilesRef.current,
         isUserProfiles: isUserProfilesRef.current
       }),
+      loadingAuthContext,
     }} >
       {children}
     </AuthUserContext.Provider>
